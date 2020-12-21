@@ -1,0 +1,28 @@
+{
+  "name": "@ngneat/hot-toast",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^11.0.5",
+    "@angular/core": "^11.0.5"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "keywords": [
+    "angular",
+    "angular 2",
+    "hot-toast"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/ngneat/hot-toast/issue"
+  },
+  "homepage": "https://github.com/ngneat/hot-toast#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngneat/hot-toast"
+  }
+}
