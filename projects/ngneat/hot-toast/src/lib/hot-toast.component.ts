@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'lib-hot-toast',
-  template: ` <p>hot-toast works!</p> `,
+  templateUrl: './hot-toast.component.html',
   styles: [],
 })
 export class HotToastComponent implements OnInit {
