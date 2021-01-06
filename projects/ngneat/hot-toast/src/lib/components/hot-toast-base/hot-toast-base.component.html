@@ -14,7 +14,12 @@
     </ng-template>
 
     <div class="hot-toast-message">
-      {{ toast.message }}
+      <ng-container *ngIf="isMessageString; else messageTemplate">
+        {{ toast.message }}
+      </ng-container>
+      <ng-template #messageTemplate>
+        <ng-container *ngTemplateOutlet="toast.message"></ng-container>
+      </ng-template>
     </div>
   </div>
 </div>

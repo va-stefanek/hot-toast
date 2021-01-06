@@ -6,7 +6,7 @@ import { CheckMarkComponent } from './components/indicator/icons/checkmark/check
 import { ErrorComponent } from './components/indicator/icons/error/error.component';
 import { LoaderComponent } from './components/indicator/icons/loader/loader.component';
 import { IndicatorComponent } from './components/indicator/indicator.component';
-import { ToastConfig } from './hot-tast.model';
+import { ToastConfig } from './hot-toast.model';
 import { HotToastComponent } from './hot-toast.component';
 import { HotToastService } from './hot-toast.service';
 import { init } from './init';

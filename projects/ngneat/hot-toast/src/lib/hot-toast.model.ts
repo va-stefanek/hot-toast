@@ -1,5 +1,4 @@
 import { TemplateRef } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export class ToastConfig {
   position: ToastPosition = 'top-center';
@@ -51,6 +50,11 @@ export type ToastOptions = Partial<
   Pick<Toast, 'id' | 'icon' | 'duration' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme'>
 >;
 
+export type DefaultToastOptions = ToastOptions &
+  {
+    [key in ToastType]?: ToastOptions;
+  };
+
 export type PromiseMessage<T> = {
   loading: Renderable;
   success: ValueOrFunction<Renderable, T>;
@@ -68,7 +72,6 @@ export interface HotToastServiceMethods {
   error: (message: string, options?: ToastOptions) => string;
   success: (message: string, options?: ToastOptions) => string;
   loading: (message: string, options?: ToastOptions) => string;
-  promise: <T>(promise: Promise<T>, messages: PromiseMessage<T>, options?: ToastOptions) => string;
-  observable: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => string;
+  promise: <T>(promise: Promise<T>, messages: PromiseMessage<T>, options?: ToastOptions) => Promise<T>;
   hide: (toastId: string) => void;
 }

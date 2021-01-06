@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IconTheme } from '../../../../hot-tast.model';
+import { IconTheme } from '../../../../hot-toast.model';
 
 @Component({
   selector: 'lib-hot-toast-loader',

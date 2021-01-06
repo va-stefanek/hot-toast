@@ -6,17 +6,21 @@ import {
   Injector,
   Optional,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable, scheduled } from 'rxjs';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
 import {
+  DefaultToastOptions,
   HotToastServiceMethods,
   ObservableMessages,
   PromiseMessage,
+  Renderable,
+  resolveValueOrFunction,
   Toast,
   ToastConfig,
   ToastOptions,
   ToastType,
-} from './hot-tast.model';
+} from './hot-toast.model';
 import { HotToastComponent } from './hot-toast.component';
 
 @Injectable()
@@ -48,7 +52,7 @@ export class HotToastService implements HotToastServiceMethods {
     document.body.appendChild(domElem);
   }
 
-  private makeToast(message: string, type: ToastType, options?: ToastOptions): Toast {
+  private makeToast(message: Renderable, type: ToastType, options?: ToastOptions): Toast {
     const now = Date.now();
     let toast: Toast = {
       ariaLive: options?.ariaLive ?? 'polite',
@@ -65,7 +69,7 @@ export class HotToastService implements HotToastServiceMethods {
     return toast;
   }
 
-  show(message: string, options?: ToastOptions): string {
+  show(message: Renderable, options?: ToastOptions): string {
     const toast = this.makeToast(message, 'blank', options);
 
     this.componentInstance.toasts.push(toast);
@@ -73,28 +77,73 @@ export class HotToastService implements HotToastServiceMethods {
     return toast.id;
   }
 
-  error(message: string, options?: ToastOptions): string {
+  error(message: Renderable, options?: ToastOptions): string {
     const toast = this.makeToast(message, 'error', options);
 
     this.componentInstance.toasts.push(toast);
 
     return toast.id;
   }
-  success(message: string, options?: ToastOptions): string {
+  success(message: Renderable, options?: ToastOptions): string {
     const toast = this.makeToast(message, 'success', options);
 
     this.componentInstance.toasts.push(toast);
 
     return toast.id;
   }
-  loading(message: string, options?: ToastOptions): string {
+  loading(message: Renderable, options?: ToastOptions): string {
     const toast = this.makeToast(message, 'loading', options);
 
     this.componentInstance.toasts.push(toast);
 
     return toast.id;
   }
-  promise: <T>(promise: Promise<T>, messages: PromiseMessage<T>, options?: ToastOptions) => string;
-  observable: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => string;
-  hide: (toastId: string) => void;
+  promise<T>(promise: Promise<T>, messages: PromiseMessage<T>, options?: DefaultToastOptions): Promise<T> {
+    let toast = this.makeToast(messages.loading, 'loading', { ...options, ...options?.loading });
+
+    this.componentInstance.toasts.push(toast);
+
+    promise
+      .then((p) => {
+        toast = this.makeToast(resolveValueOrFunction(messages.success, p), 'success', {
+          id: toast.id,
+          ...options,
+          ...options?.success,
+        });
+
+        const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toast.id);
+
+        this.componentInstance.toasts.splice(toastIndex, 1, toast);
+
+        return p;
+      })
+      .catch((e) => {
+        toast = this.makeToast(resolveValueOrFunction(messages.error, e), 'error', {
+          id: toast.id,
+          ...options,
+          ...options?.error,
+        });
+
+        const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toast.id);
+
+        this.componentInstance.toasts.splice(toastIndex, 1, toast);
+      });
+
+    return promise;
+  }
+
+  hide(toastId: string) {
+    const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toastId);
+
+    if (toastIndex > -1) {
+      const toast = this.componentInstance.toasts[toastIndex];
+      toast.visible = false;
+      this.componentInstance.toasts.splice(toastIndex, 1, toast);
+      setTimeout(() => {
+        if (this.componentInstance.toasts[toastIndex].id === toastId) {
+          this.componentInstance.toasts.splice(toastIndex, 1);
+        }
+      }, 1000);
+    }
+  }
 }

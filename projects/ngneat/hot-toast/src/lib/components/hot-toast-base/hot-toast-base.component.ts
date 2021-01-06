@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Toast, ToastPosition } from '../../hot-tast.model';
+import { Toast, ToastPosition } from '../../hot-toast.model';
 
 @Component({
   selector: 'lib-hot-toast-base',
@@ -47,6 +47,16 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.pausedAt && changes.pausedAt.previousValue !== changes.pausedAt.currentValue) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = this.generateTimeout();
+    }
+    if (
+      changes.toast &&
+      changes.toast.previousValue &&
+      changes.toast.previousValue.duration !== changes.toast.currentValue.duration
+    ) {
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
@@ -123,6 +133,10 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   get isIconString() {
-    return typeof this.toast.icon === 'string';
+    return typeof this.toast.icon === 'string' || typeof this.toast.icon === 'number';
+  }
+
+  get isMessageString() {
+    return typeof this.toast.message === 'string' || typeof this.toast.message === 'number';
   }
 }

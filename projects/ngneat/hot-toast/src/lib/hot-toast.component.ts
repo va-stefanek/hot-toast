@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
-import { Toast, ToastPosition } from './hot-tast.model';
+import { Toast, ToastPosition } from './hot-toast.model';
 
 @Component({
   selector: 'lib-hot-toast',
