@@ -7,7 +7,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HotToastModule.forRoot({ position: 'bottom-left' })],
+  imports: [BrowserModule, AppRoutingModule, HotToastModule.forRoot()],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -41,6 +41,7 @@ export interface Toast {
   createdAt: number;
   visible: boolean;
   height?: number;
+  width?: number;
 }
 
 export type ToastOptions = Partial<
