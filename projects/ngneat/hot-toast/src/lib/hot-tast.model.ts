@@ -46,3 +46,7 @@ export interface Toast {
 export type ToastOptions = Partial<
   Pick<Toast, 'id' | 'icon' | 'duration' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme'>
 >;
+
+export interface HotToastServiceMethods {
+  show: (message: string, options?: ToastOptions) => string;
+}
