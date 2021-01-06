@@ -1,5 +1,18 @@
 <div class="hot-toast-bar-base-container" [ngStyle]="getPositionStyle()">
   <div class="hot-toast-bar-base" [ngClass]="getToastBarBaseClasses()" [ngStyle]="toast.style">
+    <ng-container *ngIf="toast.icon !== undefined; else indicator">
+      <ng-container *ngIf="isIconString; else iconTemplate">
+        <lib-hot-toast-animated-icon>{{ toast.icon }}</lib-hot-toast-animated-icon>
+      </ng-container>
+      <ng-template #iconTemplate>
+        <ng-container *ngTemplateOutlet="toast.icon"></ng-container>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #indicator>
+      <lib-hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></lib-hot-toast-indicator>
+    </ng-template>
+
     <div class="hot-toast-message">
       {{ toast.message }}
     </div>

@@ -1,3 +1,6 @@
+import { TemplateRef } from '@angular/core';
+import { Observable } from 'rxjs';
+
 export class ToastConfig {
   position: ToastPosition = 'top-center';
   reverseOrder: boolean = false;
@@ -21,7 +24,7 @@ const isFunction = <TValue, TArg>(
 export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunction<TValue, TArg>, arg: TArg): TValue =>
   isFunction(valOrFunction) ? valOrFunction(arg) : valOrFunction;
 
-export type Renderable = string | number | null;
+export type Renderable = TemplateRef<any> | string | number | null;
 
 export interface Toast {
   type: ToastType;
@@ -48,6 +51,24 @@ export type ToastOptions = Partial<
   Pick<Toast, 'id' | 'icon' | 'duration' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme'>
 >;
 
+export type PromiseMessage<T> = {
+  loading: Renderable;
+  success: ValueOrFunction<Renderable, T>;
+  error: ValueOrFunction<Renderable, any>;
+};
+
+export type ObservableMessages<T> = {
+  loading: Renderable;
+  subscribe: ValueOrFunction<Renderable, T>;
+  error: ValueOrFunction<Renderable, any>;
+};
+
 export interface HotToastServiceMethods {
   show: (message: string, options?: ToastOptions) => string;
+  error: (message: string, options?: ToastOptions) => string;
+  success: (message: string, options?: ToastOptions) => string;
+  loading: (message: string, options?: ToastOptions) => string;
+  promise: <T>(promise: Promise<T>, messages: PromiseMessage<T>, options?: ToastOptions) => string;
+  observable: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => string;
+  hide: (toastId: string) => void;
 }

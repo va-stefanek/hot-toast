@@ -121,4 +121,8 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
       clearTimeout(this.timeout);
     }
   }
+
+  get isIconString() {
+    return typeof this.toast.icon === 'string';
+  }
 }

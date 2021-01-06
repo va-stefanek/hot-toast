@@ -15,4 +15,13 @@ export class AppComponent {
   blank() {
     this.toastService.show('Blank toast no.' + this.count++);
   }
+  error() {
+    this.toastService.error('Error');
+  }
+  success() {
+    this.toastService.success('Success');
+  }
+  loading() {
+    this.toastService.loading('Loading...');
+  }
 }
