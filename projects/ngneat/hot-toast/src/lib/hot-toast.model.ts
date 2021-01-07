@@ -1,4 +1,4 @@
-import { TemplateRef } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export class ToastConfig {
@@ -58,12 +58,6 @@ export type DefaultToastOptions = ToastOptions &
     [key in ToastType]?: ToastOptions;
   };
 
-export type PromiseMessage<T> = {
-  loading: Renderable;
-  success: ValueOrFunction<Renderable, T>;
-  error: ValueOrFunction<Renderable, any>;
-};
-
 export type ObservableMessages<T> = {
   loading?: Renderable;
   subscribe: ValueOrFunction<Renderable, T>;
@@ -72,10 +66,23 @@ export type ObservableMessages<T> = {
 };
 
 export interface HotToastServiceMethods {
-  show: (message: string, options?: ToastOptions) => string;
-  error: (message: string, options?: ToastOptions) => string;
-  success: (message: string, options?: ToastOptions) => string;
-  loading: (message: string, options?: ToastOptions) => string;
-  observe: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => Observable<T>;
-  hide: (toastId: string) => void;
+  show: (message: string, options?: ToastOptions) => ToastRef;
+  error: (message: string, options?: ToastOptions) => ToastRef;
+  success: (message: string, options?: ToastOptions) => ToastRef;
+  loading: (message: string, options?: ToastOptions) => ToastRef;
+  observe: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => ToastRef;
+}
+
+export type UpdateToastOptions = Partial<
+  Pick<
+    Toast,
+    'icon' | 'duration' | 'dismissible' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme' | 'height' | 'type'
+  >
+>;
+
+export interface ToastRef {
+  close: () => void;
+  unsubscribe?: () => void;
+  updateMessage: (message: Renderable) => void;
+  updateToast: (options: UpdateToastOptions) => void;
 }

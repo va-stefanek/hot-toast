@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
   Input,
@@ -17,23 +18,23 @@ import { Toast, ToastPosition } from '../../hot-toast.model';
   templateUrl: 'hot-toast-base.component.html',
   styleUrls: ['./hot-toast-base.component.scss'],
 })
-export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, DoCheck {
   @Input() toast: Toast;
   @Input() position: ToastPosition = 'top-center';
   @Input() offset = 0;
   @Input() pausedAt: number;
+  @Input() diff: number;
 
   @Output() onHeight = new EventEmitter<number>();
   @Output() onWidth = new EventEmitter<number>();
 
   @Output() remove = new EventEmitter();
   timeout: any;
+  oldDuration = 0;
 
   constructor(public el: ElementRef<HTMLElement>) {}
 
-  ngOnInit() {
-    this.timeout = this.generateTimeout();
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     const toastBarBase = this.el.nativeElement.querySelector('.hot-toast-bar-base') as HTMLElement;
@@ -52,15 +53,18 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
       }
       this.timeout = this.generateTimeout();
     }
-    if (
-      changes.toast &&
-      changes.toast.previousValue &&
-      changes.toast.previousValue.duration !== changes.toast.currentValue.duration
-    ) {
+    if (changes.diff && changes.diff.previousValue !== changes.diff.currentValue) {
+      this.toast.pauseDuration += this.diff;
+    }
+  }
+
+  ngDoCheck() {
+    if (this.toast.duration !== this.oldDuration) {
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
       this.timeout = this.generateTimeout();
+      this.oldDuration = this.toast.duration;
     }
   }
 

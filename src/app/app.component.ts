@@ -26,24 +26,32 @@ export class AppComponent {
     this.toastService.loading('Loading...');
   }
   observe() {
-    const finish = timer(5000);
+    const finish = timer(10000);
     const source = interval(1000);
     const observable = source.pipe(
       map(() => {
         let v = Math.random();
-        if (v > 0.5) {
-          throw 0.5;
-        }
+        // if (v > 0.5) {
+        //   throw 0.5;
+        // }
         return v;
       }),
       takeUntil(finish)
     );
     const shared = observable.pipe(share());
-    this.toastService.observe(shared, {
-      loading: 'Observable Loading...',
-      subscribe: (v: number) => v,
-      error: 'Observable Error',
-      complete: 'Observable Complete',
-    });
+    const toastRef = this.toastService.observe(
+      shared,
+      {
+        loading: 'Observable Loading...',
+        subscribe: (v: number) => v,
+        error: 'Observable Error',
+        complete: 'Observable Complete',
+      },
+      { success: { duration: 10000 } }
+    );
+
+    setTimeout(() => {
+      toastRef.close();
+    }, 6000);
   }
 }

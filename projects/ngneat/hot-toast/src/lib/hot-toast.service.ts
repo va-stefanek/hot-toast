@@ -11,16 +11,17 @@ import {
   DefaultToastOptions,
   HotToastServiceMethods,
   ObservableMessages,
-  PromiseMessage,
   Renderable,
   resolveValueOrFunction,
   Toast,
   ToastConfig,
   ToastOptions,
+  ToastRef,
   ToastType,
+  UpdateToastOptions,
 } from './hot-toast.model';
 import { HotToastComponent } from './hot-toast.component';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class HotToastService implements HotToastServiceMethods {
@@ -51,7 +52,12 @@ export class HotToastService implements HotToastServiceMethods {
     document.body.appendChild(domElem);
   }
 
-  private makeToast(message: Renderable, type: ToastType, options?: ToastOptions): Toast {
+  private makeToast<T>(
+    message: Renderable,
+    type: ToastType,
+    options?: ToastOptions,
+    subscription?: Subscription
+  ): ToastRef {
     if (message === undefined) {
       throw Error('message is needed to create a hot-toast!');
     }
@@ -69,123 +75,112 @@ export class HotToastService implements HotToastServiceMethods {
       ...this._defaultConfig.defaultToastOptions,
       ...options,
     };
+
+    this.componentInstance.toasts.push(toast);
+
+    const that = this;
+
+    let toastRef: ToastRef = {
+      close() {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+        toast.visible = false;
+        const toastIndex = that.componentInstance.toasts.findIndex((t) => t.id === toast.id);
+        that.componentInstance.toasts.splice(toastIndex, 1, toast);
+        setTimeout(() => {
+          if (that.componentInstance.toasts[toastIndex].id === toast.id) {
+            that.componentInstance.toasts.splice(toastIndex, 1);
+          }
+        }, 1000);
+      },
+      updateMessage(message: Renderable) {
+        toast.message = message;
+      },
+      updateToast(options: UpdateToastOptions) {
+        toast = Object.assign(toast, options);
+      },
+      unsubscribe() {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      },
+    };
+
+    return toastRef;
+  }
+
+  show(message: Renderable, options?: ToastOptions) {
+    const toast = this.makeToast(message, 'blank', options);
+
     return toast;
   }
 
-  show(message: Renderable, options?: ToastOptions): string {
-    const toast = this.makeToast(message, 'blank', options);
-
-    this.componentInstance.toasts.push(toast);
-
-    return toast.id;
-  }
-
-  error(message: Renderable, options?: ToastOptions): string {
+  error(message: Renderable, options?: ToastOptions) {
     const toast = this.makeToast(message, 'error', { ...this._defaultConfig.defaultToastOptions?.error, ...options });
 
-    this.componentInstance.toasts.push(toast);
-
-    return toast.id;
+    return toast;
   }
-  success(message: Renderable, options?: ToastOptions): string {
+  success(message: Renderable, options?: ToastOptions) {
     const toast = this.makeToast(message, 'success', {
       ...this._defaultConfig.defaultToastOptions?.success,
       ...options,
     });
 
-    this.componentInstance.toasts.push(toast);
-
-    return toast.id;
+    return toast;
   }
-  loading(message: Renderable, options?: ToastOptions): string {
+  loading(message: Renderable, options?: ToastOptions) {
     const toast = this.makeToast(message, 'loading', {
       ...this._defaultConfig.defaultToastOptions?.loading,
       ...options,
     });
 
-    this.componentInstance.toasts.push(toast);
-
-    return toast.id;
+    return toast;
   }
-  observe<T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions): Observable<T> {
-    let toast = this.makeToast(messages.loading || 'Loading...', 'loading', {
-      ...options,
-      ...this._defaultConfig.defaultToastOptions?.loading,
-      ...options?.loading,
-    });
-
-    this.componentInstance.toasts.push(toast);
-
-    observable.subscribe(
-      (v) => {
-        const height = toast.height;
-
-        toast = this.makeToast(resolveValueOrFunction(messages.subscribe, v), 'success', {
-          id: toast.id,
-          ...options,
-          ...this._defaultConfig.defaultToastOptions?.success,
-          ...options?.success,
-        });
-
-        toast.height = height;
-
-        const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toast.id);
-
-        this.componentInstance.toasts.splice(toastIndex, 1, toast);
+  observe<T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions) {
+    let toastRef = this.makeToast(
+      messages.loading || 'Loading...',
+      'loading',
+      {
+        ...options,
+        ...this._defaultConfig.defaultToastOptions?.loading,
+        ...options?.loading,
       },
-      (e) => {
-        if (messages.error) {
-          const height = toast.height;
-
-          toast = this.makeToast(resolveValueOrFunction(messages.error, e), 'error', {
-            id: toast.id,
-            ...options,
-            ...this._defaultConfig.defaultToastOptions?.error,
-            ...options?.error,
+      observable.subscribe(
+        (v) => {
+          toastRef.updateMessage(resolveValueOrFunction(messages.subscribe, v));
+          toastRef.updateToast({
+            type: 'success',
+            duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
+            ...this._defaultConfig.defaultToastOptions?.success,
+            ...options?.success,
           });
-
-          toast.height = height;
-
-          const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toast.id);
-
-          this.componentInstance.toasts.splice(toastIndex, 1, toast);
+        },
+        (e) => {
+          if (messages.error) {
+            toastRef.updateMessage(resolveValueOrFunction(messages.error, e));
+            toastRef.updateToast({
+              type: 'error',
+              duration: HOT_TOAST_DEFAULT_TIMEOUTS['error'],
+              ...this._defaultConfig.defaultToastOptions?.error,
+              ...options?.error,
+            });
+          }
+        },
+        () => {
+          if (messages.complete) {
+            toastRef.updateMessage(resolveValueOrFunction(messages.complete, undefined));
+            toastRef.updateToast({
+              type: 'success',
+              duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
+              ...this._defaultConfig.defaultToastOptions?.success,
+              ...options?.success,
+            });
+          }
         }
-      },
-      () => {
-        if (messages.complete) {
-          const height = toast.height;
-
-          toast = this.makeToast(messages.complete, 'success', {
-            id: toast.id,
-            ...options,
-            ...this._defaultConfig.defaultToastOptions?.error,
-            ...options?.error,
-          });
-
-          toast.height = height;
-
-          const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toast.id);
-
-          this.componentInstance.toasts.splice(toastIndex, 1, toast);
-        }
-      }
+      )
     );
 
-    return observable;
-  }
-
-  hide(toastId: string) {
-    const toastIndex = this.componentInstance.toasts.findIndex((t) => t.id === toastId);
-
-    if (toastIndex > -1) {
-      const toast = this.componentInstance.toasts[toastIndex];
-      toast.visible = false;
-      this.componentInstance.toasts.splice(toastIndex, 1, toast);
-      setTimeout(() => {
-        if (this.componentInstance.toasts[toastIndex].id === toastId) {
-          this.componentInstance.toasts.splice(toastIndex, 1);
-        }
-      }, 1000);
-    }
+    return toastRef;
   }
 }

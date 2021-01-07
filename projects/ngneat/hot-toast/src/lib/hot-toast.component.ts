@@ -18,6 +18,7 @@ export class HotToastComponent implements OnInit {
 
   @ViewChildren(HotToastBaseComponent) hotToastList!: QueryList<HotToastBaseComponent>;
   pausedAt: number;
+  diff: number;
 
   constructor() {}
 
@@ -57,6 +58,7 @@ export class HotToastComponent implements OnInit {
   }
 
   endPause() {
+    this.diff = Date.now() - (this.pausedAt || 0);
     if (this.pausedAt) {
       this.pausedAt = undefined;
     }

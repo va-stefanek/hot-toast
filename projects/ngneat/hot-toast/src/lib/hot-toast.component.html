@@ -16,6 +16,7 @@
       <lib-hot-toast-base
         *ngFor="let toast of toasts; trackBy: trackById; let i = index"
         [pausedAt]="pausedAt"
+        [diff]="diff"
         [toast]="toast"
         [position]="position"
         [offset]="calculateOffset(toast.id)"
