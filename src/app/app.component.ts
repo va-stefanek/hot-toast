@@ -11,6 +11,10 @@ import { map, share, takeUntil } from 'rxjs/operators';
 export class AppComponent {
   title = 'toast';
 
+  iconList = ['☝', '👇'];
+
+  iconComponent = IconComponent;
+
   constructor(private toastService: HotToastService) {}
 
   blank(message: string, options?: ToastOptions) {
@@ -55,3 +59,9 @@ export class AppComponent {
     }, 6000);
   }
 }
+
+@Component({
+  selector: 'app-icon',
+  template: '✋',
+})
+export class IconComponent {}

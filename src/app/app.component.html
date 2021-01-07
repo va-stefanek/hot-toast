@@ -3,6 +3,14 @@
 <h3>Plain Toast</h3>
 <button (click)="blank('Pain toast')">Plain Toast</button>
 <hr />
+<h3>Icon Toast</h3>
+<button (click)="blank('String Icon', { icon: '👋' })">Toast with Icon String</button>
+<button (click)="blank('Template Icon', { icon: iconTemplate })">Toast with Icon Template</button>
+<button (click)="blank('Component icon', { icon: iconComponent })">Toast with Icon Component</button>
+<hr />
+<h3>Dismissible</h3>
+<button (click)="blank('Dismissible toast', { dismissible: true })">Dismissible Toast</button>
+<hr />
 <h3>Error</h3>
 <button (click)="error()">error</button>
 <hr />
@@ -14,3 +22,7 @@
 <hr />
 <h3>Observable</h3>
 <button (click)="observe()">Observable</button>
+
+<ng-template #iconTemplate>
+  <ng-container *ngFor="let icon of iconList">{{ icon }}</ng-container>
+</ng-template>

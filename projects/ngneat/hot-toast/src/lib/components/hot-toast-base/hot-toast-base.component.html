@@ -1,11 +1,11 @@
 <div class="hot-toast-bar-base-container" [ngStyle]="getPositionStyle()">
   <div class="hot-toast-bar-base" [ngClass]="getToastBarBaseClasses()" [ngStyle]="toast.style">
     <ng-container *ngIf="toast.icon !== undefined; else indicator">
-      <ng-container *ngIf="isIconString; else iconTemplate">
+      <ng-container *ngIf="isIconString; else iconTemplateOrComponent">
         <lib-hot-toast-animated-icon>{{ toast.icon }}</lib-hot-toast-animated-icon>
       </ng-container>
-      <ng-template #iconTemplate>
-        <ng-container *ngTemplateOutlet="toast.icon"></ng-container>
+      <ng-template #iconTemplateOrComponent>
+        <lib-hot-toast-template-component-loader [content]="toast.icon"></lib-hot-toast-template-component-loader>
       </ng-template>
     </ng-container>
 
@@ -14,12 +14,7 @@
     </ng-template>
 
     <div class="hot-toast-message">
-      <ng-container *ngIf="isMessageString; else messageTemplate">
-        {{ toast.message }}
-      </ng-container>
-      <ng-template #messageTemplate>
-        <ng-container *ngTemplateOutlet="toast.message"></ng-container>
-      </ng-template>
+      <lib-hot-toast-template-component-loader [content]="toast.message"></lib-hot-toast-template-component-loader>
     </div>
 
     <div *ngIf="toast.dismissible" (click)="toast.visible = false">

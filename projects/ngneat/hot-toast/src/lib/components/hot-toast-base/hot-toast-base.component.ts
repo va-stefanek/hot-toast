@@ -12,6 +12,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Toast, ToastPosition } from '../../hot-toast.model';
+import { isComponent, isTemplateRef } from '../../utils';
 
 @Component({
   selector: 'lib-hot-toast-base',
@@ -31,6 +32,9 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
   @Output() remove = new EventEmitter();
   timeout: any;
   oldDuration = 0;
+
+  isTemplateRef = isTemplateRef;
+  isComponent = isComponent;
 
   constructor(public el: ElementRef<HTMLElement>) {}
 

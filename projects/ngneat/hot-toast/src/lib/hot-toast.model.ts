@@ -1,4 +1,4 @@
-import { EventEmitter, TemplateRef } from '@angular/core';
+import { EventEmitter, TemplateRef, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export class ToastConfig {
@@ -25,7 +25,7 @@ const isFunction = <TValue, TArg>(
 export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunction<TValue, TArg>, arg: TArg): TValue =>
   isFunction(valOrFunction) ? valOrFunction(arg) : valOrFunction;
 
-export type Renderable = TemplateRef<any> | string | number | null;
+export type Renderable = string | number | TemplateRef<any> | Type<any>;
 
 export interface Toast {
   type: ToastType;

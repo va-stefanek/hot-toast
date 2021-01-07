@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { DynamicModule } from 'ng-dynamic-component';
+
 import { AnimatedIconComponent } from './components/animated-icon/animated-icon.component';
 import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
 import { CheckMarkComponent } from './components/indicator/icons/checkmark/checkmark.component';
@@ -10,6 +12,7 @@ import { ToastConfig } from './hot-toast.model';
 import { HotToastComponent } from './hot-toast.component';
 import { HotToastService } from './hot-toast.service';
 import { init } from './init';
+import { TemplateComponentLoaderComponent } from './components/load-template-or-component';
 
 @NgModule({
   declarations: [
@@ -20,8 +23,9 @@ import { init } from './init';
     CheckMarkComponent,
     ErrorComponent,
     LoaderComponent,
+    TemplateComponentLoaderComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, DynamicModule],
   exports: [
     HotToastComponent,
     HotToastBaseComponent,
