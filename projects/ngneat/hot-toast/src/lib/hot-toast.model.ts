@@ -3,6 +3,7 @@ import { TemplateRef } from '@angular/core';
 export class ToastConfig {
   position: ToastPosition = 'top-center';
   reverseOrder: boolean = false;
+  defaultToastOptions: DefaultToastOptions;
 }
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank';
@@ -31,6 +32,7 @@ export interface Toast {
   message: ValueOrFunction<Renderable, Toast>;
   icon?: Renderable;
   duration?: number;
+  dismissible?: boolean;
   pauseDuration: number;
 
   role: 'status' | 'alert';
@@ -47,7 +49,7 @@ export interface Toast {
 }
 
 export type ToastOptions = Partial<
-  Pick<Toast, 'id' | 'icon' | 'duration' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme'>
+  Pick<Toast, 'id' | 'icon' | 'duration' | 'dismissible' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme'>
 >;
 
 export type DefaultToastOptions = ToastOptions &

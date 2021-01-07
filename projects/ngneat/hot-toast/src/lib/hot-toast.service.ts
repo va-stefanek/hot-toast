@@ -6,13 +6,10 @@ import {
   Injector,
   Optional,
 } from '@angular/core';
-import { from, Observable, scheduled } from 'rxjs';
-import { catchError, shareReplay, tap } from 'rxjs/operators';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
 import {
   DefaultToastOptions,
   HotToastServiceMethods,
-  ObservableMessages,
   PromiseMessage,
   Renderable,
   resolveValueOrFunction,
@@ -53,6 +50,9 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   private makeToast(message: Renderable, type: ToastType, options?: ToastOptions): Toast {
+    if (message === undefined) {
+      throw Error('message is needed to create a hot-toast!');
+    }
     const now = Date.now();
     let toast: Toast = {
       ariaLive: options?.ariaLive ?? 'polite',
@@ -64,6 +64,7 @@ export class HotToastService implements HotToastServiceMethods {
       role: options?.role ?? 'status',
       type,
       visible: true,
+      ...this._defaultConfig.defaultToastOptions,
       ...options,
     };
     return toast;
@@ -78,28 +79,38 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   error(message: Renderable, options?: ToastOptions): string {
-    const toast = this.makeToast(message, 'error', options);
+    const toast = this.makeToast(message, 'error', { ...this._defaultConfig.defaultToastOptions?.error, ...options });
 
     this.componentInstance.toasts.push(toast);
 
     return toast.id;
   }
   success(message: Renderable, options?: ToastOptions): string {
-    const toast = this.makeToast(message, 'success', options);
+    const toast = this.makeToast(message, 'success', {
+      ...this._defaultConfig.defaultToastOptions?.success,
+      ...options,
+    });
 
     this.componentInstance.toasts.push(toast);
 
     return toast.id;
   }
   loading(message: Renderable, options?: ToastOptions): string {
-    const toast = this.makeToast(message, 'loading', options);
+    const toast = this.makeToast(message, 'loading', {
+      ...this._defaultConfig.defaultToastOptions?.loading,
+      ...options,
+    });
 
     this.componentInstance.toasts.push(toast);
 
     return toast.id;
   }
   promise<T>(promise: Promise<T>, messages: PromiseMessage<T>, options?: DefaultToastOptions): Promise<T> {
-    let toast = this.makeToast(messages.loading, 'loading', { ...options, ...options?.loading });
+    let toast = this.makeToast(messages.loading, 'loading', {
+      ...options,
+      ...this._defaultConfig.defaultToastOptions?.loading,
+      ...options?.loading,
+    });
 
     this.componentInstance.toasts.push(toast);
 
@@ -108,6 +119,7 @@ export class HotToastService implements HotToastServiceMethods {
         toast = this.makeToast(resolveValueOrFunction(messages.success, p), 'success', {
           id: toast.id,
           ...options,
+          ...this._defaultConfig.defaultToastOptions?.success,
           ...options?.success,
         });
 
@@ -121,6 +133,7 @@ export class HotToastService implements HotToastServiceMethods {
         toast = this.makeToast(resolveValueOrFunction(messages.error, e), 'error', {
           id: toast.id,
           ...options,
+          ...this._defaultConfig.defaultToastOptions?.error,
           ...options?.error,
         });
 

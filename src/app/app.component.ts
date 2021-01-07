@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HotToastService } from '@ngneat/hot-toast';
+import { HotToastService, ToastOptions } from '@ngneat/hot-toast';
 import { interval, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -10,18 +10,11 @@ import { map, take } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'toast';
-  count = 1;
-  blankToastId: string;
 
   constructor(private toastService: HotToastService) {}
 
-  blank() {
-    this.blankToastId = this.toastService.show('Blank toast no.' + this.count++);
-  }
-  hideBlank() {
-    if (this.blankToastId) {
-      this.toastService.hide(this.blankToastId);
-    }
+  blank(message: string, options?: ToastOptions) {
+    this.toastService.show(message, options);
   }
   error() {
     this.toastService.error('Error');

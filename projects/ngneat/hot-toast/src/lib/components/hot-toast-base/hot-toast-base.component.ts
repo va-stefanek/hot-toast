@@ -101,7 +101,7 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   generateTimeout() {
     const dismiss = () => {
-      if (this.pausedAt) {
+      if (this.pausedAt || this.toast.dismissible) {
         return;
       }
       setTimeout(() => {
