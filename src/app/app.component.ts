@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HotToastService, ToastOptions } from '@ngneat/hot-toast';
-import { interval, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { interval, timer } from 'rxjs';
+import { map, share, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -25,14 +25,25 @@ export class AppComponent {
   loading() {
     this.toastService.loading('Loading...');
   }
-  promise() {
-    const promise = new Promise((res, rej) => {
-      setTimeout(Math.random() > 0.5 ? res : rej, 1000);
-    });
-    this.toastService.promise(promise, {
-      loading: 'Promise Loading...',
-      success: 'Promise Success',
-      error: 'Promise Error',
+  observe() {
+    const finish = timer(5000);
+    const source = interval(1000);
+    const observable = source.pipe(
+      map(() => {
+        let v = Math.random();
+        if (v > 0.5) {
+          throw 0.5;
+        }
+        return v;
+      }),
+      takeUntil(finish)
+    );
+    const shared = observable.pipe(share());
+    this.toastService.observe(shared, {
+      loading: 'Observable Loading...',
+      subscribe: (v: number) => v,
+      error: 'Observable Error',
+      complete: 'Observable Complete',
     });
   }
 }
