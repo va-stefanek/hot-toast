@@ -1,19 +1,19 @@
-import { Component, Input, OnInit, TemplateRef, Type } from '@angular/core';
-import { Renderable } from '../hot-toast.model';
-import { isComponent, isTemplateRef } from '../utils';
+import { Component, Input, OnInit } from '@angular/core';
+import { Renderable } from './hot-toast.model';
+import { isComponent, isTemplateRef } from './utils';
 
 @Component({
   selector: 'lib-hot-toast-template-component-loader',
   template: `
     <ng-container *ngIf="isString; else templateOrComponent">
-      <lib-hot-toast-animated-icon>{{ content }}</lib-hot-toast-animated-icon>
+      {{ content }}
     </ng-container>
     <ng-template #templateOrComponent>
       <ng-container *ngIf="isTemplateRef(content)">
         <ng-container *ngTemplateOutlet="content"></ng-container>
       </ng-container>
       <ng-container *ngIf="isComponent(content)">
-        <ndc-dynamic [ndcDynamicComponent]="content"></ndc-dynamic>
+        <lib-hot-toast-dynamic [dynamicComponent]="content"></lib-hot-toast-dynamic>
       </ng-container>
     </ng-template>
   `,

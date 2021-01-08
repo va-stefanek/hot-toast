@@ -1,4 +1,4 @@
-import { EventEmitter, TemplateRef, Type } from '@angular/core';
+import { TemplateRef, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export class ToastConfig {
