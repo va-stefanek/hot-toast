@@ -15,6 +15,8 @@ export interface IconTheme {
   secondary: string;
 }
 
+export type ToastTheme = 'toast' | 'snackbar';
+
 export type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
 export type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;
 
@@ -42,6 +44,7 @@ export interface Toast {
   style?: any;
   className?: string;
   iconTheme?: IconTheme;
+  theme?: ToastTheme;
 
   createdAt: number;
   visible: boolean;
@@ -50,7 +53,10 @@ export interface Toast {
 }
 
 export type ToastOptions = Partial<
-  Pick<Toast, 'id' | 'icon' | 'duration' | 'dismissible' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme'>
+  Pick<
+    Toast,
+    'id' | 'icon' | 'duration' | 'dismissible' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme' | 'theme'
+  >
 >;
 
 export type DefaultToastOptions = ToastOptions &
@@ -76,7 +82,17 @@ export interface HotToastServiceMethods {
 export type UpdateToastOptions = Partial<
   Pick<
     Toast,
-    'icon' | 'duration' | 'dismissible' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme' | 'height' | 'type'
+    | 'icon'
+    | 'duration'
+    | 'dismissible'
+    | 'role'
+    | 'ariaLive'
+    | 'className'
+    | 'style'
+    | 'iconTheme'
+    | 'height'
+    | 'type'
+    | 'theme'
   >
 >;
 

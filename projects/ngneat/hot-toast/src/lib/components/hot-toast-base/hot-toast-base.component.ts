@@ -97,7 +97,7 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   getToastBarBaseClasses() {
-    return (this.toast.className ? this.toast.className : '') + ' ' + this.getAnimationClass();
+    return (this.toast.className ?? ' ') + this.getAnimationClass();
   }
 
   getAnimationClass(): string {
