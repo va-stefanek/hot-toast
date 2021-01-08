@@ -3,7 +3,6 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   EventEmitter,
-  InjectionToken,
   Input,
   OnChanges,
   Output,
@@ -38,11 +37,7 @@ export class DynamicComponent implements OnChanges {
     this.componentRef = null;
 
     if (this.dynamicComponent) {
-      this.componentRef = this.vcr.createComponent(
-        this.cfr.resolveComponentFactory(this.dynamicComponent),
-        0,
-        this.vcr.injector
-      );
+      this.componentRef = this.vcr.createComponent(this.cfr.resolveComponentFactory(this.dynamicComponent));
       this.dynamicCreated.emit(this.componentRef);
     }
   }
