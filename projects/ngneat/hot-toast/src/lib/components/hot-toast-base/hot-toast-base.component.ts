@@ -1,17 +1,16 @@
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
 import {
-  AfterViewInit,
-  Component,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { Toast, ToastPosition } from '../../hot-toast.model';
+  DefaultToastOptions,
+  Renderable,
+  resolveValueOrFunction,
+  Toast,
+  ToastConfig,
+  ToastPosition,
+  ToastRef,
+  UpdateToastOptions,
+} from '../../hot-toast.model';
 import { isComponent, isTemplateRef } from '../../utils';
 
 @Component({
@@ -19,22 +18,30 @@ import { isComponent, isTemplateRef } from '../../utils';
   templateUrl: 'hot-toast-base.component.html',
   styleUrls: ['./hot-toast-base.component.scss'],
 })
-export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, DoCheck {
+export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() toast: Toast;
-  @Input() position: ToastPosition = 'top-center';
   @Input() offset = 0;
-  @Input() pausedAt: number;
-  @Input() diff: number;
+  @Input() defaultConfig: ToastConfig;
 
   @Output() onHeight = new EventEmitter<number>();
   @Output() onWidth = new EventEmitter<number>();
-
   @Output() remove = new EventEmitter();
+
+  diff: number;
+  pausedAt: number;
   timeout: any;
   oldDuration = 0;
 
   isTemplateRef = isTemplateRef;
   isComponent = isComponent;
+
+  toastRef: ToastRef;
+  afterClosed = new Subject();
+  afterOpened = new Subject();
+  subscription: Subscription;
+
+  /**This is same as enter animation time of toast */
+  readonly TOAST_SHOW_ANIMATION_TIME = 350;
 
   constructor(public el: ElementRef<HTMLElement>) {}
 
@@ -48,39 +55,35 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.onWidth.emit(toastBarBase.offsetWidth);
       });
     }
+    setTimeout(() => {
+      this.afterOpened.next();
+    }, this.TOAST_SHOW_ANIMATION_TIME);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.pausedAt && changes.pausedAt.previousValue !== changes.pausedAt.currentValue) {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = this.generateTimeout();
-    }
-    if (changes.diff && changes.diff.previousValue !== changes.diff.currentValue) {
-      this.toast.pauseDuration += this.diff;
-    }
+  startPause() {
+    this.pausedAt = Date.now();
   }
 
-  ngDoCheck() {
-    if (this.toast.duration !== this.oldDuration) {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = this.generateTimeout();
-      this.oldDuration = this.toast.duration;
+  endPause() {
+    this.diff = Date.now() - (this.pausedAt || 0);
+    if (this.pausedAt) {
+      this.pausedAt = undefined;
     }
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    this.generateTimeout();
   }
 
   getPositionStyle() {
-    const top = this.position.includes('top');
+    const top = this.toast.position.includes('top');
     const verticalStyle = top ? { top: 0 } : { bottom: 0 };
 
-    const horizontalStyle = this.position.includes('left')
+    const horizontalStyle = this.toast.position.includes('left')
       ? {
           left: 0,
         }
-      : this.position.includes('right')
+      : this.toast.position.includes('right')
       ? {
           right: 0,
         }
@@ -101,7 +104,7 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   getAnimationClass(): string {
-    const top = this.position.includes('top');
+    const top = this.toast.position.includes('top');
     return this.toast.visible
       ? `enterAnimation${top ? 'Negative' : 'Positive'}`
       : `exitAnimation${top ? 'Negative' : 'Positive'}`;
@@ -113,10 +116,7 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
         return;
       }
       setTimeout(() => {
-        this.toast.visible = false;
-        setTimeout(() => {
-          this.remove.emit();
-        }, 1000);
+        this.close();
       }, this.toast.duration);
     };
 
@@ -131,13 +131,15 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
       return;
     }
 
-    return setTimeout(dismiss, durationLeft);
+    this.timeout = setTimeout(dismiss, durationLeft);
   }
 
-  ngOnDestroy() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+  close() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
+    this.toast.visible = false;
+    this.remove.emit();
   }
 
   get isIconString() {
@@ -146,5 +148,88 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   get isMessageString() {
     return typeof this.toast.message === 'string' || typeof this.toast.message === 'number';
+  }
+
+  makeToastRef() {
+    this.toastRef = {
+      close: () => {
+        this.close();
+      },
+      updateMessage: (message: Renderable) => {
+        this.toast.message = message;
+      },
+      updateToast: (options: UpdateToastOptions) => {
+        this.toast = Object.assign(this.toast, options);
+      },
+      unsubscribe: () => {
+        this.subscription.unsubscribe();
+      },
+      afterClosed: this.afterClosed,
+      afterOpened: this.afterOpened,
+    };
+  }
+
+  checkForObserve() {
+    if (this.toast.observable) {
+      this.subscription = this.toast.observable.subscribe(
+        (v) => {
+          if (this.toast.observableMessages?.subscribe) {
+            if (this.timeout) {
+              clearTimeout(this.timeout);
+            }
+            this.toast.message = resolveValueOrFunction(this.toast.observableMessages.subscribe, v);
+            this.toast = Object.assign(this.toast, {
+              type: 'success',
+              duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
+              ...this.defaultConfig?.success,
+              ...(this.toast as DefaultToastOptions).success,
+            });
+
+            this.generateTimeout();
+          }
+        },
+        (e) => {
+          if (this.toast.observableMessages?.error) {
+            if (this.timeout) {
+              clearTimeout(this.timeout);
+            }
+            this.toast.message = resolveValueOrFunction(this.toast.observableMessages.error, e);
+            this.toast = Object.assign(this.toast, {
+              type: 'error',
+              duration: HOT_TOAST_DEFAULT_TIMEOUTS['error'],
+              ...this.defaultConfig?.error,
+              ...(this.toast as DefaultToastOptions).error,
+            });
+            this.generateTimeout();
+          }
+        },
+        () => {
+          if (this.toast.observableMessages?.complete) {
+            if (this.timeout) {
+              clearTimeout(this.timeout);
+            }
+            this.toast.message = resolveValueOrFunction(this.toast.observableMessages.complete, undefined);
+            this.toast = Object.assign(this.toast, {
+              ...this.toast,
+              type: 'success',
+              duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
+              ...this.defaultConfig?.success,
+              ...(this.toast as DefaultToastOptions).success,
+            });
+            this.generateTimeout();
+          }
+        }
+      );
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    if (this.subscription) {
+      this.subscription.unsubscribe;
+    }
+    this.afterClosed.next();
   }
 }

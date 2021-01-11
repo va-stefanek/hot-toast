@@ -1,29 +1,5 @@
 <div style="position: fixed; z-index: 9999; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none">
-  <div
-    style="position: relative; height: 100%; display: flex; flex-direction: column"
-    [ngStyle]="{
-      'align-items': position.includes('left') ? 'start' : position.includes('right') ? 'end' : 'center',
-      'justify-content': position.includes('top') ? 'flex-start' : 'flex-end'
-    }"
-  >
-    <div
-      style="padding: 16px 0; pointer-events: all"
-      *ngIf="toasts.length"
-      [ngStyle]="{ height: pauseDivHeight, width: pauseDivWidth }"
-      (mouseenter)="startPause()"
-      (mouseleave)="endPause()"
-    >
-      <lib-hot-toast-base
-        *ngFor="let toast of toasts; trackBy: trackById; let i = index"
-        [pausedAt]="pausedAt"
-        [diff]="diff"
-        [toast]="toast"
-        [position]="position"
-        [offset]="calculateOffset(toast.id)"
-        (onHeight)="toast.height = $event; updateHeight()"
-        (onWidth)="toast.width = $event; updateWidth()"
-        (remove)="toasts.splice(i, 1); updateHeight()"
-      ></lib-hot-toast-base>
-    </div>
+  <div style="position: relative; height: 100%">
+    <ng-container #toastBaseList></ng-container>
   </div>
 </div>

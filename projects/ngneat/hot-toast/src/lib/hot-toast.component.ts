@@ -1,26 +1,39 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ComponentFactoryResolver, ContentChildren, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, QueryList } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
-import { Toast, ToastPosition } from './hot-toast.model';
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
+import {
+  DefaultToastOptions,
+  ObservableMessages,
+  Renderable,
+  Toast,
+  ToastConfig,
+  ToastPosition,
+  ToastRef,
+  ToastType,
+} from './hot-toast.model';
 
 @Component({
   selector: 'lib-hot-toast',
   templateUrl: './hot-toast.component.html',
   styles: [],
 })
-export class HotToastComponent implements OnInit {
+export class HotToastComponent implements OnInit, OnDestroy {
   toasts: Toast[] = [];
-  position: ToastPosition = 'top-center';
+  defaultConfig: ToastConfig;
   reverseOrder: boolean = false;
-  pauseDivHeight: string | number = 0;
-  pauseDivWidth: string | number = 0;
 
   private readonly offsetMargin = 8;
 
-  @ViewChildren(HotToastBaseComponent) hotToastList!: QueryList<HotToastBaseComponent>;
-  pausedAt: number;
-  diff: number;
+  @ContentChildren(HotToastBaseComponent) hotToastList: QueryList<HotToastBaseComponent>;
+  @ViewChild('toastBaseList', { read: ViewContainerRef }) toastBaseList: ViewContainerRef;
 
-  constructor() {}
+  updateHeightSub = new Subject();
+  updateHeight$ = this.updateHeightSub.asObservable();
+  subscriptionList: Subscription[] = [];
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit(): void {}
 
@@ -28,8 +41,8 @@ export class HotToastComponent implements OnInit {
     return toast.id;
   }
 
-  calculateOffset(toastId: string) {
-    const visibleToasts = this.toasts.filter((t) => t.visible);
+  calculateOffset(toastId: string, position: ToastPosition) {
+    const visibleToasts = this.toasts.filter((t) => t.visible && t.position === position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
@@ -40,27 +53,83 @@ export class HotToastComponent implements OnInit {
     return offset;
   }
 
-  updateHeight() {
-    this.pauseDivHeight =
-      this.toasts
-        .map((t, i) => (t.height || 0) + this.offsetMargin)
-        .reduce((p, c) => {
-          return p + c;
-        }, 0) + 'px';
+  makeToast<T>(
+    message: Renderable,
+    type: ToastType,
+    options?: DefaultToastOptions,
+    observable?: Observable<T>,
+    observableMessages?: ObservableMessages<T>
+  ): ToastRef {
+    // 1. create toast
+    const now = Date.now();
+    let toast: Toast = {
+      ariaLive: options?.ariaLive ?? 'polite',
+      createdAt: now,
+      duration: options?.duration ?? HOT_TOAST_DEFAULT_TIMEOUTS[type],
+      id: options?.id ?? now.toString(),
+      message,
+      pauseDuration: 0,
+      role: options?.role ?? 'status',
+      type,
+      visible: true,
+      observable: observable ?? undefined,
+      observableMessages: observableMessages ?? undefined,
+      ...options,
+    };
+
+    // 2. push to toasts array
+    this.toasts.push(toast);
+
+    // 3. create component
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<HotToastBaseComponent>(
+      HotToastBaseComponent
+    );
+
+    const componentRef = this.toastBaseList.createComponent<HotToastBaseComponent>(componentFactory);
+
+    // 4. component inputs
+    componentRef.instance.defaultConfig = this.defaultConfig;
+    componentRef.instance.offset = this.calculateOffset(toast.id, toast.position);
+    componentRef.instance.toast = toast;
+
+    // 5. component methods
+    componentRef.instance.makeToastRef();
+    componentRef.instance.checkForObserve();
+
+    // 6. component outputs
+    componentRef.instance.onHeight.subscribe((newHeight: number) => {
+      toast.height = newHeight;
+      this.updateHeightSub.next();
+    });
+    componentRef.instance.onWidth.subscribe((newWidth: number) => {
+      toast.width = newWidth;
+    });
+    componentRef.instance.remove.subscribe(() => {
+      this.updateHeightSub.next();
+      setTimeout(() => {
+        componentRef.destroy();
+        sub.forEach((s) => s.unsubscribe());
+        this.toasts.splice(
+          this.toasts.findIndex((t) => t.id === toast.id),
+          1
+        );
+      }, 1000);
+    });
+
+    // 7. auto hide toast
+    componentRef.instance.generateTimeout();
+
+    // 8. update offset of toast
+    const sub = [
+      this.updateHeight$.subscribe(() => {
+        componentRef.instance.offset = this.calculateOffset(toast.id, toast.position);
+      }),
+    ];
+
+    return componentRef.instance.toastRef;
   }
 
-  updateWidth() {
-    this.pauseDivWidth = Math.max(...this.toasts.map((t) => t.width || 0)) + 'px';
-  }
-
-  startPause() {
-    this.pausedAt = Date.now();
-  }
-
-  endPause() {
-    this.diff = Date.now() - (this.pausedAt || 0);
-    if (this.pausedAt) {
-      this.pausedAt = undefined;
-    }
+  ngOnDestroy() {
+    this.subscriptionList.forEach((s) => s.unsubscribe());
   }
 }

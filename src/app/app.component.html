@@ -4,21 +4,67 @@
 <button (click)="blank('Pain toast')">Plain Toast</button>
 <hr />
 <h3>Snackbar</h3>
-<button (click)="blank('Snackbar', { theme: 'snackbar' })">Snackbar</button>
+<button (click)="blank('Snackbar', { theme: 'snackbar', position: 'bottom-center' })">Snackbar</button>
 <hr />
 <h3>Icon Toast</h3>
 <button (click)="blank('String Icon', { icon: '👋' })">Toast with Icon String</button>
 <button (click)="blank('Template Icon', { icon: iconTemplate })">Toast with Icon Template</button>
 <button (click)="blank('Component icon', { icon: iconComponent })">Toast with Icon Component</button>
 <hr />
+<h3>Message</h3>
+<button (click)="blank('Component msg', { message: msgComponent })">Toast with Msg Component</button>
+<hr />
 <h3>Dismissible</h3>
 <button (click)="blank('Dismissible toast', { dismissible: true })">Dismissible Toast</button>
 <hr />
 <h3>Error</h3>
-<button (click)="error()">error</button>
+<button (click)="error('Error')">error</button>
+<button
+  (click)="
+    error('Error', {
+      style: {
+        border: '1px solid #FF8A80',
+        padding: '8px',
+        color: '#fff',
+        backgroundColor: '#F44336'
+      },
+      iconTheme: {
+        primary: '#fff',
+        secondary: '#F44336'
+      },
+      closeTheme: {
+        primary: '#fff'
+      }
+    })
+  "
+>
+  error with theme
+</button>
 <hr />
 <h3>Success</h3>
-<button (click)="success()">success</button>
+<button (click)="success('Success')">success</button>
+<button
+  (click)="
+    success('Success', {
+      dismissible: true,
+      style: {
+        border: '1px solid #00C853',
+        padding: '8px',
+        color: '#fff',
+        backgroundColor: '#2E7D32'
+      },
+      iconTheme: {
+        primary: '#fff',
+        secondary: '#2E7D32'
+      },
+      closeStyle: {
+        filter: 'invert(1) grayscale(100%) brightness(200%)'
+      }
+    })
+  "
+>
+  success with theme
+</button>
 <hr />
 <h3>Loading</h3>
 <button (click)="loading()">loading</button>

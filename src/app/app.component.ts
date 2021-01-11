@@ -15,16 +15,18 @@ export class AppComponent {
 
   iconComponent = IconComponent;
 
+  msgComponent = MessageComponent;
+
   constructor(private toastService: HotToastService) {}
 
   blank(message: string, options?: ToastOptions) {
     this.toastService.show(message, options);
   }
-  error() {
-    this.toastService.error('Error');
+  error(message: string, options?: ToastOptions) {
+    this.toastService.error(message, options);
   }
-  success() {
-    this.toastService.success('Success');
+  success(message: string, options?: ToastOptions) {
+    this.toastService.success(message, options);
   }
   loading() {
     this.toastService.loading('Loading...');
@@ -51,8 +53,11 @@ export class AppComponent {
         error: 'Observable Error',
         complete: 'Observable Complete',
       },
-      { success: { duration: 10000 } }
+      { success: { duration: 10000 }, dismissible: true }
     );
+
+    toastRef.afterOpened.subscribe(() => console.log('opened'));
+    toastRef.afterClosed.subscribe(() => console.log('closed'));
 
     setTimeout(() => {
       toastRef.close();
@@ -65,3 +70,8 @@ export class AppComponent {
   template: '✋',
 })
 export class IconComponent {}
+@Component({
+  selector: 'app-msg',
+  template: 'Hey, how are you?',
+})
+export class MessageComponent {}

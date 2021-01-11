@@ -1,10 +1,26 @@
 import { TemplateRef, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export class ToastConfig {
-  position: ToastPosition = 'top-center';
+export class ToastConfig implements DefaultToastOptions {
   reverseOrder: boolean = false;
-  defaultToastOptions: DefaultToastOptions;
+
+  ariaLive: ToastAriaLive = 'polite';
+  role: ToastRole = 'status';
+  position: ToastPosition = 'top-center';
+  className: string;
+  closeStyle: any;
+  dismissible: boolean;
+  duration: number;
+  icon: Renderable;
+  iconTheme: IconTheme;
+  style: any;
+  theme: ToastTheme = 'toast';
+
+  // key in ToastType
+  success?: ToastOptions;
+  error?: ToastOptions;
+  loading?: ToastOptions;
+  blank?: ToastOptions;
 }
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank';
@@ -29,33 +45,54 @@ export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunct
 
 export type Renderable = string | number | TemplateRef<any> | Type<any>;
 
+type ToastRole = 'status' | 'alert';
+
+type ToastAriaLive = 'assertive' | 'off' | 'polite';
+
 export interface Toast {
   type: ToastType;
   id: string;
   message: ValueOrFunction<Renderable, Toast>;
+  pauseDuration: number;
+
+  role: ToastRole;
+  ariaLive: ToastAriaLive;
+
   icon?: Renderable;
   duration?: number;
   dismissible?: boolean;
-  pauseDuration: number;
-
-  role: 'status' | 'alert';
-  ariaLive: 'assertive' | 'off' | 'polite';
 
   style?: any;
   className?: string;
   iconTheme?: IconTheme;
   theme?: ToastTheme;
+  position?: ToastPosition;
+  closeStyle?: any;
 
   createdAt: number;
   visible: boolean;
   height?: number;
   width?: number;
+
+  observable?: Observable<unknown>;
+  observableMessages?: ObservableMessages<unknown>;
 }
 
 export type ToastOptions = Partial<
   Pick<
     Toast,
-    'id' | 'icon' | 'duration' | 'dismissible' | 'role' | 'ariaLive' | 'className' | 'style' | 'iconTheme' | 'theme'
+    | 'id'
+    | 'icon'
+    | 'duration'
+    | 'dismissible'
+    | 'role'
+    | 'ariaLive'
+    | 'className'
+    | 'style'
+    | 'iconTheme'
+    | 'theme'
+    | 'position'
+    | 'closeStyle'
   >
 >;
 
@@ -82,17 +119,7 @@ export interface HotToastServiceMethods {
 export type UpdateToastOptions = Partial<
   Pick<
     Toast,
-    | 'icon'
-    | 'duration'
-    | 'dismissible'
-    | 'role'
-    | 'ariaLive'
-    | 'className'
-    | 'style'
-    | 'iconTheme'
-    | 'height'
-    | 'type'
-    | 'theme'
+    'icon' | 'duration' | 'dismissible' | 'className' | 'style' | 'iconTheme' | 'type' | 'theme' | 'closeStyle'
   >
 >;
 
@@ -101,4 +128,6 @@ export interface ToastRef {
   unsubscribe?: () => void;
   updateMessage: (message: Renderable) => void;
   updateToast: (options: UpdateToastOptions) => void;
+  afterClosed: Observable<any>;
+  afterOpened: Observable<any>;
 }
