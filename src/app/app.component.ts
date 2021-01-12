@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HotToastService, ToastOptions } from '@ngneat/hot-toast';
-import { interval, timer } from 'rxjs';
-import { map, share, takeUntil } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { version } from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,62 @@ export class AppComponent {
   iconComponent = IconComponent;
 
   msgComponent = MessageComponent;
+
+  featureList = [
+    'Hot by default',
+    'Easy to use',
+    'Accessible',
+    'Emoji Support',
+    'Customizable',
+    'Observable API',
+    'Pause on hover',
+    'Events',
+  ];
+
+  stepList: { title: string; subTitle: string; code: string; language: string }[] = [
+    {
+      title: 'Install package',
+      subTitle: 'It weighs less than ??kb',
+      code: 'npm i @ngneat/hot-toast',
+      language: 'bash',
+    },
+    {
+      title: 'Import Toaster in your app',
+      subTitle: 'You can set options here',
+      code: `
+// ..
+import { HotToastModule } from '@ngneat/hot-toast';
+
+// ...
+@NgModule({
+  imports: [BrowserModule, HotToastModule.forRoot()],
+})
+
+// ...
+      `,
+      language: 'typescript',
+    },
+    {
+      title: 'Start toasting!',
+      subTitle: 'Call it from anywhere in the component',
+      code: `
+// ...
+import { HotToastService } from '@ngneat/hot-toast';
+
+@Component({})
+export class AppComponent {
+  constructor(private toastService: HotToastService) {}
+}
+
+showToast() {
+  this.toastService.show('Hello World!')
+}
+      `,
+      language: 'typescript',
+    },
+  ];
+
+  version = version;
 
   constructor(private toastService: HotToastService) {}
 
@@ -32,36 +89,29 @@ export class AppComponent {
     this.toastService.loading('Loading...');
   }
   observe() {
-    const finish = timer(10000);
-    const source = interval(1000);
-    const observable = source.pipe(
-      map(() => {
-        let v = Math.random();
-        // if (v > 0.5) {
-        //   throw 0.5;
-        // }
-        return v;
-      }),
-      takeUntil(finish)
-    );
+    const promise = new Promise((res, rej) => {
+      if (Math.random() < 0.85) {
+        setTimeout(res, 1000);
+      } else {
+        setTimeout(rej, 3000);
+      }
+    });
+    const observable = from(promise);
     const shared = observable.pipe(share());
     const toastRef = this.toastService.observe(
       shared,
       {
-        loading: 'Observable Loading...',
-        subscribe: (v: number) => v,
-        error: 'Observable Error',
-        complete: 'Observable Complete',
+        loading: 'Preparing toast',
+        error: 'Whoops, it burnt',
+        subscribe: "Here's your toast",
       },
-      { success: { duration: 10000 }, dismissible: true }
+      {
+        style: {
+          width: '200px',
+          paddingRight: '10px',
+        },
+      }
     );
-
-    toastRef.afterOpened.subscribe(() => console.log('opened'));
-    toastRef.afterClosed.subscribe(() => console.log('closed'));
-
-    setTimeout(() => {
-      toastRef.close();
-    }, 6000);
   }
 }
 
