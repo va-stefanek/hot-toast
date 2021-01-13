@@ -1,0 +1,31 @@
+<div class="my-14">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">Change Position</h2>
+  <section class="flex flex-col items-center md:grid grid-cols-1 md:grid-cols-3 gap-2 max-w-5xl mx-auto mb-5">
+    <app-code [snippet]="snippet" containerClass="p-2"></app-code>
+    <div
+      class="order-first md:order-none col-span-2 grid grid-cols-3 justify-between bg-toast-100 rounded-xl gap-x-2 gap-y-4 p-2 md:p-4"
+    >
+      <ng-container *ngFor="let pos of positionExamples">
+        <app-emoji-button
+          [emoji]="pos.emoji"
+          (btnClick)="setSnippet(pos)"
+          [class]="
+            'w-full ' + (position === pos.title ? 'bg-toast-900 text-toast-100 ' : 'bg-white shadow-small-button')
+          "
+        >
+          {{ pos.title }}
+        </app-emoji-button>
+      </ng-container>
+    </div>
+  </section>
+  <div class="grid md:grid-cols-3 gap-4 w-full max-w-5xl mx-auto">
+    <div class="flex items-start flex-col">
+      <h3 class="ml-5 mr-5 mb-4 text-lg font-bold bg-toast-200 p-4 rounded-2xl p-4">
+        👉 You can also set global order and position in
+        <app-code containerClass="inline-block" [snippet]="'imports'"></app-code> of you <code>app</code> module
+      </h3>
+      <!-- <app-emoji-button [emoji]="'🔀'" (btnClick)="toggleDirection()"> Toggle Direction </app-emoji-button> -->
+    </div>
+    <app-code [snippet]="globalSnippet" containerClass="p-2" class="col-span-2"></app-code>
+  </div>
+</div>

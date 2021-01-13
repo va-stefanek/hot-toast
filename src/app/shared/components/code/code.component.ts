@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { CodeHighlightService } from 'src/app/core/services/code-highlight.service';
 
 @Component({
@@ -6,9 +16,10 @@ import { CodeHighlightService } from 'src/app/core/services/code-highlight.servi
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.scss'],
 })
-export class CodeComponent implements OnInit, AfterViewInit {
-  @Input() language: string;
-  @Input() class: string;
+export class CodeComponent implements OnInit, OnChanges {
+  @Input() language = 'typescript';
+  @Input() containerClass: string;
+  @Input() snippet: string;
 
   @ViewChild('code') codeTemplateRef: ElementRef<HTMLElement>;
 
@@ -16,7 +27,11 @@ export class CodeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    this.codeHighlightService.highlightElement(this.codeTemplateRef.nativeElement);
+  ngOnChanges(): void {
+    if (this.codeTemplateRef && this.codeTemplateRef.nativeElement) {
+      setTimeout(() => {
+        this.codeHighlightService.highlightElement(this.codeTemplateRef.nativeElement);
+      });
+    }
   }
 }

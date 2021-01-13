@@ -1,0 +1,18 @@
+<div class="my-14">
+  <h2 class="ml-5 text-2xl font-bold">Examples</h2>
+</div>
+<section class="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-3">
+  <div class="flex items-start h-100">
+    <div class="w-full grid grid-cols-2 gap-2 bg-toast-100 rounded-xl p-4">
+      <ng-container *ngFor="let example of examples">
+        <app-emoji-button [emoji]="example.emoji" (btnClick)="click(example)" class="w-full">
+          {{ example.title }}
+        </app-emoji-button>
+      </ng-container>
+    </div>
+  </div>
+  <app-code containerClass="h-full w-full flex items-center" [snippet]="snippet" language="typescript"> </app-code>
+</section>
+
+<ng-template #success><b>Settings saved!</b></ng-template>
+<ng-template #error><b>Could not save.</b></ng-template>
