@@ -32,6 +32,7 @@
     "@ngneat/lib": "^1.0.6",
     "@ngneat/tailwind": "^5.1.0",
     "@tailwindcss/typography": "^0.3.1",
+    "ngx-markdown": "^11.0.1",
     "prismjs": "^1.23.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

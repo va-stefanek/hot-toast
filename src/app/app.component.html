@@ -1,5 +1,9 @@
 <div class="bg-gradient-to-b from-toast-50 to-white bg-opacity-10">
-  <div class="outlet-wrapper" [@routeAnimation]="getRouteAnimation(outlet)" (@routeAnimation.Done)="handleFragment()">
+  <div
+    class="realtive w-full min-h-screen"
+    [@routeAnimation]="getRouteAnimation(outlet)"
+    (@routeAnimation.Done)="handleFragment()"
+  >
     <router-outlet #outlet="outlet"></router-outlet>
   </div>
   <app-footer></app-footer>

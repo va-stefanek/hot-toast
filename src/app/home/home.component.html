@@ -29,7 +29,7 @@
     <!-- #endregion -->
 
     <!-- #region quick buttons -->
-    <div class="grid md:grid-cols-2 gap-4 rounded-2xl bg-toast-200 p-4 w-full max-w-lg">
+    <div class="grid md:grid-cols-3 gap-4 rounded-2xl bg-toast-200 p-4 w-full max-w-4xl">
       <button
         [ngClass]="[
           'rounded-lg font-bold gap-4 flex bg-gradient-to-b from-white to-toast-200 shadow-button text-center',
@@ -58,11 +58,20 @@
         </div>
         <span class="flex-1 text-toast-800 text-center">GitHub</span></a
       >
+      <a
+        [routerLink]="['/docs']"
+        [ngClass]="[
+          'bg-toast-700 text-toast-100',
+          'rounded-lg flex font-bold py-4 px-6 shadow-button',
+          'active:translate-y-0.5 active:shadow-button-active transform'
+        ]"
+        style="transition-property: box-shadow, transform"
+      >
+        <div>📓</div>
+        <span class="flex-1 text-center">Documentation</span></a
+      >
     </div>
-    <div class="text-toast-600 my-2">
-      <a class="underline" [routerLink]="['/docs']">Documentation</a>
-      <span> v{{ version }}</span>
-    </div>
+    <div class="text-toast-600 my-2">v{{ version }}</div>
     <!-- #endregion -->
 
     <!-- #region features -->
