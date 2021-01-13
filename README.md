@@ -1,6 +1,4 @@
-<p align="center">
- <img width="20%" height="20%" src="./logo.svg">
-</p>
+<a href=""><img alt="ngneat-hot-toast - Try it out" src="./assets/header.svg"/></a>
 
 <br />
 
@@ -12,46 +10,73 @@
 [![ngneat](https://img.shields.io/badge/@-ngneat-383636?style=flat-square&labelColor=8f68d4)](https://github.com/ngneat/)
 [![spectator](https://img.shields.io/badge/tested%20with-spectator-2196F3.svg?style=flat-square)]()
 
-> The Library Slogan
+<div align="center"><strong>Smoking hot  Notifications for React.</strong></div>
+<div align="center"> Lightweight, customizable and beautiful by default.</div>
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque blanditiis cum delectus eligendi ipsam iste iure, maxime modi molestiae nihil obcaecati odit officiis pariatur quibusdam suscipit temporibus unde.
-Accusantium aliquid corporis cupiditate dolores eum exercitationem illo iure laborum minus nihil numquam odit officiis possimus quas quasi quos similique, temporibus veritatis? Exercitationem, iure magni nulla quo sapiente soluta. Esse?
+## Table of Contents <!-- omit in toc -->
+
+- [Features](#features)
+- [Installation](#installation)
+  - [NPM](#npm)
+  - [Yarn](#yarn)
+- [Usage](#usage)
+  - [Import Toaster in your app](#import-toaster-in-your-app)
+  - [Start toasting](#start-toasting)
+- [Contributors ✨](#contributors-)
 
 ## Features
 
-- ✅ One
-- ✅ Two
-- ✅ Three
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [FAQ](#faq)
+- 🔥 **Hot by default**
+- 🔩 **Easily Customizable**
+- ⏳ **Observable API** - _Automatic loader from aan observable_
+- 🕊 **Lightweight** - _less than ??kb including styles_
+- ✅ **Accessible**
 
 ## Installation
 
 ### NPM
 
-`npm install @ngneat/hot-toast --save-dev`
+`npm install @ngneat/hot-toast`
 
 ### Yarn
 
-`yarn add @ngneat/hot-toast --dev`
+`yarn add @ngneat/hot-toast`
 
 ## Usage
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque blanditiis cum delectus eligendi ipsam iste iure, maxime modi molestiae nihil obcaecati odit officiis pariatur quibusdam suscipit temporibus unde.
+### Import Toaster in your app
 
-```ts
-function helloWorld() {}
+You can set options here.
+
+```typescript
+// ..
+import { HotToastModule } from '@ngneat/hot-toast';
+
+// ...
+@NgModule({
+  imports: [HotToastModule.forRoot()],
+})
+
+// ...
 ```
 
-## FAQ
+### Start toasting
 
-## How to ...
+Call it from anywhere in the component
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque blanditiis cum delectus eligendi ips
+```typescript
+// ...
+import { HotToastService } from '@ngneat/hot-toast';
+
+@Component({})
+export class AppComponent {
+  constructor(private toast: HotToastService) {}
+}
+
+showToast() {
+  this.toast.show('Hello World!')
+}
+```
 
 ## Contributors ✨
 
@@ -60,11 +85,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/shhdharmen"><img src="https://avatars3.githubusercontent.com/u/6831283?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dharmen Shah</b></sub></a><br /><a href="https://github.com/@ngneat/hot-toast/commits?author=shhdharmen" title="Code">💻</a> <a href="#content-shhdharmen" title="Content">🖋</a> <a href="#design-shhdharmen" title="Design">🎨</a> <a href="https://github.com/@ngneat/hot-toast/commits?author=shhdharmen" title="Documentation">📖</a> <a href="#example-shhdharmen" title="Examples">💡</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-<div>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
