@@ -1,4 +1,6 @@
-<a href=""><img alt="ngneat-hot-toast - Try it out" src="./assets/header.svg"/></a>
+<p align="center">
+ <img width="20%" height="20%" src="./assets/logo.svg">
+</p>
 
 <br />
 
@@ -10,8 +12,8 @@
 [![ngneat](https://img.shields.io/badge/@-ngneat-383636?style=flat-square&labelColor=8f68d4)](https://github.com/ngneat/)
 [![spectator](https://img.shields.io/badge/tested%20with-spectator-2196F3.svg?style=flat-square)]()
 
-<div align="center"><strong>Smoking hot  Notifications for React.</strong></div>
-<div align="center"> Lightweight, customizable and beautiful by default.</div>
+> Smoking hot  Notifications for React.
+> Lightweight, customizable and beautiful by default
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -98,3 +100,5 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+<div>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
