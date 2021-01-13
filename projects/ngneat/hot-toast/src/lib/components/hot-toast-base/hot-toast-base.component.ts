@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
 import {
@@ -7,7 +7,6 @@ import {
   resolveValueOrFunction,
   Toast,
   ToastConfig,
-  ToastPosition,
   ToastRef,
   UpdateToastOptions,
 } from '../../hot-toast.model';
@@ -18,7 +17,7 @@ import { isComponent, isTemplateRef } from '../../utils';
   templateUrl: 'hot-toast-base.component.html',
   styleUrls: ['./hot-toast-base.component.scss'],
 })
-export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HotToastBaseComponent implements AfterViewInit, OnDestroy {
   @Input() toast: Toast;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
@@ -44,8 +43,6 @@ export class HotToastBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly TOAST_SHOW_ANIMATION_TIME = 350;
 
   constructor(public el: ElementRef<HTMLElement>) {}
-
-  ngOnInit() {}
 
   ngAfterViewInit() {
     const toastBarBase = this.el.nativeElement.querySelector('.hot-toast-bar-base') as HTMLElement;

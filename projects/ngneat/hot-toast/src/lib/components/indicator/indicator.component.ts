@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconTheme, ToastType } from '../../hot-toast.model';
 
 @Component({
@@ -6,11 +6,7 @@ import { IconTheme, ToastType } from '../../hot-toast.model';
   templateUrl: 'indicator.component.html',
   styleUrls: ['./indicator.component.scss'],
 })
-export class IndicatorComponent implements OnInit {
+export class IndicatorComponent {
   @Input() theme: IconTheme;
   @Input() type: ToastType;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

@@ -1,5 +1,5 @@
 import { ComponentFactoryResolver, ContentChildren, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
-import { Component, OnInit, QueryList } from '@angular/core';
+import { Component, QueryList } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
@@ -17,9 +17,8 @@ import {
 @Component({
   selector: 'lib-hot-toast',
   templateUrl: './hot-toast.component.html',
-  styles: [],
 })
-export class HotToastComponent implements OnInit, OnDestroy {
+export class HotToastComponent implements OnDestroy {
   toasts: Toast[] = [];
   defaultConfig: ToastConfig;
   reverseOrder: boolean = false;
@@ -34,8 +33,6 @@ export class HotToastComponent implements OnInit, OnDestroy {
   subscriptionList: Subscription[] = [];
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
-
-  ngOnInit(): void {}
 
   trackById(index: number, toast: Toast) {
     return toast.id;
@@ -125,6 +122,8 @@ export class HotToastComponent implements OnInit, OnDestroy {
         componentRef.instance.offset = this.calculateOffset(toast.id, toast.position);
       }),
     ];
+
+    this.subscriptionList = this.subscriptionList.concat(sub);
 
     return componentRef.instance.toastRef;
   }

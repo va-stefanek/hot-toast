@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconTheme } from '../../../../hot-toast.model';
 
 @Component({
@@ -82,10 +82,6 @@ import { IconTheme } from '../../../../hot-toast.model';
     `,
   ],
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   @Input() theme: IconTheme;
-
-  constructor() {}
-
-  ngOnInit() {}
 }
