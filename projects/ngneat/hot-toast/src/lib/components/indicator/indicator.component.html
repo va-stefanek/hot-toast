@@ -1,13 +1,13 @@
 <ng-container *ngIf="type !== 'blank'">
   <div class="hot-toast-indicator-wrapper">
-    <lib-hot-toast-loader [theme]="theme"></lib-hot-toast-loader>
+    <hot-toast-loader [theme]="theme"></hot-toast-loader>
     <ng-container *ngIf="type !== 'loading'">
       <div class="hot-toast-status-wrapper">
         <ng-container *ngIf="type === 'error'; else checkMark">
-          <lib-hot-toast-error [theme]="theme"></lib-hot-toast-error>
+          <hot-toast-error [theme]="theme"></hot-toast-error>
         </ng-container>
         <ng-template #checkMark>
-          <lib-hot-toast-checkmark [theme]="theme"></lib-hot-toast-checkmark>
+          <hot-toast-checkmark [theme]="theme"></hot-toast-checkmark>
         </ng-template>
       </div>
     </ng-container>

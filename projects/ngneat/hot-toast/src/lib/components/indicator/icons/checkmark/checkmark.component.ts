@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IconTheme } from '../../../../hot-toast.model';
 
 @Component({
-  selector: 'lib-hot-toast-checkmark',
+  selector: 'hot-toast-checkmark',
   template: `<div
     class="hot-toast-checkmark-icon"
     [style.--check-primary]="theme?.primary || '#61d345'"

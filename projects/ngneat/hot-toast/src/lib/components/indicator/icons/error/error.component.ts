@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IconTheme } from '../../../../hot-toast.model';
 
 @Component({
-  selector: 'lib-hot-toast-error',
+  selector: 'hot-toast-error',
   template: `<div
     class="hot-toast-error-icon"
     [style.--error-primary]="theme?.primary || '#ff4b4b'"

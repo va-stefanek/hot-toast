@@ -13,7 +13,7 @@ import {
 import { isComponent, isTemplateRef } from '../../utils';
 
 @Component({
-  selector: 'lib-hot-toast-base',
+  selector: 'hot-toast-base',
   templateUrl: 'hot-toast-base.component.html',
   styleUrls: ['./hot-toast-base.component.scss'],
 })

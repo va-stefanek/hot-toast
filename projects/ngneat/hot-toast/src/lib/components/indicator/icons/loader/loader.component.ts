@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IconTheme } from '../../../../hot-toast.model';
 
 @Component({
-  selector: 'lib-hot-toast-loader',
+  selector: 'hot-toast-loader',
   template: `<div
     class="hot-toast-loader-icon"
     [ngStyle]="{ 'border-color': theme?.primary || '#e0e0e0', 'border-right-color': theme?.secondary || '#616161' }"

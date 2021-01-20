@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-hot-toast-animated-icon',
+  selector: 'hot-toast-animated-icon',
   template: `
     <div class="hot-toast-animated-icon">
       <ng-content></ng-content>

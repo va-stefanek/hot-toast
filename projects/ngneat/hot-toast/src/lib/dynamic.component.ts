@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'lib-hot-toast-dynamic',
+  selector: 'hot-toast-dynamic',
   template: '',
 })
 export class DynamicComponent implements OnChanges {

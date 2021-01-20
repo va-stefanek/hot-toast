@@ -8,19 +8,19 @@
   <div class="hot-toast-bar-base" [ngClass]="getToastBarBaseClasses()" [ngStyle]="toast.style">
     <ng-container *ngIf="toast.icon !== undefined; else indicator">
       <ng-container *ngIf="isIconString; else iconTemplateOrComponent">
-        <lib-hot-toast-animated-icon>{{ toast.icon }}</lib-hot-toast-animated-icon>
+        <hot-toast-animated-icon>{{ toast.icon }}</hot-toast-animated-icon>
       </ng-container>
       <ng-template #iconTemplateOrComponent>
-        <lib-hot-toast-template-component-loader [content]="toast.icon"></lib-hot-toast-template-component-loader>
+        <hot-toast-template-component-loader [content]="toast.icon"></hot-toast-template-component-loader>
       </ng-template>
     </ng-container>
 
     <ng-template #indicator>
-      <lib-hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></lib-hot-toast-indicator>
+      <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
     </ng-template>
 
     <div class="hot-toast-message">
-      <lib-hot-toast-template-component-loader [content]="toast.message"></lib-hot-toast-template-component-loader>
+      <hot-toast-template-component-loader [content]="toast.message"></hot-toast-template-component-loader>
     </div>
 
     <button

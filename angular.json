@@ -117,7 +117,7 @@
       "projectType": "library",
       "root": "projects/ngneat/hot-toast",
       "sourceRoot": "projects/ngneat/hot-toast/src",
-      "prefix": "lib",
+      "prefix": "hot-toast",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

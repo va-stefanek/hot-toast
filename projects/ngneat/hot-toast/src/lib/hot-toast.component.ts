@@ -15,7 +15,7 @@ import {
 } from './hot-toast.model';
 
 @Component({
-  selector: 'lib-hot-toast',
+  selector: 'hot-toast',
   templateUrl: './hot-toast.component.html',
 })
 export class HotToastComponent implements OnDestroy {

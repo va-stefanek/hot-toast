@@ -3,7 +3,7 @@ import { Renderable } from './hot-toast.model';
 import { isComponent, isTemplateRef } from './utils';
 
 @Component({
-  selector: 'lib-hot-toast-template-component-loader',
+  selector: 'hot-toast-template-component-loader',
   template: `
     <ng-container *ngIf="isString; else templateOrComponent">
       {{ content }}
@@ -13,7 +13,7 @@ import { isComponent, isTemplateRef } from './utils';
         <ng-container *ngTemplateOutlet="content"></ng-container>
       </ng-container>
       <ng-container *ngIf="isComponent(content)">
-        <lib-hot-toast-dynamic [dynamicComponent]="content"></lib-hot-toast-dynamic>
+        <hot-toast-dynamic [dynamicComponent]="content"></hot-toast-dynamic>
       </ng-container>
     </ng-template>
   `,
