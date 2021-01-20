@@ -2,22 +2,24 @@ import { Injectable, Optional } from '@angular/core';
 import { ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
+import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
+import { HotToastRef } from './hot-toast-ref';
 import {
   DefaultToastOptions,
   HotToastServiceMethods,
   ObservableMessages,
   Renderable,
+  Toast,
   ToastConfig,
   ToastOptions,
-  ToastRef,
   ToastType,
 } from './hot-toast.model';
-import { HotToastComponent } from './hot-toast.component';
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
   private _defaultConfig = new ToastConfig();
-  componentInstance: HotToastComponent;
+  componentInstance: HotToastContainerComponent;
 
   constructor(private viewService: ViewService, @Optional() config: ToastConfig) {
     if (config) {
@@ -27,7 +29,7 @@ export class HotToastService implements HotToastServiceMethods {
 
   init() {
     const componentRef = this.viewService
-      .createComponent(HotToastComponent)
+      .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultConfig)
       .appendTo(document.body);
 
@@ -40,10 +42,26 @@ export class HotToastService implements HotToastServiceMethods {
     options?: DefaultToastOptions,
     observable?: Observable<T>,
     observableMessages?: ObservableMessages<T>
-  ): ToastRef {
-    const toastRef = this.componentInstance.makeToast<T>(message, type, options, observable, observableMessages);
+  ): HotToastRef {
+    // create toast
+    const now = Date.now();
 
-    return toastRef;
+    const toast: Toast = {
+      ariaLive: options?.ariaLive ?? 'polite',
+      createdAt: now,
+      duration: options?.duration ?? HOT_TOAST_DEFAULT_TIMEOUTS[type],
+      id: options?.id ?? now.toString(),
+      message,
+      pauseDuration: 0,
+      role: options?.role ?? 'status',
+      type,
+      visible: true,
+      observable: observable ?? undefined,
+      observableMessages: observableMessages ?? undefined,
+      ...options,
+    };
+
+    return new HotToastRef(toast).appendTo(this.componentInstance);
   }
 
   show(message: Renderable, options?: ToastOptions) {

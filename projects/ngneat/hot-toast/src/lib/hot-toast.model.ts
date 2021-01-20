@@ -1,5 +1,6 @@
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
+import { HotToastRef } from './hot-toast-ref';
 
 export class ToastConfig implements DefaultToastOptions {
   reverseOrder: boolean = false;
@@ -109,11 +110,11 @@ export type ObservableMessages<T> = {
 };
 
 export interface HotToastServiceMethods {
-  show: (message: string, options?: ToastOptions) => ToastRef;
-  error: (message: string, options?: ToastOptions) => ToastRef;
-  success: (message: string, options?: ToastOptions) => ToastRef;
-  loading: (message: string, options?: ToastOptions) => ToastRef;
-  observe: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => ToastRef;
+  show: (message: string, options?: ToastOptions) => HotToastRef;
+  error: (message: string, options?: ToastOptions) => HotToastRef;
+  success: (message: string, options?: ToastOptions) => HotToastRef;
+  loading: (message: string, options?: ToastOptions) => HotToastRef;
+  observe: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => HotToastRef;
 }
 
 export type UpdateToastOptions = Partial<
@@ -123,11 +124,13 @@ export type UpdateToastOptions = Partial<
   >
 >;
 
-export interface ToastRef {
-  close: () => void;
-  unsubscribe?: () => void;
+export interface _HotToastRef {
+  dispose: Function;
+
+  unsubscribe: () => void;
   updateMessage: (message: Renderable) => void;
   updateToast: (options: UpdateToastOptions) => void;
-  afterClosed: Observable<any>;
-  afterOpened: Observable<any>;
+
+  afterClosed: Observable<string>;
+  afterOpened: Observable<string>;
 }

@@ -3,19 +3,19 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { DynamicContentModule } from '@ngneat/overview';
 
 import { AnimatedIconComponent } from './components/animated-icon/animated-icon.component';
-import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
+import { HotToastComponent } from './components/hot-toast/hot-toast.component';
 import { CheckMarkComponent } from './components/indicator/icons/checkmark/checkmark.component';
 import { ErrorComponent } from './components/indicator/icons/error/error.component';
 import { LoaderComponent } from './components/indicator/icons/loader/loader.component';
 import { IndicatorComponent } from './components/indicator/indicator.component';
 import { ToastConfig } from './hot-toast.model';
-import { HotToastComponent } from './hot-toast.component';
+import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HotToastService } from './hot-toast.service';
 
 @NgModule({
   declarations: [
+    HotToastContainerComponent,
     HotToastComponent,
-    HotToastBaseComponent,
     AnimatedIconComponent,
     IndicatorComponent,
     CheckMarkComponent,

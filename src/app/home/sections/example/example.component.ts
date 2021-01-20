@@ -140,7 +140,6 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   click(e: Example) {
-    console.log(e);
     if (e.snippet) {
       this.snippet = e.snippet;
     }
