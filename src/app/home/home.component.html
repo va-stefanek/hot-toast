@@ -61,13 +61,14 @@
       <a
         [routerLink]="['/docs']"
         [ngClass]="[
-          'bg-toast-700 text-toast-100',
-          'rounded-lg flex font-bold py-4 px-6 shadow-button',
+          'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
           'active:translate-y-0.5 active:shadow-button-active transform'
         ]"
         style="transition-property: box-shadow, transform"
       >
-        <div>📓</div>
+        <div>
+          <img src="../assets/book.svg" alt="Book" />
+        </div>
         <span class="flex-1 text-center">Documentation</span></a
       >
     </div>

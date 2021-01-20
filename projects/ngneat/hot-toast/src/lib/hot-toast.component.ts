@@ -7,6 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Component, QueryList } from '@angular/core';
+import { ViewService } from '@ngneat/overview';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
@@ -39,7 +40,7 @@ export class HotToastComponent implements OnDestroy {
   updateHeight$ = this.updateHeightSub.asObservable();
   subscriptionList: Subscription[] = [];
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private viewService: ViewService) {}
 
   trackById(index: number, toast: Toast) {
     return toast.id;
@@ -66,6 +67,7 @@ export class HotToastComponent implements OnDestroy {
   ): ToastRef {
     // 1. create toast
     const now = Date.now();
+
     let toast: Toast = {
       ariaLive: options?.ariaLive ?? 'polite',
       createdAt: now,
@@ -85,30 +87,28 @@ export class HotToastComponent implements OnDestroy {
     this.toasts.push(toast);
 
     // 3. create component
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<HotToastBaseComponent>(
-      HotToastBaseComponent
-    );
-
-    const componentRef = this.toastBaseList.createComponent<HotToastBaseComponent>(componentFactory);
+    const componentRef = this.viewService.createComponent(HotToastBaseComponent, { vcr: this.toastBaseList });
 
     // 4. component inputs
-    componentRef.instance.defaultConfig = this.defaultConfig;
-    componentRef.instance.offset = this.calculateOffset(toast.id, toast.position);
-    componentRef.instance.toast = toast;
+    componentRef.setInputs({
+      defaultConfig: this.defaultConfig,
+      offset: this.calculateOffset(toast.id, toast.position),
+      toast,
+    });
 
     // 5. component methods
-    componentRef.instance.makeToastRef();
-    componentRef.instance.checkForObserve();
+    componentRef.ref.instance.makeToastRef();
+    componentRef.ref.instance.checkForObserve();
 
     // 6. component outputs
-    componentRef.instance.onHeight.subscribe((newHeight: number) => {
+    componentRef.ref.instance.onHeight.subscribe((newHeight: number) => {
       toast.height = newHeight;
       this.updateHeightSub.next();
     });
-    componentRef.instance.onWidth.subscribe((newWidth: number) => {
+    componentRef.ref.instance.onWidth.subscribe((newWidth: number) => {
       toast.width = newWidth;
     });
-    componentRef.instance.remove.subscribe(() => {
+    componentRef.ref.instance.remove.subscribe(() => {
       this.updateHeightSub.next();
       setTimeout(() => {
         componentRef.destroy();
@@ -121,18 +121,18 @@ export class HotToastComponent implements OnDestroy {
     });
 
     // 7. auto hide toast
-    componentRef.instance.generateTimeout();
+    componentRef.ref.instance.generateTimeout();
 
     // 8. update offset of toast
     const sub = [
       this.updateHeight$.subscribe(() => {
-        componentRef.instance.offset = this.calculateOffset(toast.id, toast.position);
+        componentRef.ref.instance.offset = this.calculateOffset(toast.id, toast.position);
       }),
     ];
 
     this.subscriptionList = this.subscriptionList.concat(sub);
 
-    return componentRef.instance.toastRef;
+    return componentRef.ref.instance.toastRef;
   }
 
   ngOnDestroy() {
