@@ -75,9 +75,7 @@ export class HotToastContainerComponent implements OnDestroy {
         this.afterClosed(ref.getToast());
       },
       unsubscribe: () => {
-        if (subscription) {
-          subscription.unsubscribe();
-        }
+        subscription?.unsubscribe();
       },
       updateMessage: (message: Renderable) => {
         toast.message = message;

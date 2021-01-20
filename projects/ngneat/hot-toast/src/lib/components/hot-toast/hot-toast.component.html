@@ -5,7 +5,7 @@
   (mouseenter)="startPause()"
   (mouseleave)="endPause()"
 >
-  <div class="hot-toast-bar-base" [ngClass]="getToastBarBaseClasses()" [ngStyle]="toast.style">
+  <div class="hot-toast-bar-base" #hotToastBarBase [ngClass]="getToastBarBaseClasses()" [ngStyle]="toast.style">
     <ng-container *ngIf="toast.icon !== undefined; else indicator">
       <ng-container *ngIf="isIconString; else iconTemplateOrComponent">
         <hot-toast-animated-icon>{{ toast.icon }}</hot-toast-animated-icon>

@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, DoCheck, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DoCheck,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Toast, ToastConfig } from '../../hot-toast.model';
 
 @Component({
@@ -24,7 +34,9 @@ export class HotToastComponent implements AfterViewInit, OnDestroy, DoCheck {
   /**This is same as enter animation time of toast */
   readonly TOAST_SHOW_ANIMATION_TIME = 350;
 
-  constructor(public el: ElementRef<HTMLElement>) {}
+  @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
+
+  constructor() {}
 
   ngDoCheck() {
     if (this.oldDuration !== this.toast.duration) {
@@ -37,13 +49,8 @@ export class HotToastComponent implements AfterViewInit, OnDestroy, DoCheck {
   }
 
   ngAfterViewInit() {
-    const toastBarBase = this.el.nativeElement.querySelector('.hot-toast-bar-base') as HTMLElement;
-    if (toastBarBase) {
-      setTimeout(() => {
-        this.onHeight.emit(toastBarBase.offsetHeight);
-        this.onWidth.emit(toastBarBase.offsetWidth);
-      });
-    }
+    this.onHeight.emit(this.toastBarBase.nativeElement.offsetHeight);
+    this.onWidth.emit(this.toastBarBase.nativeElement.offsetWidth);
     setTimeout(() => {
       this.afterOpened.emit();
     }, this.TOAST_SHOW_ANIMATION_TIME);
