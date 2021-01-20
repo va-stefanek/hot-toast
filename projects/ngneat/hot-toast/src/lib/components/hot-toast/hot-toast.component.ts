@@ -95,14 +95,13 @@ export class HotToastComponent implements AfterViewInit, OnDestroy, DoCheck {
   getAnimationClass(): string {
     const top = this.toast.position.includes('top');
     return this.toast.visible
-      ? `enterAnimation${top ? 'Negative' : 'Positive'}`
-      : `exitAnimation${top ? 'Negative' : 'Positive'}`;
+      ? `hot-toast-enter-animation-${top ? 'negative' : 'positive'}`
+      : `hot-toast-exit-animation-${top ? 'negative' : 'positive'}`;
   }
 
   generateTimeout() {
     const dismiss = () => {
       if (this.pausedAt || this.toast.dismissible) {
-        console.log('returning undefined');
         return;
       }
       setTimeout(() => {

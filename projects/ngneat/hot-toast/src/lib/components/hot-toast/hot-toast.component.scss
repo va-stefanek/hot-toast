@@ -41,7 +41,7 @@
   }
 }
 
-@keyframes enterAnimationNegative {
+@keyframes hotToastEnterAnimationNegative {
   0% {
     transform: translate3d(0, -80px, 0) scale(0.6);
     opacity: 0.5;
@@ -52,7 +52,7 @@
   }
 }
 
-@keyframes enterAnimationPositive {
+@keyframes hotToastEnterAnimationPositive {
   0% {
     transform: translate3d(0, 80px, 0) scale(0.6);
     opacity: 0.5;
@@ -63,7 +63,7 @@
   }
 }
 
-@keyframes exitAnimationPositive {
+@keyframes hotToastExitAnimationPositive {
   0% {
     transform: translate3d(0, 0, -1px) scale(1);
     opacity: 1;
@@ -74,7 +74,7 @@
   }
 }
 
-@keyframes exitAnimationNegative {
+@keyframes hotToastExitAnimationNegative {
   0% {
     transform: translate3d(0, 0, -1px) scale(1);
     opacity: 1;
@@ -85,20 +85,20 @@
   }
 }
 
-.enterAnimationPositive {
-  animation: enterAnimationPositive 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+.hot-toast-enter-animation-negative {
+  animation: hotToastEnterAnimationNegative 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
 }
 
-.enterAnimationNegative {
-  animation: enterAnimationNegative 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+.hot-toast-enter-animation-positive {
+  animation: hotToastEnterAnimationPositive 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
 }
 
-.exitAnimationPositive {
-  animation: exitAnimationPositive 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1);
+.hot-toast-exit-animation-positive {
+  animation: hotToastExitAnimationPositive 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1);
 }
 
-.exitAnimationNegative {
-  animation: exitAnimationNegative 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1);
+.hot-toast-exit-animation-negative {
+  animation: hotToastExitAnimationNegative 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1);
 }
 
 .hot-toast-close-btn {
