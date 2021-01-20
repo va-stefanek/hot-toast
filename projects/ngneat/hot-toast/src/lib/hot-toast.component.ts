@@ -1,4 +1,11 @@
-import { ComponentFactoryResolver, ContentChildren, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  ComponentFactoryResolver,
+  ContentChildren,
+  Input,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { Component, QueryList } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { HotToastBaseComponent } from './components/hot-toast-base/hot-toast-base.component';
@@ -19,9 +26,9 @@ import {
   templateUrl: './hot-toast.component.html',
 })
 export class HotToastComponent implements OnDestroy {
+  @Input() defaultConfig: ToastConfig;
+
   toasts: Toast[] = [];
-  defaultConfig: ToastConfig;
-  reverseOrder: boolean = false;
 
   private readonly offsetMargin = 8;
 
@@ -44,7 +51,7 @@ export class HotToastComponent implements OnDestroy {
     const offset =
       index !== -1
         ? visibleToasts
-            .slice(...(this.reverseOrder ? [index + 1] : [0, index]))
+            .slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index]))
             .reduce((acc, t) => acc + (t.height || 0) + this.offsetMargin, 0)
         : 0;
     return offset;

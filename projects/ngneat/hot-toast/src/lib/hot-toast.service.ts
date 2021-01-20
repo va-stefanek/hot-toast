@@ -1,11 +1,7 @@
-import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  EmbeddedViewRef,
-  Injectable,
-  Injector,
-  Optional,
-} from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
+import { ViewService } from '@ngneat/overview';
+import { Observable } from 'rxjs';
+
 import {
   DefaultToastOptions,
   HotToastServiceMethods,
@@ -17,36 +13,25 @@ import {
   ToastType,
 } from './hot-toast.model';
 import { HotToastComponent } from './hot-toast.component';
-import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
   private _defaultConfig = new ToastConfig();
   componentInstance: HotToastComponent;
 
-  constructor(private injector: Injector, @Optional() config: ToastConfig) {
+  constructor(private viewService: ViewService, @Optional() config: ToastConfig) {
     if (config) {
       this._defaultConfig = { ...this._defaultConfig, ...config };
     }
   }
 
   init() {
-    const appRef = this.injector.get(ApplicationRef);
-    const componentFactoryResolver = this.injector.get(ComponentFactoryResolver);
+    const componentRef = this.viewService
+      .createComponent(HotToastComponent)
+      .setInput('defaultConfig', this._defaultConfig)
+      .appendTo(document.body);
 
-    const componentRef = componentFactoryResolver.resolveComponentFactory(HotToastComponent).create(this.injector);
-
-    componentRef.instance.reverseOrder = this._defaultConfig.reverseOrder;
-
-    this.componentInstance = componentRef.instance;
-
-    this.componentInstance.defaultConfig = this._defaultConfig;
-
-    appRef.attachView(componentRef.hostView);
-
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-
-    document.body.appendChild(domElem);
+    this.componentInstance = componentRef.ref.instance;
   }
 
   private makeToast<T>(

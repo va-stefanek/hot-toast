@@ -1,4 +1,3 @@
-import { TemplateRef, Type } from '@angular/core';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
