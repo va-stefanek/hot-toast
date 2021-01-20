@@ -33,10 +33,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   toast.success('Successfully toasted!')
         `,
         action: () => {
-          const ref = this.toast.success('Successfully toasted!', { duration: 10000 });
-          setTimeout(() => {
-            ref.updateToast({ icon: '🆙' });
-          }, 2000);
+          this.toast.success('Successfully toasted!');
         },
       },
       {
