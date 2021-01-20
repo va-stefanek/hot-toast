@@ -34,7 +34,7 @@ export class HotToastService implements HotToastServiceMethods {
     this.componentInstance = componentRef.ref.instance;
   }
 
-  private makeToast<T>(
+  private createToast<T>(
     message: Renderable,
     type: ToastType,
     options?: DefaultToastOptions,
@@ -51,13 +51,13 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   show(message: Renderable, options?: ToastOptions) {
-    const toast = this.makeToast(message, 'blank', { ...this._defaultConfig, ...options });
+    const toast = this.createToast(message, 'blank', { ...this._defaultConfig, ...options });
 
     return toast;
   }
 
   error(message: Renderable, options?: ToastOptions) {
-    const toast = this.makeToast(message, 'error', {
+    const toast = this.createToast(message, 'error', {
       ...this._defaultConfig?.error,
       ...this._defaultConfig,
       ...options,
@@ -66,7 +66,7 @@ export class HotToastService implements HotToastServiceMethods {
     return toast;
   }
   success(message: Renderable, options?: ToastOptions) {
-    const toast = this.makeToast(message, 'success', {
+    const toast = this.createToast(message, 'success', {
       ...this._defaultConfig?.success,
       ...this._defaultConfig,
       ...options,
@@ -75,7 +75,7 @@ export class HotToastService implements HotToastServiceMethods {
     return toast;
   }
   loading(message: Renderable, options?: ToastOptions) {
-    const toast = this.makeToast(message, 'loading', {
+    const toast = this.createToast(message, 'loading', {
       ...this._defaultConfig?.loading,
       ...this._defaultConfig,
       ...options,
@@ -84,7 +84,7 @@ export class HotToastService implements HotToastServiceMethods {
     return toast;
   }
   observe<T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions) {
-    let toastRef = this.makeToast(
+    let toastRef = this.createToast(
       messages.loading || 'Loading...',
       'loading',
       {
