@@ -10,7 +10,6 @@ import {
   ToastRef,
   UpdateToastOptions,
 } from '../../hot-toast.model';
-import { isComponent, isTemplateRef } from '../../utils';
 
 @Component({
   selector: 'hot-toast-base',
@@ -30,9 +29,6 @@ export class HotToastBaseComponent implements AfterViewInit, OnDestroy {
   pausedAt: number;
   timeout: any;
   oldDuration = 0;
-
-  isTemplateRef = isTemplateRef;
-  isComponent = isComponent;
 
   toastRef: ToastRef;
   afterClosed = new Subject();
@@ -140,11 +136,11 @@ export class HotToastBaseComponent implements AfterViewInit, OnDestroy {
   }
 
   get isIconString() {
-    return typeof this.toast.icon === 'string' || typeof this.toast.icon === 'number';
+    return typeof this.toast.icon === 'string';
   }
 
   get isMessageString() {
-    return typeof this.toast.message === 'string' || typeof this.toast.message === 'number';
+    return typeof this.toast.message === 'string';
   }
 
   makeToastRef() {

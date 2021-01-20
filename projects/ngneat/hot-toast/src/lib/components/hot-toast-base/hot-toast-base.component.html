@@ -11,7 +11,7 @@
         <hot-toast-animated-icon>{{ toast.icon }}</hot-toast-animated-icon>
       </ng-container>
       <ng-template #iconTemplateOrComponent>
-        <hot-toast-template-component-loader [content]="toast.icon"></hot-toast-template-component-loader>
+        <dynamic-content [content]="toast.icon"></dynamic-content>
       </ng-template>
     </ng-container>
 
@@ -20,7 +20,7 @@
     </ng-template>
 
     <div class="hot-toast-message">
-      <hot-toast-template-component-loader [content]="toast.message"></hot-toast-template-component-loader>
+      <dynamic-content [content]="toast.message"></dynamic-content>
     </div>
 
     <button

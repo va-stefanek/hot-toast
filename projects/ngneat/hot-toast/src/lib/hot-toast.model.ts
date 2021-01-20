@@ -1,4 +1,5 @@
 import { TemplateRef, Type } from '@angular/core';
+import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
 export class ToastConfig implements DefaultToastOptions {
@@ -43,7 +44,7 @@ const isFunction = <TValue, TArg>(
 export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunction<TValue, TArg>, arg: TArg): TValue =>
   isFunction(valOrFunction) ? valOrFunction(arg) : valOrFunction;
 
-export type Renderable = string | number | TemplateRef<any> | Type<any>;
+export type Renderable = Content;
 
 type ToastRole = 'status' | 'alert';
 
