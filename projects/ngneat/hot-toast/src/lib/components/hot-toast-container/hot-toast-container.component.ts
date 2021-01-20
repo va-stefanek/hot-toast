@@ -1,4 +1,4 @@
-import { Input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
@@ -18,6 +18,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'hot-toast-container',
   templateUrl: './hot-toast-container.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HotToastContainerComponent implements OnDestroy {
   @Input() defaultConfig: ToastConfig;
@@ -38,7 +39,7 @@ export class HotToastContainerComponent implements OnDestroy {
   private _onClosed = new Subject<string>();
   onClosed$ = this._onClosed.asObservable();
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   calculateOffset(toastId: string, position: ToastPosition) {
     const visibleToasts = this.toasts.filter((t) => t.visible && t.position === position);
@@ -62,6 +63,8 @@ export class HotToastContainerComponent implements OnDestroy {
 
     this.toasts = [...this.toasts, ref.getToast()];
 
+    this.cdr.detectChanges();
+
     if (toast.observable) {
       ({ toast, subscription } = this.updateToast(toast, subscription));
       this.subscriptionList.push(subscription);
@@ -79,9 +82,11 @@ export class HotToastContainerComponent implements OnDestroy {
       },
       updateMessage: (message: Renderable) => {
         toast.message = message;
+        this.cdr.detectChanges();
       },
       updateToast: (options: UpdateToastOptions) => {
         toast = Object.assign(toast, { ...toast, ...options });
+        this.cdr.detectChanges();
       },
       afterOpened: this.onOpened$.pipe(filter((v) => v === toast.id)),
       afterClosed: this.onClosed$.pipe(filter((v) => v === toast.id)),
@@ -100,6 +105,7 @@ export class HotToastContainerComponent implements OnDestroy {
             ...this.defaultConfig?.success,
             ...(toast as DefaultToastOptions)?.success,
           });
+          this.cdr.detectChanges();
         }
       },
       (e) => {
@@ -112,6 +118,7 @@ export class HotToastContainerComponent implements OnDestroy {
             ...this.defaultConfig?.error,
             ...(toast as DefaultToastOptions)?.error,
           });
+          this.cdr.detectChanges();
         }
       },
       () => {
@@ -124,6 +131,7 @@ export class HotToastContainerComponent implements OnDestroy {
             ...this.defaultConfig?.success,
             ...(toast as DefaultToastOptions)?.success,
           });
+          this.cdr.detectChanges();
         }
       }
     );
@@ -138,6 +146,7 @@ export class HotToastContainerComponent implements OnDestroy {
     const toastIndex = this.toasts.findIndex((t) => t.id === toast.id);
     if (toastIndex > -1) {
       toast.visible = false;
+      this.cdr.detectChanges();
       setTimeout(() => {
         this._onClosed.next(toast.id);
       }, this.TOAST_EXIT_ANIMATION_TIME);
@@ -146,6 +155,7 @@ export class HotToastContainerComponent implements OnDestroy {
           this.toasts.findIndex((t) => t.id === toast.id),
           1
         );
+        this.cdr.detectChanges();
       }, 1000);
     }
   }
