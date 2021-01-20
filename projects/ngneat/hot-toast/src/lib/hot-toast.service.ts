@@ -41,10 +41,6 @@ export class HotToastService implements HotToastServiceMethods {
     observable?: Observable<T>,
     observableMessages?: ObservableMessages<T>
   ): ToastRef {
-    if (message === undefined) {
-      throw Error('message is needed to create a hot-toast!');
-    }
-
     const toastRef = this.componentInstance.makeToast<T>(message, type, options, observable, observableMessages);
 
     return toastRef;
