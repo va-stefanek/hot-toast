@@ -37,9 +37,9 @@ export class HotToastRef {
     return this;
   }
 
-  /**Closes the toast */
   close() {
     this.dispose();
+    this.unsubscribe();
     this._onClosed.next(this.toast.id);
     this._onClosed.complete();
   }

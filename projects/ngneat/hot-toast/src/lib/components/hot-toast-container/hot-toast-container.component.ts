@@ -12,7 +12,7 @@ import {
   _HotToastRef,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Content } from '@ngneat/overview';
 
 @Component({
@@ -27,11 +27,11 @@ export class HotToastContainerComponent implements OnDestroy {
 
   private readonly OFFSET_MARGIN = 8;
 
-  subscriptionList: Subscription[] = [];
+  private subscriptionList: Subscription[] = [];
 
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<string>();
-  onClosed$ = this._onClosed.asObservable();
+  private onClosed$ = this._onClosed.asObservable();
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -82,12 +82,12 @@ export class HotToastContainerComponent implements OnDestroy {
         toast = Object.assign(toast, { ...toast, ...options });
         this.cdr.detectChanges();
       },
-      afterClosed: this.onClosed$.pipe(filter((v) => v === toast.id)),
+      afterClosed: this.getAfterClosed(toast),
     };
   }
 
   private updateSubscription(toast: Toast, subscription: Subscription) {
-    subscription = toast.observable.subscribe(
+    subscription = toast.observable.pipe(takeUntil(this.getAfterClosed(toast))).subscribe(
       (v) => {
         if (toast.observableMessages?.subscribe) {
           toast.message = resolveValueOrFunction(toast.observableMessages.subscribe, v);
@@ -116,6 +116,10 @@ export class HotToastContainerComponent implements OnDestroy {
       }
     );
     return { toast, subscription };
+  }
+
+  private getAfterClosed(toast: Toast) {
+    return this.onClosed$.pipe(filter((v) => v === toast.id));
   }
 
   beforeClosed(toast: Toast) {
