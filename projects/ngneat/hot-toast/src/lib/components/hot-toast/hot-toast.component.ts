@@ -1,15 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 
@@ -24,6 +13,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
   @Input() defaultConfig: ToastConfig;
 
   @Output() onHeight = new EventEmitter<number>();
+  @Output() beforeClosed = new EventEmitter();
   @Output() afterClosed = new EventEmitter();
 
   /**This is same as enter animation time of toast */
@@ -33,22 +23,24 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
 
-  constructor() {}
-
   ngAfterViewInit() {
     const nativeElement = this.toastBarBase.nativeElement;
     this.onHeight.emit(nativeElement.offsetHeight);
 
     nativeElement.addEventListener('animationstart', (ev: AnimationEvent) => {
-      if (ev.animationName.includes('hotToastExitAnimation')) {
-        this.onHeight.emit(-8);
+      if (this.isExitAnimation(ev)) {
+        this.beforeClosed.emit();
       }
     });
     nativeElement.addEventListener('animationend', (ev: AnimationEvent) => {
-      if (this.toast.visible && ev.animationName.includes('hotToastExitAnimation')) {
+      if (this.toast.visible && this.isExitAnimation(ev)) {
         this.afterClosed.emit();
       }
     });
+  }
+
+  private isExitAnimation(ev: AnimationEvent) {
+    return ev.animationName.includes('hotToastExitAnimation');
   }
 
   getPositionStyle() {

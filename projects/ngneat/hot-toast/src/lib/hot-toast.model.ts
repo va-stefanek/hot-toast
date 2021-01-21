@@ -13,7 +13,7 @@ export class ToastConfig implements DefaultToastOptions {
   dismissible: boolean;
   autoClose: boolean = true;
   duration: number;
-  icon: Renderable;
+  icon: Content;
   iconTheme: IconTheme;
   style: any;
   theme: ToastTheme = 'toast';
@@ -45,8 +45,6 @@ const isFunction = <TValue, TArg>(
 export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunction<TValue, TArg>, arg: TArg): TValue =>
   isFunction(valOrFunction) ? valOrFunction(arg) : valOrFunction;
 
-export type Renderable = Content;
-
 type ToastRole = 'status' | 'alert';
 
 type ToastAriaLive = 'assertive' | 'off' | 'polite';
@@ -54,12 +52,12 @@ type ToastAriaLive = 'assertive' | 'off' | 'polite';
 export interface Toast {
   type: ToastType;
   id: string;
-  message: ValueOrFunction<Renderable, Toast>;
+  message: ValueOrFunction<Content, Toast>;
 
   role: ToastRole;
   ariaLive: ToastAriaLive;
 
-  icon?: Renderable;
+  icon?: Content;
   duration?: number;
   dismissible?: boolean;
   autoClose?: boolean;
@@ -104,10 +102,9 @@ export type DefaultToastOptions = ToastOptions &
   };
 
 export type ObservableMessages<T> = {
-  loading?: Renderable;
-  subscribe: ValueOrFunction<Renderable, T>;
-  error?: ValueOrFunction<Renderable, any>;
-  complete?: Renderable;
+  loading?: Content;
+  subscribe: ValueOrFunction<Content, T>;
+  error?: ValueOrFunction<Content, any>;
 };
 
 export interface HotToastServiceMethods {
@@ -129,7 +126,7 @@ export interface _HotToastRef {
   dispose: Function;
 
   unsubscribe: () => void;
-  updateMessage: (message: Renderable) => void;
+  updateMessage: (message: Content) => void;
   updateToast: (options: UpdateToastOptions) => void;
 
   afterClosed: Observable<string>;

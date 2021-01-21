@@ -1,6 +1,7 @@
+import { Content } from '@ngneat/overview';
 import { Observable, race, Subject } from 'rxjs';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
-import { Renderable, Toast, UpdateToastOptions, _HotToastRef } from './hot-toast.model';
+import { Toast, UpdateToastOptions, _HotToastRef } from './hot-toast.model';
 
 export class HotToastRef {
   private dispose: Function;
@@ -8,7 +9,7 @@ export class HotToastRef {
   /**Unsubscribes from observable, if any. */
   unsubscribe: () => void;
   /**Updates only message */
-  updateMessage: (message: Renderable) => void;
+  updateMessage: (message: Content) => void;
   /**Update updatable options of toast */
   updateToast: (options: UpdateToastOptions) => void;
 

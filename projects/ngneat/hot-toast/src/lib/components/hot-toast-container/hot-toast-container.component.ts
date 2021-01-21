@@ -4,7 +4,6 @@ import { Subject, Subscription } from 'rxjs';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
 import {
   DefaultToastOptions,
-  Renderable,
   resolveValueOrFunction,
   Toast,
   ToastConfig,
@@ -14,6 +13,7 @@ import {
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
 import { filter } from 'rxjs/operators';
+import { Content } from '@ngneat/overview';
 
 @Component({
   selector: 'hot-toast-container',
@@ -60,7 +60,7 @@ export class HotToastContainerComponent implements OnDestroy {
     this.cdr.detectChanges();
 
     if (toast.observable) {
-      ({ toast, subscription } = this.updateToast(toast, subscription));
+      ({ toast, subscription } = this.updateSubscription(toast, subscription));
       this.subscriptionList.push(subscription);
     }
 
@@ -74,7 +74,7 @@ export class HotToastContainerComponent implements OnDestroy {
       unsubscribe: () => {
         subscription?.unsubscribe();
       },
-      updateMessage: (message: Renderable) => {
+      updateMessage: (message: Content) => {
         toast.message = message;
         this.cdr.detectChanges();
       },
@@ -86,7 +86,7 @@ export class HotToastContainerComponent implements OnDestroy {
     };
   }
 
-  private updateToast(toast: Toast, subscription: Subscription) {
+  private updateSubscription(toast: Toast, subscription: Subscription) {
     subscription = toast.observable.subscribe(
       (v) => {
         if (toast.observableMessages?.subscribe) {
@@ -113,32 +113,20 @@ export class HotToastContainerComponent implements OnDestroy {
           });
           this.cdr.detectChanges();
         }
-      },
-      () => {
-        if (toast.observableMessages?.complete) {
-          toast.message = resolveValueOrFunction(toast.observableMessages.complete, undefined);
-          toast = Object.assign(toast, {
-            ...toast,
-            type: 'success',
-            duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
-            ...this.defaultConfig?.success,
-            ...(toast as DefaultToastOptions)?.success,
-          });
-          this.cdr.detectChanges();
-        }
       }
     );
     return { toast, subscription };
+  }
+
+  beforeClosed(toast: Toast) {
+    toast.visible = false;
   }
 
   afterClosed(toast: Toast) {
     const toastIndex = this.toasts.findIndex((t) => t.id === toast.id);
     if (toastIndex > -1) {
       this._onClosed.next(toast.id);
-      this.toasts.splice(
-        this.toasts.findIndex((t) => t.id === toast.id),
-        1
-      );
+      this.toasts = this.toasts.filter((t) => t.id !== toast.id);
       this.cdr.detectChanges();
     }
   }

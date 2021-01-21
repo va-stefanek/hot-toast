@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { ViewService } from '@ngneat/overview';
+import { Content, ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
@@ -9,7 +9,6 @@ import {
   DefaultToastOptions,
   HotToastServiceMethods,
   ObservableMessages,
-  Renderable,
   Toast,
   ToastConfig,
   ToastOptions,
@@ -37,13 +36,12 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   private createToast<T>(
-    message: Renderable,
+    message: Content,
     type: ToastType,
     options?: DefaultToastOptions,
     observable?: Observable<T>,
     observableMessages?: ObservableMessages<T>
   ): HotToastRef {
-    // create toast
     const now = Date.now();
 
     const toast: Toast = {
@@ -63,34 +61,34 @@ export class HotToastService implements HotToastServiceMethods {
     return new HotToastRef(toast).appendTo(this.componentInstance);
   }
 
-  show(message: Renderable, options?: ToastOptions) {
+  show(message: Content, options?: ToastOptions) {
     const toast = this.createToast(message, 'blank', { ...this._defaultConfig, ...options });
 
     return toast;
   }
 
-  error(message: Renderable, options?: ToastOptions) {
+  error(message: Content, options?: ToastOptions) {
     const toast = this.createToast(message, 'error', {
+      ...this._defaultConfig,
       ...this._defaultConfig?.error,
-      ...this._defaultConfig,
       ...options,
     });
 
     return toast;
   }
-  success(message: Renderable, options?: ToastOptions) {
+  success(message: Content, options?: ToastOptions) {
     const toast = this.createToast(message, 'success', {
-      ...this._defaultConfig?.success,
       ...this._defaultConfig,
+      ...this._defaultConfig?.success,
       ...options,
     });
 
     return toast;
   }
-  loading(message: Renderable, options?: ToastOptions) {
+  loading(message: Content, options?: ToastOptions) {
     const toast = this.createToast(message, 'loading', {
-      ...this._defaultConfig?.loading,
       ...this._defaultConfig,
+      ...this._defaultConfig?.loading,
       ...options,
     });
 
@@ -102,8 +100,8 @@ export class HotToastService implements HotToastServiceMethods {
       'loading',
       {
         ...this._defaultConfig,
-        ...options,
         ...this._defaultConfig?.loading,
+        ...options,
         ...options?.loading,
       },
       observable,
