@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 
@@ -6,6 +16,7 @@ import { animate } from '../../utils';
   selector: 'hot-toast',
   templateUrl: 'hot-toast.component.html',
   styleUrls: ['./hot-toast.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HotToastComponent implements AfterViewInit, OnDestroy {
   @Input() toast: Toast;
@@ -33,7 +44,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
       }
     });
     nativeElement.addEventListener('animationend', (ev: AnimationEvent) => {
-      if (this.toast.visible && this.isExitAnimation(ev)) {
+      if (this.isExitAnimation(ev)) {
         this.afterClosed.emit();
       }
     });

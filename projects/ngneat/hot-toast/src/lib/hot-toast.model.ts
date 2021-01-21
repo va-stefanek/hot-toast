@@ -103,7 +103,7 @@ export type DefaultToastOptions = ToastOptions &
 
 export type ObservableMessages<T> = {
   loading?: Content;
-  subscribe: ValueOrFunction<Content, T>;
+  next: ValueOrFunction<Content, T>;
   error?: ValueOrFunction<Content, any>;
 };
 

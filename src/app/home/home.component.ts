@@ -41,9 +41,9 @@ export class HomeComponent {
   observe() {
     const promise = new Promise((res, rej) => {
       if (Math.random() < 0.85) {
-        setTimeout(res, 1000);
+        setTimeout(res, 2000);
       } else {
-        setTimeout(rej, 3000);
+        setTimeout(rej, 2000);
       }
     });
     const observable = from(promise);
@@ -51,7 +51,7 @@ export class HomeComponent {
     const toastRef = this.toastService.observe(shared, {
       loading: 'Preparing toast',
       error: 'Whoops, it burnt',
-      subscribe: "Here's your toast",
+      next: "Here's your toast",
     });
   }
 }

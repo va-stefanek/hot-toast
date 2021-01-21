@@ -35,6 +35,10 @@ export class HotToastContainerComponent implements OnDestroy {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
+  trackById(index: number, toast: Toast) {
+    return toast.id;
+  }
+
   calculateOffset(toastId: string, position: ToastPosition) {
     const visibleToasts = this.toasts.filter((t) => t.visible && t.position === position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
@@ -55,7 +59,7 @@ export class HotToastContainerComponent implements OnDestroy {
     let toast = ref.getToast();
     let subscription: Subscription;
 
-    this.toasts = [...this.toasts, ref.getToast()];
+    this.toasts.push(ref.getToast());
 
     this.cdr.detectChanges();
 
@@ -89,8 +93,8 @@ export class HotToastContainerComponent implements OnDestroy {
   private updateSubscription(toast: Toast, subscription: Subscription) {
     subscription = toast.observable.pipe(takeUntil(this.getAfterClosed(toast))).subscribe(
       (v) => {
-        if (toast.observableMessages?.subscribe) {
-          toast.message = resolveValueOrFunction(toast.observableMessages.subscribe, v);
+        if (toast.observableMessages?.next) {
+          toast.message = resolveValueOrFunction(toast.observableMessages.next, v);
           toast = Object.assign(toast, {
             ...toast,
             type: 'success',

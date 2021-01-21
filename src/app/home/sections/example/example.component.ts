@@ -74,7 +74,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
 
           this.toast.observe(from(promise), {
             loading: 'Saving...',
-            subscribe: this.successTemplate,
+            next: this.successTemplate,
             error: this.errorTemplate,
           });
         },
