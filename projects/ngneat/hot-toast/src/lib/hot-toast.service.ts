@@ -52,7 +52,6 @@ export class HotToastService implements HotToastServiceMethods {
       duration: options?.duration ?? HOT_TOAST_DEFAULT_TIMEOUTS[type],
       id: options?.id ?? now.toString(),
       message,
-      pauseDuration: 0,
       role: options?.role ?? 'status',
       type,
       visible: true,

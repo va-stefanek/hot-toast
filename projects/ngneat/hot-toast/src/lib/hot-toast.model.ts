@@ -11,6 +11,7 @@ export class ToastConfig implements DefaultToastOptions {
   className: string;
   closeStyle: any;
   dismissible: boolean;
+  autoClose: boolean = true;
   duration: number;
   icon: Renderable;
   iconTheme: IconTheme;
@@ -54,7 +55,6 @@ export interface Toast {
   type: ToastType;
   id: string;
   message: ValueOrFunction<Renderable, Toast>;
-  pauseDuration: number;
 
   role: ToastRole;
   ariaLive: ToastAriaLive;
@@ -62,6 +62,7 @@ export interface Toast {
   icon?: Renderable;
   duration?: number;
   dismissible?: boolean;
+  autoClose?: boolean;
 
   style?: any;
   className?: string;
@@ -73,7 +74,6 @@ export interface Toast {
   createdAt: number;
   visible: boolean;
   height?: number;
-  width?: number;
 
   observable?: Observable<unknown>;
   observableMessages?: ObservableMessages<unknown>;
@@ -86,6 +86,7 @@ export type ToastOptions = Partial<
     | 'icon'
     | 'duration'
     | 'dismissible'
+    | 'autoClose'
     | 'role'
     | 'ariaLive'
     | 'className'

@@ -6,3 +6,6 @@ export function isTemplateRef(value) {
 export function isComponent(value) {
   return typeof value === 'function';
 }
+export function animate(element: HTMLElement, value: string) {
+  element.style.animation = value;
+}

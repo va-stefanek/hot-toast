@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DoCheck,
   ElementRef,
@@ -10,65 +11,47 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Toast, ToastConfig } from '../../hot-toast.model';
+import { animate } from '../../utils';
 
 @Component({
   selector: 'hot-toast',
   templateUrl: 'hot-toast.component.html',
   styleUrls: ['./hot-toast.component.scss'],
 })
-export class HotToastComponent implements AfterViewInit, OnDestroy, DoCheck {
+export class HotToastComponent implements AfterViewInit, OnDestroy {
   @Input() toast: Toast;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
 
   @Output() onHeight = new EventEmitter<number>();
-  @Output() onWidth = new EventEmitter<number>();
   @Output() afterClosed = new EventEmitter();
   @Output() afterOpened = new EventEmitter();
 
-  diff: number;
-  pausedAt: number;
-  timeout: any;
-  oldDuration = 0;
-
   /**This is same as enter animation time of toast */
   readonly TOAST_SHOW_ANIMATION_TIME = 350;
+
+  isManualClose = false;
 
   @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
 
   constructor() {}
 
-  ngDoCheck() {
-    if (this.oldDuration !== this.toast.duration) {
-      this.oldDuration = this.toast.duration;
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.generateTimeout();
-    }
-  }
-
   ngAfterViewInit() {
-    this.onHeight.emit(this.toastBarBase.nativeElement.offsetHeight);
-    this.onWidth.emit(this.toastBarBase.nativeElement.offsetWidth);
-    setTimeout(() => {
-      this.afterOpened.emit();
-    }, this.TOAST_SHOW_ANIMATION_TIME);
-  }
+    const nativeElement = this.toastBarBase.nativeElement;
+    this.onHeight.emit(nativeElement.offsetHeight);
 
-  startPause() {
-    this.pausedAt = Date.now();
-  }
-
-  endPause() {
-    this.diff = Date.now() - (this.pausedAt || 0);
-    if (this.pausedAt) {
-      this.pausedAt = undefined;
-    }
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-    this.generateTimeout();
+    nativeElement.addEventListener('animationstart', (ev: AnimationEvent) => {
+      if (ev.animationName.includes('hotToastExitAnimation')) {
+        this.onHeight.emit(-8);
+      }
+    });
+    nativeElement.addEventListener('animationend', (ev: AnimationEvent) => {
+      if (this.toast.visible && ev.animationName.includes('hotToastExitAnimation')) {
+        this.afterClosed.emit();
+      } else if (ev.animationName.includes('hotToastEnterAnimation')) {
+        this.afterOpened.emit();
+      }
+    });
   }
 
   getPositionStyle() {
@@ -96,42 +79,37 @@ export class HotToastComponent implements AfterViewInit, OnDestroy, DoCheck {
   }
 
   getToastBarBaseClasses() {
-    return (this.toast.className ?? ' ') + this.getAnimationClass();
+    return this.toast.className ?? ' ';
   }
 
-  getAnimationClass(): string {
+  get toastBarBaseStyles() {
     const top = this.toast.position.includes('top');
-    return this.toast.visible
-      ? `hot-toast-enter-animation-${top ? 'negative' : 'positive'}`
-      : `hot-toast-exit-animation-${top ? 'negative' : 'positive'}`;
-  }
 
-  generateTimeout() {
-    const dismiss = () => {
-      if (this.pausedAt || this.toast.dismissible) {
-        return;
-      }
-      setTimeout(() => {
-        this.close();
-      }, this.toast.duration);
-    };
+    const enterAnimation = `hotToastEnterAnimation${
+      top ? 'Negative' : 'Positive'
+    } 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
-    const now = Date.now();
+    const exitAnimation = `hotToastExitAnimation${
+      top ? 'Negative' : 'Positive'
+    } 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1) ${this.toast.duration}ms`;
 
-    const durationLeft = (this.toast.duration || 0) + this.toast.pauseDuration - (now - this.toast.createdAt);
+    const animation =
+      this.toast.dismissible || !this.toast.autoClose ? enterAnimation : `${enterAnimation}, ${exitAnimation}`;
 
-    if (durationLeft < 0) {
-      if (this.toast.visible) {
-        dismiss();
-      }
-      return;
-    }
-
-    this.timeout = setTimeout(dismiss, durationLeft);
+    return { ...this.toast.style, animation };
   }
 
   close() {
-    this.afterClosed.emit();
+    this.isManualClose = true;
+    const top = this.toast.position.includes('top');
+
+    const exitAnimation = `hotToastExitAnimation${
+      top ? 'Negative' : 'Positive'
+    } 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
+
+    const nativeElement = this.toastBarBase.nativeElement;
+
+    animate(nativeElement, exitAnimation);
   }
 
   get isIconString() {
@@ -143,8 +121,6 @@ export class HotToastComponent implements AfterViewInit, OnDestroy, DoCheck {
   }
 
   ngOnDestroy() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
+    this.close();
   }
 }

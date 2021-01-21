@@ -27,7 +27,6 @@ export class HotToastRef {
    * Attach ToastRef to container
    */
   appendTo(container: HotToastContainerComponent) {
-    this.toast.visible = true;
     const { dispose, unsubscribe, updateMessage, updateToast, afterOpened, afterClosed } = container.addToast(this);
 
     this.dispose = dispose;

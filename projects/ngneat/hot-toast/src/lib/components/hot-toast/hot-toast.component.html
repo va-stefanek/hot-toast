@@ -1,11 +1,11 @@
-<div
-  class="hot-toast-bar-base-container"
-  [ngStyle]="getPositionStyle()"
-  [ngClass]="toast.theme"
-  (mouseenter)="startPause()"
-  (mouseleave)="endPause()"
->
-  <div class="hot-toast-bar-base" #hotToastBarBase [ngClass]="getToastBarBaseClasses()" [ngStyle]="toast.style">
+<div class="hot-toast-bar-base-container" [ngStyle]="getPositionStyle()" [ngClass]="toast.theme">
+  <div
+    class="hot-toast-bar-base"
+    #hotToastBarBase
+    [ngClass]="getToastBarBaseClasses()"
+    [ngStyle]="toastBarBaseStyles"
+    [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
+  >
     <ng-container *ngIf="toast.icon !== undefined; else indicator">
       <ng-container *ngIf="isIconString; else iconTemplateOrComponent">
         <hot-toast-animated-icon>{{ toast.icon }}</hot-toast-animated-icon>

@@ -48,20 +48,11 @@ export class HomeComponent {
     });
     const observable = from(promise);
     const shared = observable.pipe(share());
-    const toastRef = this.toastService.observe(
-      shared,
-      {
-        loading: 'Preparing toast',
-        error: 'Whoops, it burnt',
-        subscribe: "Here's your toast",
-      },
-      {
-        style: {
-          width: '200px',
-          paddingRight: '10px',
-        },
-      }
-    );
+    const toastRef = this.toastService.observe(shared, {
+      loading: 'Preparing toast',
+      error: 'Whoops, it burnt',
+      subscribe: "Here's your toast",
+    });
   }
 }
 

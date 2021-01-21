@@ -145,18 +145,12 @@ export class HotToastContainerComponent implements OnDestroy {
   afterClosed(toast: Toast) {
     const toastIndex = this.toasts.findIndex((t) => t.id === toast.id);
     if (toastIndex > -1) {
-      toast.visible = false;
+      this._onClosed.next(toast.id);
+      this.toasts.splice(
+        this.toasts.findIndex((t) => t.id === toast.id),
+        1
+      );
       this.cdr.detectChanges();
-      setTimeout(() => {
-        this._onClosed.next(toast.id);
-      }, this.TOAST_EXIT_ANIMATION_TIME);
-      setTimeout(() => {
-        this.toasts.splice(
-          this.toasts.findIndex((t) => t.id === toast.id),
-          1
-        );
-        this.cdr.detectChanges();
-      }, 1000);
     }
   }
 
