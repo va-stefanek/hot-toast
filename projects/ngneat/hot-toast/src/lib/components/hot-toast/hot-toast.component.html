@@ -5,6 +5,8 @@
     [ngClass]="getToastBarBaseClasses()"
     [ngStyle]="toastBarBaseStyles"
     [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
+    [attr.aria-live]="toast.ariaLive"
+    [attr.role]="toast.role"
   >
     <ng-container *ngIf="toast.icon !== undefined; else indicator">
       <ng-container *ngIf="isIconString; else iconTemplateOrComponent">

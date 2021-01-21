@@ -83,7 +83,7 @@ export class HotToastContainerComponent implements OnDestroy {
         this.cdr.detectChanges();
       },
       updateToast: (options: UpdateToastOptions) => {
-        toast = Object.assign(toast, { ...toast, ...options });
+        this.updateToasts(toast, options);
         this.cdr.detectChanges();
       },
       afterClosed: this.getAfterClosed(toast),
@@ -102,6 +102,7 @@ export class HotToastContainerComponent implements OnDestroy {
             ...this.defaultConfig?.success,
             ...(toast as DefaultToastOptions)?.success,
           });
+          this.updateToasts(toast);
           this.cdr.detectChanges();
         }
       },
@@ -115,6 +116,7 @@ export class HotToastContainerComponent implements OnDestroy {
             ...this.defaultConfig?.error,
             ...(toast as DefaultToastOptions)?.error,
           });
+          this.updateToasts(toast);
           this.cdr.detectChanges();
         }
       }
@@ -124,6 +126,10 @@ export class HotToastContainerComponent implements OnDestroy {
 
   private getAfterClosed(toast: Toast) {
     return this.onClosed$.pipe(filter((v) => v === toast.id));
+  }
+
+  private updateToasts(toast: Toast, options?: UpdateToastOptions) {
+    this.toasts = this.toasts.map((t) => ({ ...t, ...(t.id === toast.id && { ...toast, ...options }) }));
   }
 
   beforeClosed(toast: Toast) {
