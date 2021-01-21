@@ -1,5 +1,6 @@
 <p align="center">
- <img width="20%" height="20%" src="./assets/logo.svg">
+ <!-- <img width="20%" height="20%" src="./assets/logo.svg"> -->
+ <img src="./assets/demo.gif">
 </p>
 
 <br />
