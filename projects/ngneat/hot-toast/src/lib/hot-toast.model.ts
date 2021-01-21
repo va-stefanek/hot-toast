@@ -133,5 +133,4 @@ export interface _HotToastRef {
   updateToast: (options: UpdateToastOptions) => void;
 
   afterClosed: Observable<string>;
-  afterOpened: Observable<string>;
 }

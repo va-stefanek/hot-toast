@@ -15,7 +15,6 @@ export class HotToastRef {
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<string>();
   afterClosed: Observable<string>;
-  afterOpened: Observable<string>;
 
   constructor(private toast: Toast) {}
 
@@ -27,13 +26,12 @@ export class HotToastRef {
    * Attach ToastRef to container
    */
   appendTo(container: HotToastContainerComponent) {
-    const { dispose, unsubscribe, updateMessage, updateToast, afterOpened, afterClosed } = container.addToast(this);
+    const { dispose, unsubscribe, updateMessage, updateToast, afterClosed } = container.addToast(this);
 
     this.dispose = dispose;
     this.unsubscribe = unsubscribe;
     this.updateMessage = updateMessage;
     this.updateToast = updateToast;
-    this.afterOpened = afterOpened;
     this.afterClosed = race(this._onClosed.asObservable(), afterClosed);
     return this;
   }

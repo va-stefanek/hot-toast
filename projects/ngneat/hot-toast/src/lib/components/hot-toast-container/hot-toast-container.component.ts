@@ -27,14 +27,8 @@ export class HotToastContainerComponent implements OnDestroy {
 
   private readonly OFFSET_MARGIN = 8;
 
-  /**This is same as exit animation time of toast */
-  private readonly TOAST_EXIT_ANIMATION_TIME = 800;
-
   subscriptionList: Subscription[] = [];
 
-  /** Subject for notifying the user that the toast has opened and appeared. */
-  private _onOpened = new Subject<string>();
-  onOpened$ = this._onOpened.asObservable();
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<string>();
   onClosed$ = this._onClosed.asObservable();
@@ -88,7 +82,6 @@ export class HotToastContainerComponent implements OnDestroy {
         toast = Object.assign(toast, { ...toast, ...options });
         this.cdr.detectChanges();
       },
-      afterOpened: this.onOpened$.pipe(filter((v) => v === toast.id)),
       afterClosed: this.onClosed$.pipe(filter((v) => v === toast.id)),
     };
   }
@@ -136,10 +129,6 @@ export class HotToastContainerComponent implements OnDestroy {
       }
     );
     return { toast, subscription };
-  }
-
-  afterOpened(id: string) {
-    this._onOpened.next(id);
   }
 
   afterClosed(toast: Toast) {

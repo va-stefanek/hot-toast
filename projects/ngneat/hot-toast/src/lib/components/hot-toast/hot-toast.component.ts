@@ -25,7 +25,6 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
 
   @Output() onHeight = new EventEmitter<number>();
   @Output() afterClosed = new EventEmitter();
-  @Output() afterOpened = new EventEmitter();
 
   /**This is same as enter animation time of toast */
   readonly TOAST_SHOW_ANIMATION_TIME = 350;
@@ -48,8 +47,6 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     nativeElement.addEventListener('animationend', (ev: AnimationEvent) => {
       if (this.toast.visible && ev.animationName.includes('hotToastExitAnimation')) {
         this.afterClosed.emit();
-      } else if (ev.animationName.includes('hotToastEnterAnimation')) {
-        this.afterOpened.emit();
       }
     });
   }
