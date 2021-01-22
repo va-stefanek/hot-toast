@@ -15,7 +15,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HotToastModule.forRoot(),
+    HotToastModule.forRoot({ dismissible: true, autoClose: false }),
     HttpClientModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
