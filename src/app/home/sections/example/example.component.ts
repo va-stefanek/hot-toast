@@ -17,6 +17,8 @@ interface Example {
 export class ExampleComponent implements OnInit, AfterViewInit {
   @ViewChild('success') successTemplate;
   @ViewChild('error') errorTemplate;
+  @ViewChild('template') ngTemplate;
+  ngComponent = DummyComponent;
 
   examples: Example[] = [];
 
@@ -132,6 +134,109 @@ export class ExampleComponent implements OnInit, AfterViewInit {
           this.toast.show('Snackbar', { theme: 'snackbar', icon: '🌚', position: 'bottom-center' });
         },
       },
+      {
+        title: 'Dismissible',
+        emoji: '❎',
+        snippet: `
+  toast.show('Dismissible',
+    {
+      autoClose: false,
+      dismissible: true,
+      icon: '❎',
+    }
+  )
+        `,
+        action: () => {
+          this.toast.show('Dismissible', {
+            autoClose: false,
+            dismissible: true,
+            icon: '❎',
+          });
+        },
+      },
+      {
+        title: 'Events',
+        emoji: '🔁',
+        snippet: `
+  const toastRef = toast.show('Events',
+    {
+      dismissible: true, duration: 5000
+    }
+  );
+  toastRef.afterClosed.subscribe((e) => {
+    console.log(e)
+  });
+        `,
+        action: () => {
+          const toastRef = this.toast.show('Events', { dismissible: true, duration: 5000 });
+          toastRef.afterClosed.subscribe((e) => console.log(e));
+        },
+      },
+      {
+        title: 'Themed',
+        emoji: '🎨',
+        snippet: `
+  toast.success('Look at my styles', {
+    style: {
+      border: '2px solid #ff4081',
+      backgroundColor: '#3f51b5',
+      padding: '16px',
+      color: '#fff',
+    },
+    icon: '&#x2714;'
+    iconTheme: {
+      primary: '#ff4081',
+      secondary: '#fff',
+    },
+  });
+        `,
+        action: () => {
+          this.toast.success('Look at my styles', {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            },
+          });
+        },
+      },
+      {
+        title: 'Template',
+        emoji: '🔩',
+        snippet: `
+  toast.show(template);
+
+  // template
+  // &lt;ng-template #template&gt;
+  //  Custom and &lt;b&gt;bold&lt;/b&gt;
+  // &lt;/ng-template&gt;
+    `,
+        action: () => {
+          this.toast.show(this.ngTemplate);
+        },
+      },
+      {
+        title: 'Component',
+        emoji: '🆕',
+        snippet: `
+  @Component({
+    selector: 'app-dummy',
+    template: 'Hi 👋 from the component!',
+  })
+  export class DummyComponent {}
+
+  ngComponent = DummyComponent;
+
+  toast.show(this.ngComponent);
+    `,
+        action: () => {
+          this.toast.show(this.ngComponent);
+        },
+      },
     ]);
 
     this.snippet = this.examples[0].snippet;
@@ -146,3 +251,9 @@ export class ExampleComponent implements OnInit, AfterViewInit {
     e.action();
   }
 }
+
+@Component({
+  selector: 'app-dummy',
+  template: 'Hi 👋 from the component!',
+})
+export class DummyComponent {}

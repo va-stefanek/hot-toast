@@ -15,6 +15,7 @@ export class FeaturesComponent implements OnInit {
     'Observable API',
     'Pause on hover',
     'Events',
+    'Persistent',
   ];
 
   constructor() {}

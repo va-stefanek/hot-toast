@@ -6,7 +6,7 @@
       [offset]="calculateOffset(toast.id, toast.position)"
       (onHeight)="updateHeight($event, toast)"
       (beforeClosed)="beforeClosed(toast)"
-      (afterClosed)="afterClosed(toast)"
+      (afterClosed)="afterClosed($event)"
     ></hot-toast>
   </div>
 </div>

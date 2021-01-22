@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
 import {
   DefaultToastOptions,
+  HotToastClose,
   resolveValueOrFunction,
   Toast,
   ToastConfig,
@@ -30,7 +31,7 @@ export class HotToastContainerComponent implements OnDestroy {
   private subscriptionList: Subscription[] = [];
 
   /** Subject for notifying the user that the toast has been closed. */
-  private _onClosed = new Subject<string>();
+  private _onClosed = new Subject<HotToastClose>();
   private onClosed$ = this._onClosed.asObservable();
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -73,7 +74,7 @@ export class HotToastContainerComponent implements OnDestroy {
         if (subscription) {
           subscription.unsubscribe();
         }
-        this.afterClosed(ref.getToast());
+        this.afterClosed({ dismissedByAction: false, id: ref.getToast().id });
       },
       unsubscribe: () => {
         subscription?.unsubscribe();
@@ -125,7 +126,7 @@ export class HotToastContainerComponent implements OnDestroy {
   }
 
   private getAfterClosed(toast: Toast) {
-    return this.onClosed$.pipe(filter((v) => v === toast.id));
+    return this.onClosed$.pipe(filter((v) => v.id === toast.id));
   }
 
   private updateToasts(toast: Toast, options?: UpdateToastOptions) {
@@ -136,11 +137,11 @@ export class HotToastContainerComponent implements OnDestroy {
     toast.visible = false;
   }
 
-  afterClosed(toast: Toast) {
-    const toastIndex = this.toasts.findIndex((t) => t.id === toast.id);
+  afterClosed(closeToast: HotToastClose) {
+    const toastIndex = this.toasts.findIndex((t) => t.id === closeToast.id);
     if (toastIndex > -1) {
-      this._onClosed.next(toast.id);
-      this.toasts = this.toasts.filter((t) => t.id !== toast.id);
+      this._onClosed.next(closeToast);
+      this.toasts = this.toasts.filter((t) => t.id !== closeToast.id);
       this.cdr.detectChanges();
     }
   }

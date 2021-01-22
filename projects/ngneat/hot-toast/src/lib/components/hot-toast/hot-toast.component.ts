@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Toast, ToastConfig } from '../../hot-toast.model';
+import { HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 
 @Component({
@@ -25,7 +25,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
 
   @Output() onHeight = new EventEmitter<number>();
   @Output() beforeClosed = new EventEmitter();
-  @Output() afterClosed = new EventEmitter();
+  @Output() afterClosed = new EventEmitter<HotToastClose>();
 
   /**This is same as enter animation time of toast */
   readonly TOAST_SHOW_ANIMATION_TIME = 350;
@@ -45,7 +45,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     });
     nativeElement.addEventListener('animationend', (ev: AnimationEvent) => {
       if (this.isExitAnimation(ev)) {
-        this.afterClosed.emit();
+        this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id });
       }
     });
   }
@@ -93,8 +93,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
       top ? 'Negative' : 'Positive'
     } 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1) ${this.toast.duration}ms`;
 
-    const animation =
-      this.toast.dismissible || !this.toast.autoClose ? enterAnimation : `${enterAnimation}, ${exitAnimation}`;
+    const animation = this.toast.autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
 
     return { ...this.toast.style, animation };
   }

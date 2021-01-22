@@ -30,7 +30,7 @@ export type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-le
 
 export interface IconTheme {
   primary: string;
-  secondary: string;
+  secondary?: string;
 }
 
 export type ToastTheme = 'toast' | 'snackbar';
@@ -129,5 +129,12 @@ export interface _HotToastRef {
   updateMessage: (message: Content) => void;
   updateToast: (options: UpdateToastOptions) => void;
 
-  afterClosed: Observable<string>;
+  afterClosed: Observable<HotToastClose>;
+}
+
+/** Event that is emitted when a snack bar is dismissed. */
+export interface HotToastClose {
+  /** Whether the snack bar was dismissed using the action button. */
+  dismissedByAction: boolean;
+  id: string;
 }
