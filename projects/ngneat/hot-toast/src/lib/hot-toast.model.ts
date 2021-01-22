@@ -4,6 +4,8 @@ import { HotToastRef } from './hot-toast-ref';
 
 export class ToastConfig implements DefaultToastOptions {
   reverseOrder: boolean = false;
+  persist: ToastPersistConfig = { enabled: false };
+  debug: boolean = false;
 
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
@@ -137,4 +139,11 @@ export interface HotToastClose {
   /** Whether the snack bar was dismissed using the action button. */
   dismissedByAction: boolean;
   id: string;
+}
+
+export class ToastPersistConfig {
+  storage?: 'local' | 'session' = 'local';
+  key? = 'ngneat/hototast-${id}';
+  count? = 1;
+  enabled = false;
 }
