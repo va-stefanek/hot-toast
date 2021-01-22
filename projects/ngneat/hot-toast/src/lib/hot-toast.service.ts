@@ -58,6 +58,10 @@ export class HotToastService implements HotToastServiceMethods {
       ...options,
     };
 
+    if (this.componentInstance.hasToast(toast.id)) {
+      throw new Error('Could not open toast, as another one is present with same id: ' + toast.id);
+    }
+
     return new HotToastRef(toast).appendTo(this.componentInstance);
   }
 

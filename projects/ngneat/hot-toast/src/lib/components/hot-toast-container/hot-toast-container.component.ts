@@ -146,6 +146,10 @@ export class HotToastContainerComponent implements OnDestroy {
     }
   }
 
+  hasToast(id: string) {
+    return this.toasts.findIndex((t) => t.id === id) > -1;
+  }
+
   ngOnDestroy() {
     this.subscriptionList.forEach((s) => s.unsubscribe());
   }
