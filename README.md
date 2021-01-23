@@ -1,5 +1,6 @@
+<h1 id="ngneat-hot-toast" align="center">ngneat hot toast</h1>
+
 <p align="center">
-  <h1 id="ngneat-hot-toast">ngneat hot toast</h1>
   <img width="20%" height="20%" src="./assets/logo.svg">
 </p>
 
