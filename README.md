@@ -24,6 +24,7 @@
 
 - [Features](#features)
 - [Installation](#installation)
+  - [Angular CLI](#angular-cli)
   - [NPM](#npm)
   - [Yarn](#yarn)
 - [Usage](#usage)
@@ -76,13 +77,17 @@
 
 ## Installation
 
+### Angular CLI
+
+`ng add @ngneat/hot-toast`
+
 ### NPM
 
-`npm install @ngneat/hot-toast`
+`npm install @ngneat/overview @ngneat/hot-toast`
 
 ### Yarn
 
-`yarn add @ngneat/hot-toast`
+`yarn add @ngneat/overview @ngneat/hot-toast`
 
 ## Usage
 
@@ -184,11 +189,10 @@ You can unsubscribe to observable using `CreateHotToastRef`'s `unsubscribe` meth
 
 All options, which are set *Available in global config?* from `ToastOptions` are supported. Below are extra configurable options:
 
-| Name         | Type                                          | Description                                                                                                          |
-| ------------ | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| reverseOrder | `boolean`                                     | Sets the reverse order for hot-toast stacking<br>*Default: false*                                                    |
-| persist      | [`{ToastPersistConfig}`](#toastpersistconfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.<br>*Default: `{enabled: false}`* |
-| debug        | `boolean`                                     | Show errors if any. This is disabled in production.<br>*Default: `false`*                                            |
+| Name         | Type      | Description                                                               |
+| ------------ | --------- | ------------------------------------------------------------------------- |
+| reverseOrder | `boolean` | Sets the reverse order for hot-toast stacking<br>*Default: false*         |
+| debug        | `boolean` | Show errors if any. This is disabled in production.<br>*Default: `false`* |
 
 ### Types
 
@@ -214,21 +218,22 @@ All options, which are set *Available in global config?* from `ToastOptions` are
 
 Configuration used when opening an hot-toast.
 
-| Name        | Type                              | Description                                                                                                                                                    | Available in global config? |
-| ----------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| id          | `string`                          | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id.                                                                 | No                          |
-| duration    | `number`                          | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>*Default: `3000, error = 4000, loading = 30000`* | Yes                         |
-| autoClose   | `boolean`                         | Auto close hot-toast after duration<br>*Default: `true`*                                                                                                       | Yes                         |
-| position    | [`ToastPosition`](#toastposition) | The position to place the hot-toast.<br>*Default: `top-center, theme[snackbar] = top-bottom`*                                                                  | Yes                         |
-| dismissible | `boolean`                         | Show close button in hot-toast<br>*Default: `false`*                                                                                                           | Yes                         |
-| role        | [`ToastRole`](#toastrole)         | Role of the live region.<br>*Default: `status`*                                                                                                                | Yes                         |
-| ariaLive    | [`ToastAriaLive`](#toastarialive) | aria-live value for the live region.<br>*Default: `polite`*                                                                                                    | Yes                         |
-| theme       | [`ToastTheme`](#toasttheme)       | Visual appearance of hot-toast<br>*Default: `toast`*                                                                                                           | Yes                         |
-| icon        | [`Content`](#content)             | Icon to show in the hot-toast                                                                                                                                  | Yes                         |
-| iconTheme   | [`IconTheme`](#icontheme)         | Use this to change icon color                                                                                                                                  | Yes                         |
-| className   | `string`                          | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
-| style       | `any`                             | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
-| closeStyle  | `any`                             | Extra styles to apply for close button                                                                                                                         | Yes                         |
+| Name        | Type                                          | Description                                                                                                                                                    | Available in global config? |
+| ----------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| id          | `string`                                      | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id.                                                                 | No                          |
+| duration    | `number`                                      | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>*Default: `3000, error = 4000, loading = 30000`* | Yes                         |
+| autoClose   | `boolean`                                     | Auto close hot-toast after duration<br>*Default: `true`*                                                                                                       | Yes                         |
+| position    | [`ToastPosition`](#toastposition)             | The position to place the hot-toast.<br>*Default: `top-center`*                                                                                                | Yes                         |
+| dismissible | `boolean`                                     | Show close button in hot-toast<br>*Default: `false`*                                                                                                           | Yes                         |
+| role        | [`ToastRole`](#toastrole)                     | Role of the live region.<br>*Default: `status`*                                                                                                                | Yes                         |
+| ariaLive    | [`ToastAriaLive`](#toastarialive)             | aria-live value for the live region.<br>*Default: `polite`*                                                                                                    | Yes                         |
+| theme       | [`ToastTheme`](#toasttheme)                   | Visual appearance of hot-toast<br>*Default: `toast`*                                                                                                           | Yes                         |
+| persist     | [`{ToastPersistConfig}`](#toastpersistconfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.                                                                            | No                          |
+| icon        | [`Content`](#content)                         | Icon to show in the hot-toast                                                                                                                                  | Yes                         |
+| iconTheme   | [`IconTheme`](#icontheme)                     | Use this to change icon color                                                                                                                                  | Yes                         |
+| className   | `string`                                      | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
+| style       | `any`                                         | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
+| closeStyle  | `any`                                         | Extra styles to apply for close button                                                                                                                         | Yes                         |
 
 #### Content
 

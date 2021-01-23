@@ -9,18 +9,6 @@ export class ToastConfig implements DefaultToastOptions {
   reverseOrder: boolean = false;
 
   /**
-   * Useful when you want to keep a persistance for toast based on ids, across sessions.
-   * @example
-   * // Lets say you want show hot-toast, with a particular id, max 3 times to a user irrespective of browser session. In this case you will set this as:
-   * { enabled: true, count: 3 }
-   *
-   * @type {ToastPersistConfig}
-   * @memberof ToastConfig
-   * @default { enabled: false }
-   */
-  persist: ToastPersistConfig = { enabled: false };
-
-  /**
    *Show errors if any. This is disabled in production.
    *
    * @type {boolean}
@@ -150,6 +138,16 @@ export interface Toast {
   /**Observable to which subscription will happen and messages will be displayed according to observableMessages */
   observable?: Observable<unknown>;
   observableMessages?: ObservableMessages<unknown>;
+
+  /**
+   * Useful when you want to keep a persistance for toast based on ids, across sessions.
+   * @example
+   * // Lets say you want show hot-toast, with a particular id, max 3 times to a user irrespective of browser session. In this case you will set this as:
+   * { enabled: true, count: 3 }
+   *
+   * @type {ToastPersistConfig}
+   */
+  persist?: ToastPersistConfig;
 }
 
 export type ToastMessage = ValueOrFunction<Content, ToastMessageInput>;
@@ -172,6 +170,7 @@ export type ToastOptions = Partial<
     | 'theme'
     | 'position'
     | 'closeStyle'
+    | 'persist'
   >
 >;
 

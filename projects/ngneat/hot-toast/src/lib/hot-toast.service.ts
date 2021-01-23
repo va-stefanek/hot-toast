@@ -29,18 +29,10 @@ export class HotToastService implements HotToastServiceMethods {
 
   constructor(private viewService: ViewService, @Optional() config: ToastConfig) {
     if (config) {
-      if (config.persist?.enabled) {
-        this._defaultPersistConfig = {
-          ...this._defaultPersistConfig,
-          ...config.persist,
-        };
-      }
-
       this._defaultConfig = {
         ...this._defaultConfig,
         ...config,
         debug: (typeof ngDevMode === 'undefined' || ngDevMode) && config.debug,
-        persist: this._defaultPersistConfig,
       };
     }
   }
@@ -69,7 +61,7 @@ export class HotToastService implements HotToastServiceMethods {
 
     const id = options?.id ?? now.toString();
 
-    if (this.isDuplicate(id) || !this.createStorage(id)) {
+    if (this.isDuplicate(id) || !this.createStorage(id, options)) {
       if (this._defaultConfig.debug) {
         throw new Error(this._error);
       }
@@ -103,10 +95,10 @@ export class HotToastService implements HotToastServiceMethods {
    * and returns the count.
    * Count can not be less than 0.
    */
-  private createStorage(id: string): number {
+  private createStorage(id: string, options: DefaultToastOptions): number {
     let count = 1;
-    if (this._defaultConfig.persist?.enabled) {
-      const persist = this._defaultConfig.persist;
+    if (options.persist?.enabled) {
+      const persist = { ...this._defaultPersistConfig, ...options.persist };
       const storage: Storage = persist.storage === 'local' ? localStorage : sessionStorage;
       const key = persist.key.replace(/\${id}/g, id);
 

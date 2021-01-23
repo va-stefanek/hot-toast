@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { HotToastService, Toast, ToastMessageInput } from '@ngneat/hot-toast';
-import { Content } from '@ngneat/overview';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { HotToastService } from '@ngneat/hot-toast';
 import { from } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -262,6 +261,24 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        title: 'Persistent',
+        emoji: '🔢',
+        snippet: `
+  toast.show('I can be opened only once across multiple browser sessions!', {
+    id: 'persist-1',
+    persist: { enabled: true },
+  });
+
+  // clear localStorage for current url to open it again!
+        `,
+        action: () => {
+          this.toast.show('I can be opened only once across multiple browser sessions!', {
+            id: 'persist-1',
+            persist: { enabled: true },
+          });
+        },
+      },
+      {
         title: 'Template',
         emoji: '🔩',
         snippet: `
@@ -288,10 +305,10 @@ export class ExampleComponent implements OnInit, AfterViewInit {
 
   ngComponent = DummyComponent;
 
-  toast.show(this.ngComponent);
+  toast.show(() => this.ngComponent);
     `,
         action: () => {
-          this.toast.show(DummyComponent);
+          this.toast.show(() => this.ngComponent);
         },
       },
     ]);
