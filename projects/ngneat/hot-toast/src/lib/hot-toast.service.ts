@@ -16,6 +16,8 @@ import {
   ToastType,
 } from './hot-toast.model';
 
+declare const ngDevMode: boolean;
+
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
   private _defaultConfig = new ToastConfig();
@@ -35,6 +37,7 @@ export class HotToastService implements HotToastServiceMethods {
       this._defaultConfig = {
         ...this._defaultConfig,
         ...config,
+        debug: (typeof ngDevMode === 'undefined' || ngDevMode) && config.debug,
         persist: this._defaultPersistConfig,
       };
     }
