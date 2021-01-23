@@ -1,6 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { HotToastService } from '@ngneat/hot-toast';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { HotToastService, Toast, ToastMessageInput } from '@ngneat/hot-toast';
+import { Content } from '@ngneat/overview';
 import { from } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 interface Example {
   title: string;
@@ -23,6 +25,10 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   examples: Example[] = [];
 
   snippet = '';
+
+  readonly EXAMPLE_LINK = `https://github.com/ngneat/hot-toast/tree/${
+    environment.production ? 'master' : 'development'
+  }/src/app/home/sections/example`;
 
   constructor(private toast: HotToastService) {}
 
@@ -52,7 +58,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         title: 'Observe',
         emoji: '⏳',
         snippet: `
-  toast.observe(
+  this.ref = toast.observe(
     saveSettings(settings),
     {
       loading: 'Saving...',
@@ -60,6 +66,10 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       error: errorTemplate,
     }
   );
+
+  ngOnDestroy() {
+    this.ref.unsubscribe();
+  }
 
   // template
   // &lt;ng-template #successTemplate&gt;
@@ -91,7 +101,8 @@ export class ExampleComponent implements OnInit, AfterViewInit {
     It's larger than you expected.
     You eat it but it does not seem to get smaller.",
     {
-      duration: 6000,
+      autoClose: false,
+      dismissible: true
     }
   );
         `,
@@ -99,7 +110,8 @@ export class ExampleComponent implements OnInit, AfterViewInit {
           this.toast.show(
             "This toast is super big.I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.",
             {
-              duration: 6000,
+              autoClose: false,
+              dismissible: true,
             }
           );
         },
@@ -205,6 +217,51 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        title: 'Toast data',
+        emoji: '🗃',
+        snippet: `
+  toast.show((t) =>
+    \`My id is: \${t.getToast().id}\`
+  );
+        `,
+        action: () => {
+          this.toast.show((t) => `My id is: ${t.getToast().id}`);
+        },
+      },
+      {
+        title: 'Toast ref',
+        emoji: '🕵️',
+        snippet: `
+  const ref = toast.show(
+    'I will be closed using ref.',
+    { autoClose: false, icon: '🕵️' }
+  );
+  setTimeout(() => {
+    ref.close();
+  }, 3000);
+        `,
+        action: () => {
+          const ref = this.toast.show('I will be closed using ref.', { autoClose: false, icon: '🕵️' });
+          setTimeout(() => {
+            ref.close();
+          }, 3000);
+        },
+      },
+      {
+        title: 'Only one at a time',
+        emoji: '☝',
+        snippet: `
+  toast.show(
+    "I can have only single toast at a time,
+     cz I have an unique id!",
+    { id: 'pause' }
+  );
+        `,
+        action: () => {
+          this.toast.show('I can have only single toast at a time, cz I have an unique id!', { id: 'pause' });
+        },
+      },
+      {
         title: 'Template',
         emoji: '🔩',
         snippet: `
@@ -234,7 +291,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   toast.show(this.ngComponent);
     `,
         action: () => {
-          this.toast.show(this.ngComponent);
+          this.toast.show(DummyComponent);
         },
       },
     ]);

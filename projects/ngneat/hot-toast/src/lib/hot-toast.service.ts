@@ -1,16 +1,18 @@
 import { Injectable, Optional } from '@angular/core';
-import { Content, ViewService } from '@ngneat/overview';
+import { ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
 import { HotToastRef } from './hot-toast-ref';
 import {
+  CreateHotToastRef,
   DefaultToastOptions,
   HotToastServiceMethods,
   ObservableMessages,
   Toast,
   ToastConfig,
+  ToastMessage,
   ToastOptions,
   ToastPersistConfig,
   ToastType,
@@ -43,6 +45,10 @@ export class HotToastService implements HotToastServiceMethods {
     }
   }
 
+  /**
+   * Used for internal purpose only.
+   * Creates a container component and attaches it to document.body.
+   */
   init() {
     const componentRef = this.viewService
       .createComponent(HotToastContainerComponent)
@@ -53,12 +59,12 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   private createToast<T>(
-    message: Content,
+    message: ToastMessage,
     type: ToastType,
     options?: DefaultToastOptions,
     observable?: Observable<T>,
     observableMessages?: ObservableMessages<T>
-  ): HotToastRef {
+  ): CreateHotToastRef {
     const now = Date.now();
 
     const id = options?.id ?? now.toString();
@@ -124,13 +130,29 @@ export class HotToastService implements HotToastServiceMethods {
     return count;
   }
 
-  show(message: Content, options?: ToastOptions) {
+  /**
+   * Opens up an hot-toast without any pre-configurations
+   *
+   * @param {ToastMessage} message The message to show in the hot-toast.
+   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
+   * @returns {CreateHotToastRef}
+   * @memberof HotToastService
+   */
+  show(message: ToastMessage, options?: ToastOptions): CreateHotToastRef {
     const toast = this.createToast(message, 'blank', { ...this._defaultConfig, ...options });
 
     return toast;
   }
 
-  error(message: Content, options?: ToastOptions) {
+  /**
+   * Opens up an hot-toast with pre-configurations for error state
+   *
+   * @param {ToastMessage} message The message to show in the hot-toast.
+   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
+   * @returns {CreateHotToastRef}
+   * @memberof HotToastService
+   */
+  error(message: ToastMessage, options?: ToastOptions): CreateHotToastRef {
     const toast = this.createToast(message, 'error', {
       ...this._defaultConfig,
       ...this._defaultConfig?.error,
@@ -139,7 +161,16 @@ export class HotToastService implements HotToastServiceMethods {
 
     return toast;
   }
-  success(message: Content, options?: ToastOptions) {
+
+  /**
+   * Opens up an hot-toast with pre-configurations for success state
+   *
+   * @param {ToastMessage} message The message to show in the hot-toast.
+   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
+   * @returns {CreateHotToastRef}
+   * @memberof HotToastService
+   */
+  success(message: ToastMessage, options?: ToastOptions): CreateHotToastRef {
     const toast = this.createToast(message, 'success', {
       ...this._defaultConfig,
       ...this._defaultConfig?.success,
@@ -148,7 +179,16 @@ export class HotToastService implements HotToastServiceMethods {
 
     return toast;
   }
-  loading(message: Content, options?: ToastOptions) {
+
+  /**
+   * Opens up an hot-toast with pre-configurations for loading state
+   *
+   * @param {ToastMessage} message The message to show in the hot-toast.
+   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
+   * @returns {CreateHotToastRef}
+   * @memberof HotToastService
+   */
+  loading(message: ToastMessage, options?: ToastOptions): CreateHotToastRef {
     const toast = this.createToast(message, 'loading', {
       ...this._defaultConfig,
       ...this._defaultConfig?.loading,
@@ -157,7 +197,22 @@ export class HotToastService implements HotToastServiceMethods {
 
     return toast;
   }
-  observe<T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions) {
+
+  /**
+   *
+   *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
+   * @template T
+   * @param {Observable<T>} observable Observable to which subscription will happen and messages will be displayed according to messages
+   * @param {ObservableMessages<T>} messages Messages for each state i.e. loading, next and error
+   * @param {DefaultToastOptions} [options] Additional configuration options for the hot-toast.
+   * @returns {CreateHotToastRef}
+   * @memberof HotToastService
+   */
+  observe<T>(
+    observable: Observable<T>,
+    messages: ObservableMessages<T>,
+    options?: DefaultToastOptions
+  ): CreateHotToastRef {
     let toastRef = this.createToast(
       messages.loading || 'Loading...',
       'loading',

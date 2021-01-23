@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { Component } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
@@ -10,11 +10,13 @@ import {
   ToastConfig,
   ToastPosition,
   UpdateToastOptions,
-  _HotToastRef,
+  HotToastRefProps,
+  AddToastRef,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Content } from '@ngneat/overview';
+import { HotToastComponent } from '../hot-toast/hot-toast.component';
 
 @Component({
   selector: 'hot-toast-container',
@@ -32,6 +34,8 @@ export class HotToastContainerComponent implements OnDestroy {
 
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
+
+  @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
   private onClosed$ = this._onClosed.asObservable();
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -56,7 +60,7 @@ export class HotToastContainerComponent implements OnDestroy {
     toast.height = height;
   }
 
-  addToast(ref: HotToastRef): _HotToastRef {
+  addToast(ref: HotToastRef): AddToastRef {
     let toast = ref.getToast();
     let subscription: Subscription;
 
@@ -74,7 +78,11 @@ export class HotToastContainerComponent implements OnDestroy {
         if (subscription) {
           subscription.unsubscribe();
         }
-        this.afterClosed({ dismissedByAction: false, id: ref.getToast().id });
+
+        const comp = this.hotToastComponentList.find((item) => item.toast.id === toast.id);
+        if (comp) {
+          comp.close();
+        }
       },
       unsubscribe: () => {
         subscription?.unsubscribe();
