@@ -215,7 +215,7 @@ All options, which are set *Available in global config?* from `ToastOptions` are
 Configuration used when opening an hot-toast.
 
 | Name        | Type                              | Description                                                                                                                                                    | Available in global config? |
-| ----------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ----------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | id          | `string`                          | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id.                                                                 | No                          |
 | duration    | `number`                          | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>*Default: `3000, error = 4000, loading = 30000`* | Yes                         |
 | autoClose   | `boolean`                         | Auto close hot-toast after duration<br>*Default: `true`*                                                                                                       | Yes                         |
