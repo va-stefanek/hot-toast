@@ -15,6 +15,7 @@
     "deploy": "ng deploy --base-href=https://ngneat.github.io/libName/",
     "copy": "cp -r README.md dist/ngneat/hot-toast",
     "build:lib": "ng build @ngneat/hot-toast --prod && npm run copy",
+    "postbuild:lib": "npm run build --prefix ./projects/ngneat/hot-toast",
     "test:lib": "ng test @ngneat/hot-toast",
     "release": "cd projects/ngneat/hot-toast && standard-version --infile ../../../CHANGELOG.md",
     "test:lib:headless": "cross-env CI=true npm run test:lib"
@@ -54,6 +55,7 @@
     "all-contributors-cli": "^6.19.0",
     "angular-cli-ghpages": "1.0.0-rc.1",
     "codelyzer": "^6.0.0",
+    "cpx": "^1.5.0",
     "cross-env": "^7.0.3",
     "git-cz": "^4.7.6",
     "husky": "^4.3.5",

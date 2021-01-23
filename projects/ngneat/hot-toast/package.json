@@ -1,9 +1,17 @@
 {
   "name": "@ngneat/hot-toast",
   "version": "1.0.0",
+  "schematics": "./schematics/collection.json",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "copy:schemas": "cpx schematics/ng-add ../../../dist/ngneat/hot-toast/",
+    "copy:collection": "cpx schematics/collection.json ../../../dist/ngneat/hot-toast/schematics/",
+    "postbuild": "npm run copy:schemas && npm run copy:collection"
+  },
   "peerDependencies": {
     "@angular/common": "^11.0.5",
-    "@angular/core": "^11.0.5"
+    "@angular/core": "^11.0.5",
+    "@ngneat/overview": "^1.0.0-beta.6"
   },
   "dependencies": {
     "tslib": "^2.0.0"
@@ -24,5 +32,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ngneat/hot-toast"
+  },
+  "ng-add": {
+    "save": true
   }
 }
