@@ -8,15 +8,6 @@ export class ToastConfig implements DefaultToastOptions {
    */
   reverseOrder: boolean = false;
 
-  /**
-   *Show errors if any. This is disabled in production.
-   *
-   * @type {boolean}
-   * @memberof ToastPersistConfig
-   * @default false
-   */
-  debug: boolean = false;
-
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
   position: ToastPosition = 'top-center';

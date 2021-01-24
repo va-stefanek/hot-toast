@@ -18,13 +18,10 @@ import {
   ToastType,
 } from './hot-toast.model';
 
-declare const ngDevMode: boolean;
-
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
   private _defaultConfig = new ToastConfig();
   private _defaultPersistConfig = new ToastPersistConfig();
-  private _error: string;
   componentInstance: HotToastContainerComponent;
 
   constructor(private viewService: ViewService, @Optional() config: ToastConfig) {
@@ -32,7 +29,6 @@ export class HotToastService implements HotToastServiceMethods {
       this._defaultConfig = {
         ...this._defaultConfig,
         ...config,
-        debug: (typeof ngDevMode === 'undefined' || ngDevMode) && config.debug,
       };
     }
   }
@@ -61,11 +57,7 @@ export class HotToastService implements HotToastServiceMethods {
 
     const id = options?.id ?? now.toString();
 
-    if (this.isDuplicate(id) || !this.createStorage(id, options)) {
-      if (this._defaultConfig.debug) {
-        throw new Error(this._error);
-      }
-    } else {
+    if (!this.isDuplicate(id) && this.createStorage(id, options)) {
       const toast: Toast = {
         ariaLive: options?.ariaLive ?? 'polite',
         createdAt: now,
@@ -85,7 +77,6 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   private isDuplicate(id: string) {
-    this._error = `Could not open toast, because another one is present with same id: ${id}.`;
     return this.componentInstance.hasToast(id);
   }
 
@@ -109,7 +100,6 @@ export class HotToastService implements HotToastServiceMethods {
         if (item > 0) {
           count = item - 1;
         } else {
-          this._error = `Could not create toast, because remaining count is zero in ${persist.storage}Storage for it's corresponding key, i.e. ${key}.`;
           count = item;
         }
       } else {
