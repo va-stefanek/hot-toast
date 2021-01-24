@@ -63,7 +63,7 @@ export interface Toast {
   id: string;
 
   /** The message to show in the hot-toast. */
-  message: ToastMessage;
+  message: Content;
 
   /**
    * Role of the live region.
@@ -141,10 +141,6 @@ export interface Toast {
   persist?: ToastPersistConfig;
 }
 
-export type ToastMessage = ValueOrFunction<Content, ToastMessageInput>;
-
-export type ToastMessageInput = Pick<HotToastRefProps, 'getToast'>;
-
 export type ToastOptions = Partial<
   Pick<
     Toast,
@@ -177,10 +173,10 @@ export type ObservableMessages<T> = {
 };
 
 export interface HotToastServiceMethods {
-  show: (message: ToastMessage, options?: ToastOptions) => CreateHotToastRef;
-  error: (message: ToastMessage, options?: ToastOptions) => CreateHotToastRef;
-  success: (message: ToastMessage, options?: ToastOptions) => CreateHotToastRef;
-  loading: (message: ToastMessage, options?: ToastOptions) => CreateHotToastRef;
+  show: (message: Content, options?: ToastOptions) => CreateHotToastRef;
+  error: (message: Content, options?: ToastOptions) => CreateHotToastRef;
+  success: (message: Content, options?: ToastOptions) => CreateHotToastRef;
+  loading: (message: Content, options?: ToastOptions) => CreateHotToastRef;
   observe: <T>(observable: Observable<T>, messages: ObservableMessages<T>, options?: ToastOptions) => CreateHotToastRef;
 }
 

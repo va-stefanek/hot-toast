@@ -10,7 +10,6 @@ import {
   ToastConfig,
   ToastPosition,
   UpdateToastOptions,
-  HotToastRefProps,
   AddToastRef,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';

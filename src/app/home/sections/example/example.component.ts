@@ -216,18 +216,6 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
-        title: 'Toast data',
-        emoji: '🗃',
-        snippet: `
-  toast.show((t) =>
-    \`My id is: \${t.getToast().id}\`
-  );
-        `,
-        action: () => {
-          this.toast.show((t) => `My id is: ${t.getToast().id}`);
-        },
-      },
-      {
         title: 'Toast ref',
         emoji: '🕵️',
         snippet: `
@@ -305,10 +293,10 @@ export class ExampleComponent implements OnInit, AfterViewInit {
 
   ngComponent = DummyComponent;
 
-  toast.show(() => this.ngComponent);
+  toast.show(this.ngComponent);
     `,
         action: () => {
-          this.toast.show(() => this.ngComponent);
+          this.toast.show(this.ngComponent);
         },
       },
     ]);

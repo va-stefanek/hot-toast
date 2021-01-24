@@ -35,10 +35,10 @@
   - [HotToastModule](#hottoastmodule)
     - [forRoot(config?: Partial<ToastConfig>)](#forrootconfig-partialtoastconfig)
   - [HotToastService](#hottoastservice)
-    - [show(message: ToastMessage, options?: ToastOptions): CreateHotToastRef](#showmessage-toastmessage-options-toastoptions-createhottoastref)
-    - [error(message: ToastMessage, options?: ToastOptions): CreateHotToastRef](#errormessage-toastmessage-options-toastoptions-createhottoastref)
-    - [success(message: ToastMessage, options?: ToastOptions): CreateHotToastRef](#successmessage-toastmessage-options-toastoptions-createhottoastref)
-    - [loading(message: ToastMessage, options?: ToastOptions): CreateHotToastRef](#loadingmessage-toastmessage-options-toastoptions-createhottoastref)
+    - [show(message: Content, options?: ToastOptions): CreateHotToastRef](#showmessage-content-options-toastoptions-createhottoastref)
+    - [error(message: Content, options?: ToastOptions): CreateHotToastRef](#errormessage-content-options-toastoptions-createhottoastref)
+    - [success(message: Content, options?: ToastOptions): CreateHotToastRef](#successmessage-content-options-toastoptions-createhottoastref)
+    - [loading(message: Content, options?: ToastOptions): CreateHotToastRef](#loadingmessage-content-options-toastoptions-createhottoastref)
     - [observe<T>( observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions ): CreateHotToastRef](#observet-observable-observablet-messages-observablemessagest-options-defaulttoastoptions--createhottoastref)
   - [Classes](#classes)
     - [ToastConfig](#toastconfig)
@@ -134,28 +134,28 @@ Initializes the hot-toast module and creates and appends container component wit
 
 Service to dispatch Hot Toasts.
 
-#### show(message: ToastMessage, options?: ToastOptions): CreateHotToastRef
+#### show(message: Content, options?: ToastOptions): CreateHotToastRef
 
 Opens up an hot-toast without any pre-configurations.
 
 - **Parameters:**
-  - `message` — [`ToastMessage`](#toastmessage) — The message to show in the hot-toast
+  - `message` — [`Content`](#toastmessage) — The message to show in the hot-toast
   - `[options]` — [`ToastOptions`](#toastoptions) — Additional configuration options for the hot-toast
 - **Returns:** [`CreateHotToastRef`](#createhottoastref)
 
-#### error(message: ToastMessage, options?: ToastOptions): CreateHotToastRef
+#### error(message: Content, options?: ToastOptions): CreateHotToastRef
 
 Opens up an hot-toast with pre-configurations for error state.
 
 Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
 
-#### success(message: ToastMessage, options?: ToastOptions): CreateHotToastRef
+#### success(message: Content, options?: ToastOptions): CreateHotToastRef
 
 Opens up an hot-toast with pre-configurations for success state.
 
 Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
 
-#### loading(message: ToastMessage, options?: ToastOptions): CreateHotToastRef
+#### loading(message: Content, options?: ToastOptions): CreateHotToastRef
 
 Opens up an hot-toast with pre-configurations for loading state.
 
@@ -278,18 +278,6 @@ type IconTheme = {
 
 ```typescript
 type ToastAriaLive = 'assertive' | 'off' | 'polite';
-```
-
-#### ToastMessage <!-- omit in toc -->
-
-```typescript
-type ToastMessage = ValueOrFunction<Content, ToastMessageInput>;
-```
-
-#### ToastMessageInput <!-- omit in toc -->
-
-```typescript
-type ToastMessageInput = Pick<CreateHotToastRef, 'getToast'>;
 ```
 
 #### ToastRole <!-- omit in toc -->
