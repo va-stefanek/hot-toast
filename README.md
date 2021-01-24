@@ -47,19 +47,9 @@
       - [Methods](#methods)
       - [Properties](#properties)
     - [ToastOptions](#toastoptions)
-    - [Content](#content)
-    - [HotToastClose](#hottoastclose)
-    - [IconTheme](#icontheme)
     - [ObservableMessages](#observablemessages)
-    - [ToastAriaLive](#toastarialive)
-    - [ToastMessage](#toastmessage)
-    - [ToastMessageInput](#toastmessageinput)
     - [ToastPersistConfig](#toastpersistconfig)
     - [ToastPosition](#toastposition)
-    - [ToastRole](#toastrole)
-    - [ToastTheme](#toasttheme)
-    - [UpdateToastOptions](#updatetoastoptions)
-    - [ValueOrFunction](#valueorfunction)
 - [Contributors ✨](#contributors-)
 
 ## Features
@@ -189,10 +179,9 @@ You can unsubscribe to observable using `CreateHotToastRef`'s `unsubscribe` meth
 
 All options, which are set *Available in global config?* from `ToastOptions` are supported. Below are extra configurable options:
 
-| Name         | Type      | Description                                                               |
-| ------------ | --------- | ------------------------------------------------------------------------- |
-| reverseOrder | `boolean` | Sets the reverse order for hot-toast stacking<br>*Default: false*         |
-| debug        | `boolean` | Show errors if any. This is disabled in production.<br>*Default: `false`* |
+| Name         | Type      | Description                                                       |
+| ------------ | --------- | ----------------------------------------------------------------- |
+| reverseOrder | `boolean` | Sets the reverse order for hot-toast stacking<br>*Default: false* |
 
 ### Types
 
@@ -235,31 +224,6 @@ Configuration used when opening an hot-toast.
 | style       | `any`                                         | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
 | closeStyle  | `any`                                         | Extra styles to apply for close button                                                                                                                         | Yes                         |
 
-#### Content
-
-```typescript
-type Content = string | TemplateRef<any> | Type<any>
-```
-
-#### HotToastClose
-
-```typescript
-interface HotToastClose {
-  /** Whether the snack bar was dismissed using the action button. */
-  dismissedByAction: boolean;
-  id: string;
-}
-```
-
-#### IconTheme
-
-```typescript
-type IconTheme = {
-  primary: string;
-  secondary?: string;
-};
-```
-
 #### ObservableMessages
 
 ```typescript
@@ -268,24 +232,6 @@ type ObservableMessages<T> = {
   next: ValueOrFunction<Content, T>;
   error?: ValueOrFunction<Content, any>;
 };
-```
-
-#### ToastAriaLive
-
-```typescript
-type ToastAriaLive = 'assertive' | 'off' | 'polite';
-```
-
-#### ToastMessage
-
-```typescript
-type ToastMessage = ValueOrFunction<Content, ToastMessageInput>;
-```
-
-#### ToastMessageInput
-
-```typescript
-type ToastMessageInput = Pick<CreateHotToastRef, 'getToast'>;
 ```
 
 #### ToastPersistConfig
@@ -302,20 +248,63 @@ type ToastMessageInput = Pick<CreateHotToastRef, 'getToast'>;
 ```typescript
 type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 ```
+  
+#### Content <!-- omit in toc -->
 
-#### ToastRole
+```typescript
+type Content = string | TemplateRef<any> | Type<any>
+```
+
+#### HotToastClose <!-- omit in toc -->
+
+```typescript
+interface HotToastClose {
+  /** Whether the snack bar was dismissed using the action button. */
+  dismissedByAction: boolean;
+  id: string;
+}
+```
+
+#### IconTheme <!-- omit in toc -->
+
+```typescript
+type IconTheme = {
+  primary: string;
+  secondary?: string;
+};
+```
+
+#### ToastAriaLive <!-- omit in toc -->
+
+```typescript
+type ToastAriaLive = 'assertive' | 'off' | 'polite';
+```
+
+#### ToastMessage <!-- omit in toc -->
+
+```typescript
+type ToastMessage = ValueOrFunction<Content, ToastMessageInput>;
+```
+
+#### ToastMessageInput <!-- omit in toc -->
+
+```typescript
+type ToastMessageInput = Pick<CreateHotToastRef, 'getToast'>;
+```
+
+#### ToastRole <!-- omit in toc -->
 
 ```typescript
 type ToastRole = 'status' | 'alert';
 ```
 
-#### ToastTheme
+#### ToastTheme <!-- omit in toc -->
 
 ```typescript
 type ToastTheme = 'toast' | 'snackbar';
 ```
 
-#### UpdateToastOptions
+#### UpdateToastOptions <!-- omit in toc -->
 
 ```typescript
 type UpdateToastOptions = Partial<
@@ -326,10 +315,10 @@ type UpdateToastOptions = Partial<
 >
 ```
 
-#### ValueOrFunction
+#### ValueOrFunction <!-- omit in toc -->
 
 ```typescript
-export type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;
+type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;
 ```
 
 ---
