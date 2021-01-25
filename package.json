@@ -18,7 +18,12 @@
     "postbuild:lib": "npm run build --prefix ./projects/ngneat/hot-toast",
     "test:lib": "ng test @ngneat/hot-toast",
     "release": "cd projects/ngneat/hot-toast && standard-version --infile ../../../CHANGELOG.md",
-    "test:lib:headless": "cross-env CI=true npm run test:lib"
+    "test:lib:headless": "cross-env CI=true npm run test:lib",
+    "ci:start-server": "angular-http-server --path ./dist/toast -p 4200",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "ci:cy-run": "start-server-and-test ci:start-server http://localhost:4200 cy:run",
+    "ci:cy-open": "start-server-and-test ci:start-server http://localhost:4200 cy:open"
   },
   "private": true,
   "dependencies": {
@@ -54,9 +59,11 @@
     "@types/prismjs": "^1.16.2",
     "all-contributors-cli": "^6.19.0",
     "angular-cli-ghpages": "1.0.0-rc.1",
+    "angular-http-server": "^1.9.0",
     "codelyzer": "^6.0.0",
     "cpx": "^1.5.0",
     "cross-env": "^7.0.3",
+    "cypress": "^6.3.0",
     "git-cz": "^4.7.6",
     "husky": "^4.3.5",
     "jasmine-core": "~3.6.0",
@@ -72,6 +79,7 @@
     "prettier": "^2.2.1",
     "protractor": "~7.0.0",
     "standard-version": "^9.0.0",
+    "start-server-and-test": "^1.11.7",
     "tailwindcss": "2.0.2",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",

@@ -2,7 +2,7 @@
 
 🙏 We would ❤️ for you to contribute to Hot-toast and help make it even better than it is today!
 
-# Developing
+## Developing
 
 Start by installing all dependencies:
 
@@ -10,11 +10,18 @@ Start by installing all dependencies:
 npm i
 ```
 
+Check the tests:
+
+```bash
+ng build --prod
+npm run ci:cy-open
+```
+
 Run the tests:
 
 ```bash
-npm test
-npm run e2e
+ng build --prod
+npm run ci:cy-run
 ```
 
 Run the playground app:

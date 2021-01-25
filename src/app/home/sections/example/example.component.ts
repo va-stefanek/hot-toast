@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 interface Example {
+  id: string;
   title: string;
   action: () => void;
   emoji: string;
@@ -35,6 +36,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     Array.prototype.push.apply(this.examples, [
       {
+        id: 'success',
         title: 'Success',
         emoji: '✅',
         snippet: `
@@ -45,6 +47,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'error',
         title: 'Error',
         emoji: '❌',
         snippet: `
@@ -55,6 +58,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'observe',
         title: 'Observe',
         emoji: '⏳',
         snippet: `
@@ -92,6 +96,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'multi',
         title: 'Multi Line',
         emoji: '↕️',
         snippet: `
@@ -117,6 +122,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'emoji',
         title: 'Emoji',
         emoji: '👏',
         snippet: `
@@ -131,6 +137,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'snackbar',
         title: 'Snackbar (Dark)',
         emoji: '🌚',
         snippet: `
@@ -167,6 +174,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'events',
         title: 'Events',
         emoji: '🔁',
         snippet: `
@@ -185,6 +193,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'themed',
         title: 'Themed',
         emoji: '🎨',
         snippet: `
@@ -217,6 +226,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'toast-ref',
         title: 'Toast ref',
         emoji: '🕵️',
         snippet: `
@@ -236,6 +246,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'only-one-at-a-time',
         title: 'Only one at a time',
         emoji: '☝',
         snippet: `
@@ -250,6 +261,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'persistent',
         title: 'Persistent',
         emoji: '🔢',
         snippet: `
@@ -268,6 +280,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'template',
         title: 'Template',
         emoji: '🔩',
         snippet: `
@@ -283,6 +296,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'component',
         title: 'Component',
         emoji: '🆕',
         snippet: `

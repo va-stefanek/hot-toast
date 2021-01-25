@@ -15,7 +15,7 @@
   <div class="flex items-start h-100">
     <div class="w-full grid grid-cols-2 gap-2 bg-toast-100 rounded-xl p-4">
       <ng-container *ngFor="let example of examples">
-        <app-emoji-button [emoji]="example.emoji" (btnClick)="click(example)" class="w-full">
+        <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" class="w-full">
           {{ example.title }}
         </app-emoji-button>
       </ng-container>

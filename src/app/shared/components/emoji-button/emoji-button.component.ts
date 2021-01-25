@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class EmojiButtonComponent implements OnInit {
   @Input() emoji: string;
   @Input() class: string;
+  @Input() btnId: string;
   @Output() btnClick = new EventEmitter();
 
   constructor() {}
