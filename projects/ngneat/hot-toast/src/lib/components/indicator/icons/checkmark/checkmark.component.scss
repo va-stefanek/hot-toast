@@ -40,6 +40,10 @@
 
   animation: hotToastCircleAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   animation-delay: 100ms;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0ms;
+  }
 }
 .hot-toast-checkmark-icon::after {
   content: '';
@@ -55,4 +59,8 @@
   left: 6px;
   height: 10px;
   width: 6px;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0ms;
+  }
 }

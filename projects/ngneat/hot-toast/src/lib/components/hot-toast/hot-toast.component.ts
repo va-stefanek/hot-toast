@@ -78,8 +78,8 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     };
   }
 
-  getToastBarBaseClasses() {
-    return this.toast.className ?? ' ';
+  getToastBarContainerClasses() {
+    return (this.toast.className ?? ' ') + this.toast.theme;
   }
 
   get toastBarBaseStyles() {

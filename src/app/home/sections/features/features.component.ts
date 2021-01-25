@@ -10,6 +10,7 @@ export class FeaturesComponent implements OnInit {
     'Hot by default',
     'Easy to use',
     'Accessible',
+    'Reduce motion support',
     'Emoji Support',
     'Customizable',
     'Observable API',

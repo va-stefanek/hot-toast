@@ -75,27 +75,20 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   // &lt;/ng-template&gt;
         `,
         action: () => {
-          const id = Date.now().toString();
           from(
             new Promise((res, rej) => {
               setTimeout(Math.random() > 0.5 ? res : rej, 1000);
             })
           )
             .pipe(
-              this.toast.observe(
-                {
-                  loading: 'Saving...',
-                  next: this.successTemplate,
-                  error: this.errorTemplate,
-                },
-                { id, autoClose: false }
-              ),
+              this.toast.observe({
+                loading: 'Saving...',
+                next: this.successTemplate,
+                error: this.errorTemplate,
+              }),
               catchError((error) => of(error))
             )
             .subscribe();
-          setTimeout(() => {
-            // this.toast.close(id);
-          }, 3000);
         },
       },
       {

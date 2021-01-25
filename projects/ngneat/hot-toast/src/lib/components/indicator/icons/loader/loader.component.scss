@@ -16,4 +16,8 @@
   border-color: #e0e0e0;
   border-right-color: #616161;
   animation: hotToastRotate 1s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 5s;
+  }
 }

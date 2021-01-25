@@ -58,6 +58,7 @@
 - 🔥 **Hot by default**
 - ☕ **Easy to use**
 - ♿ **Accessible**
+- 🖐️ **Reduce motion support**
 - 😊 **Emoji Support**
 - 🛠 **Customizable**
 - ⏳ **Observable API** - _Automatic loader from an observable_
