@@ -78,10 +78,7 @@ export class HotToastContainerComponent implements OnDestroy {
           subscription.unsubscribe();
         }
 
-        const comp = this.hotToastComponentList.find((item) => item.toast.id === toast.id);
-        if (comp) {
-          comp.close();
-        }
+        this.closeToast(toast.id);
       },
       unsubscribe: () => {
         subscription?.unsubscribe();
@@ -96,6 +93,13 @@ export class HotToastContainerComponent implements OnDestroy {
       },
       afterClosed: this.getAfterClosed(toast),
     };
+  }
+
+  closeToast(id: string) {
+    const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
+    if (comp) {
+      comp.close();
+    }
   }
 
   private updateSubscription(toast: Toast, subscription: Subscription) {

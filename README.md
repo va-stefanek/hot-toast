@@ -39,7 +39,8 @@
     - [error(message: Content, options?: ToastOptions): CreateHotToastRef](#errormessage-content-options-toastoptions-createhottoastref)
     - [success(message: Content, options?: ToastOptions): CreateHotToastRef](#successmessage-content-options-toastoptions-createhottoastref)
     - [loading(message: Content, options?: ToastOptions): CreateHotToastRef](#loadingmessage-content-options-toastoptions-createhottoastref)
-    - [observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions, observable?: Observable<T> ): CreateHotToastRef | | (<T>(source: Observable<T>) => Observable<T>)](#observet-messages-observablemessagest-options-defaulttoastoptions-observable-observablet--createhottoastref---tsource-observablet--observablet)
+    - [observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions ): <T>(source: Observable<T>) => Observable<T>](#observet-messages-observablemessagest-options-defaulttoastoptions--tsource-observablet--observablet)
+    - [close(id: string): void](#closeid-string-void)
   - [Classes](#classes)
     - [ToastConfig](#toastconfig)
   - [Types](#types)
@@ -184,7 +185,7 @@ Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-to
 toast.loading('Saving...);
 ```
 
-#### observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions, observable?: Observable<T> ): CreateHotToastRef | | (<T>(source: Observable<T>) => Observable<T>)
+#### observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions ): <T>(source: Observable<T>) => Observable<T>
 
 Opens up an hot-toast with pre-configurations for loading initially, subscribes to observable and then changes state based on messages.
 
@@ -196,8 +197,6 @@ Opens up an hot-toast with pre-configurations for loading initially, subscribes 
 - **Basic Usage**:
 
 ```typescript
-// Observe w/ Operator
-
 saveSettings(settings).pipe(toast.observe(
   {
     loading: 'Saving...',
@@ -215,29 +214,16 @@ saveSettings(settings).pipe(toast.observe(
 // </ng-template>
 ```
 
+#### close(id: string): void
+
+Closes the hot-taost.
+
+- **Parameters:**
+  - `id`: `string` - ID of the toast
+- **Basic Usage**:
+
 ```typescript
-// Observe w/o Operator
-
-this.ref = toast.observe(
-  {
-    loading: 'Saving...',
-    success: successTemplate,
-    error: errorTemplate,
-  },
-  saveSettings(settings)
-);
-
-ngOnDestroy() {
-  this.ref.unsubscribe();
-}
-
-// template
-// <ng-template #successTemplate>
-//   <b>Settings saved!</b>
-// </ng-template>
-// <ng-template #errorTemplate>
-//   <b>Could not save.</b>
-// </ng-template>
+toast.close(toastID);
 ```
 
 ### Classes

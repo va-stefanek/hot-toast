@@ -195,76 +195,71 @@ export class HotToastService implements HotToastServiceMethods {
   observe<T>(
     messages: ObservableMessages<T>,
     options?: DefaultToastOptions
-  ): <T>(source: Observable<T>) => Observable<T | ((error: any) => void)>;
-  observe<T>(
-    messages: ObservableMessages<T>,
-    options?: DefaultToastOptions,
-    observable?: Observable<T>
-  ): CreateHotToastRef;
-  observe<T>(
-    messages: ObservableMessages<T>,
-    options?: DefaultToastOptions,
-    observable?: Observable<T>
-  ): CreateHotToastRef | (<T>(source: Observable<T>) => Observable<T | ((error: any) => void)>) {
-    if (observable) {
-      let toastRef = this.createToast(
-        messages.loading || 'Loading...',
-        'loading',
-        {
+  ): <T>(source: Observable<T>) => Observable<T> {
+    return (source) => {
+      let toastRef: CreateHotToastRef = undefined;
+      if (messages.loading) {
+        toastRef = this.createToast(messages.loading, 'loading', {
           ...this._defaultConfig,
           ...this._defaultConfig?.loading,
           ...options,
           ...options?.loading,
-        },
-        observable,
-        messages
-      );
+        });
+      }
 
-      return toastRef;
-    }
-    return (source) => {
-      const toastRef = this.createToast(messages.loading || 'Loading...', 'loading', {
-        ...this._defaultConfig,
-        ...this._defaultConfig?.loading,
-        ...options,
-        ...options?.loading,
-      });
       return source.pipe(
-        tap(
-          (next) => {
+        tap({
+          next: (val) => {
             if (messages.next) {
-              const message = resolveValueOrFunction(messages.next, next as unknown);
-              toastRef.updateMessage(message);
-              const options: UpdateToastOptions = {
-                ...toastRef.getToast(),
-                type: 'success',
-                duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
-                ...this._defaultConfig?.success,
-                ...(toastRef.getToast() as DefaultToastOptions)?.success,
-              };
-              toastRef.updateToast(options);
+              toastRef = this.createOrUpdateToast(messages, val, toastRef, options, 'success');
             }
           },
-          (error) => {
+          error: (e) => {
             if (messages.error) {
-              const message = resolveValueOrFunction(messages.error, error as unknown);
-              toastRef.updateMessage(message);
-              const options: UpdateToastOptions = {
-                ...toastRef.getToast(),
-                type: 'error',
-                duration: HOT_TOAST_DEFAULT_TIMEOUTS['error'],
-                ...this._defaultConfig?.error,
-                ...(toastRef.getToast() as DefaultToastOptions)?.error,
-              };
-              toastRef.updateToast(options);
+              toastRef = this.createOrUpdateToast(messages, e, toastRef, options, 'error');
             }
-          }
-        ),
-
-        // if we don't keep catchError, we get following error:
-        // Cannot read property 'ngOriginalError' of undefined
-        catchError((error) => of(error))
+          },
+        })
       );
     };
+  }
+
+  /**
+   * Closes the hot-toast
+   *
+   * @param {string} id - ID of the toast
+   */
+  close(id: string) {
+    this.componentInstance.closeToast(id);
+  }
+
+  private createOrUpdateToast<T>(
+    messages: ObservableMessages<T>,
+    val: unknown,
+    toastRef: CreateHotToastRef,
+    options: DefaultToastOptions,
+    type: ToastType
+  ) {
+    const message = resolveValueOrFunction(messages[type === 'success' ? 'next' : 'error'], val);
+    if (toastRef) {
+      toastRef.updateMessage(message);
+      const updatedOptions: UpdateToastOptions = {
+        ...toastRef.getToast(),
+        type,
+        duration: HOT_TOAST_DEFAULT_TIMEOUTS[type],
+        ...(this._defaultConfig[type] ?? undefined),
+        ...((toastRef.getToast() as DefaultToastOptions)[type] ?? {}),
+      };
+      toastRef.updateToast(updatedOptions);
+    } else {
+      const newOptions = {
+        ...this._defaultConfig,
+        ...(this._defaultConfig[type] ?? undefined),
+        ...options,
+        ...(options && options[type] ? options[type] : undefined),
+      };
+      this.createToast(message, type, newOptions);
+    }
+    return toastRef;
   }
 }

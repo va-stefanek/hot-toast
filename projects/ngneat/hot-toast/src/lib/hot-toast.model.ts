@@ -177,11 +177,8 @@ export interface HotToastServiceMethods {
   error(message: Content, options?: ToastOptions): CreateHotToastRef;
   success(message: Content, options?: ToastOptions): CreateHotToastRef;
   loading(message: Content, options?: ToastOptions): CreateHotToastRef;
-  observe<T>(
-    messages: ObservableMessages<T>,
-    options?: ToastOptions
-  ): <T>(source: Observable<T>) => Observable<T | ((error: any) => void)>;
-  observe<T>(messages: ObservableMessages<T>, options?: ToastOptions, observable?: Observable<T>): CreateHotToastRef;
+  observe<T>(messages: ObservableMessages<T>, options?: ToastOptions): <T>(source: Observable<T>) => Observable<T>;
+  close(id: string): void;
 }
 
 export type UpdateToastOptions = Partial<

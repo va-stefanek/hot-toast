@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HotToastService, ToastOptions } from '@ngneat/hot-toast';
+import { of } from 'rxjs';
 import { from } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { catchError, share } from 'rxjs/operators';
 
 import { version } from '../../../package.json';
 import { REPO_URL } from '../core/constants';
@@ -46,17 +47,19 @@ export class HomeComponent {
         setTimeout(rej, 2000);
       }
     });
-    const observable = from(promise);
-    const shared = observable.pipe(share());
-    this.toastService.observe(
-      {
-        loading: 'Preparing toast',
-        error: 'Whoops, it burnt',
-        next: "Here's your toast",
-      },
-      { style: { width: '200px' } },
-      shared
-    );
+    const observable = from(promise)
+      .pipe(
+        this.toastService.observe(
+          {
+            loading: 'Preparing toast',
+            error: 'Whoops, it burnt',
+            next: "Here's your toast",
+          },
+          { style: { width: '200px' } }
+        ),
+        catchError((error) => of(error))
+      )
+      .subscribe();
   }
 }
 

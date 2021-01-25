@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 interface Example {
@@ -54,7 +55,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
-        title: 'Observe w/ Operator',
+        title: 'Observe',
         emoji: '⏳',
         snippet: `
   saveSettings(settings).pipe(toast.observe(
@@ -84,49 +85,10 @@ export class ExampleComponent implements OnInit, AfterViewInit {
                 loading: 'Saving...',
                 next: this.successTemplate,
                 error: this.errorTemplate,
-              })
+              }),
+              catchError((error) => of(error))
             )
             .subscribe();
-        },
-      },
-      {
-        title: 'Observe w/o Operator',
-        emoji: '⏳',
-        snippet: `
-  this.ref = toast.observe(
-    {
-      loading: 'Saving...',
-      success: successTemplate,
-      error: errorTemplate,
-    },
-    saveSettings(settings)
-  );
-
-  ngOnDestroy() {
-    this.ref.unsubscribe();
-  }
-
-  // template
-  // &lt;ng-template #successTemplate&gt;
-  //   &lt;b&gt;Settings saved!&lt;/b&gt;
-  // &lt;/ng-template&gt;
-  // &lt;ng-template #errorTemplate&gt;
-  //   &lt;b&gt;Could not save.&lt;/b&gt;
-  // &lt;/ng-template&gt;
-        `,
-        action: () => {
-          const promise = new Promise((res, rej) => {
-            setTimeout(Math.random() > 0.5 ? res : rej, 1000);
-          });
-          this.toast.observe(
-            {
-              loading: 'Saving...',
-              next: this.successTemplate,
-              error: this.errorTemplate,
-            },
-            {},
-            from(promise)
-          );
         },
       },
       {
