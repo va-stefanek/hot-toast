@@ -1,7 +1,7 @@
 import { Content } from '@ngneat/overview';
 import { Observable, race, Subject } from 'rxjs';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
-import { HotToastClose, resolveValueOrFunction, Toast, UpdateToastOptions, HotToastRefProps } from './hot-toast.model';
+import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps } from './hot-toast.model';
 
 export class HotToastRef implements HotToastRefProps {
   private _dispose: Function;
@@ -9,7 +9,6 @@ export class HotToastRef implements HotToastRefProps {
     this._dispose = value;
   }
 
-  unsubscribe: () => void;
   updateMessage: (message: Content) => void;
   updateToast: (options: UpdateToastOptions) => void;
 
@@ -27,10 +26,9 @@ export class HotToastRef implements HotToastRefProps {
    * Attach ToastRef to container
    */
   appendTo(container: HotToastContainerComponent) {
-    const { dispose, unsubscribe, updateMessage, updateToast, afterClosed } = container.addToast(this);
+    const { dispose, updateMessage, updateToast, afterClosed } = container.addToast(this);
 
     this.dispose = dispose;
-    this.unsubscribe = unsubscribe;
     this.updateMessage = updateMessage;
     this.updateToast = updateToast;
     this.afterClosed = race(this._onClosed.asObservable(), afterClosed);
@@ -39,7 +37,6 @@ export class HotToastRef implements HotToastRefProps {
 
   close() {
     this._dispose();
-    this.unsubscribe();
     this._onClosed.next({ dismissedByAction: false, id: this.toast.id });
     this._onClosed.complete();
   }

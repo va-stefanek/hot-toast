@@ -245,7 +245,6 @@ All options, which are set *Available in global config?* from `ToastOptions` are
 | Method        | Parameters                                           | Description                       | Returns        |
 | ------------- | ---------------------------------------------------- | --------------------------------- | -------------- |
 | getToast      | --                                                   | Returns all the toast options     | `ToastOptions` |
-| unsubscribe   | --                                                   | Unsubscribes from observable      | --             |
 | updateMessage | message: [`Content`](#content)                       | Updates only message              | --             |
 | updateToast   | options: [`UpdateToastOptions`](#updatetoastoptions) | Update updatable options of toast | --             |
 | close         | --                                                   | Closes the toast                  | --             |

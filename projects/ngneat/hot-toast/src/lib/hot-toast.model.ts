@@ -192,8 +192,6 @@ export interface HotToastRefProps {
   /** Returns all the toast options */
   getToast: () => Toast;
   dispose: Function;
-  /**Unsubscribes from observable, if any. */
-  unsubscribe: () => void;
   /**Updates only message */
   updateMessage: (message: Content) => void;
   /**Update updatable options of toast */

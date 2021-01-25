@@ -80,9 +80,6 @@ export class HotToastContainerComponent implements OnDestroy {
 
         this.closeToast(toast.id);
       },
-      unsubscribe: () => {
-        subscription?.unsubscribe();
-      },
       updateMessage: (message: Content) => {
         toast.message = message;
         this.cdr.detectChanges();
