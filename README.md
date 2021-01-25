@@ -39,7 +39,7 @@
     - [error(message: Content, options?: ToastOptions): CreateHotToastRef](#errormessage-content-options-toastoptions-createhottoastref)
     - [success(message: Content, options?: ToastOptions): CreateHotToastRef](#successmessage-content-options-toastoptions-createhottoastref)
     - [loading(message: Content, options?: ToastOptions): CreateHotToastRef](#loadingmessage-content-options-toastoptions-createhottoastref)
-    - [observe<T>( observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions ): CreateHotToastRef](#observet-observable-observablet-messages-observablemessagest-options-defaulttoastoptions--createhottoastref)
+    - [observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions, observable?: Observable<T> ): CreateHotToastRef | | (<T>(source: Observable<T>) => Observable<T>)](#observet-messages-observablemessagest-options-defaulttoastoptions-observable-observablet--createhottoastref---tsource-observablet--observablet)
   - [Classes](#classes)
     - [ToastConfig](#toastconfig)
   - [Types](#types)
@@ -142,6 +142,11 @@ Opens up an hot-toast without any pre-configurations.
   - `message` — [`Content`](#toastmessage) — The message to show in the hot-toast
   - `[options]` — [`ToastOptions`](#toastoptions) — Additional configuration options for the hot-toast
 - **Returns:** [`CreateHotToastRef`](#createhottoastref)
+- **Basic Usage**:
+
+```typescript
+toast.show('Hello World!')
+```
 
 #### error(message: Content, options?: ToastOptions): CreateHotToastRef
 
@@ -149,11 +154,23 @@ Opens up an hot-toast with pre-configurations for error state.
 
 Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
 
+- **Basic Usage**:
+
+```typescript
+toast.error("This didn't work.")
+```
+
 #### success(message: Content, options?: ToastOptions): CreateHotToastRef
 
 Opens up an hot-toast with pre-configurations for success state.
 
 Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
+
+- **Basic Usage**:
+
+```typescript
+toast.success('Successfully toasted!')
+```
 
 #### loading(message: Content, options?: ToastOptions): CreateHotToastRef
 
@@ -161,17 +178,67 @@ Opens up an hot-toast with pre-configurations for loading state.
 
 Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
 
-#### observe<T>( observable: Observable<T>, messages: ObservableMessages<T>, options?: DefaultToastOptions ): CreateHotToastRef
+- **Basic Usage**:
+
+```typescript
+toast.loading('Saving...);
+```
+
+#### observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions, observable?: Observable<T> ): CreateHotToastRef | | (<T>(source: Observable<T>) => Observable<T>)
 
 Opens up an hot-toast with pre-configurations for loading initially, subscribes to observable and then changes state based on messages.
 
 - **Parameters:**
-  - `observable` — `Observable<T>` — Observable to which subscription will happen and messages will be displayed according to messages
   - `messages`: [`ObservableMessages<T>`](#observablemessages) - Messages for each state i.e. `loading`, `next` and `error`
   - `[options]` — [`ToastOptions`](#toastoptions) — Additional configuration options for the hot-toast
+  - `[observable]` — `Observable<T>` — Observable to which subscription will happen and messages will be displayed according to messages
 - **Returns:** [`CreateHotToastRef`](#createhottoastref)
+- **Basic Usage**:
 
-You can unsubscribe to observable using `CreateHotToastRef`'s `unsubscribe` method.
+```typescript
+// Observe w/ Operator
+
+saveSettings(settings).pipe(toast.observe(
+  {
+    loading: 'Saving...',
+    success: successTemplate,
+    error: errorTemplate,
+  }
+)).subscribe();
+
+// template
+// <ng-template #successTemplate>
+//   <b>Settings saved!</b>
+// </ng-template>
+// <ng-template #errorTemplate>
+//   <b>Could not save.</b>
+// </ng-template>
+```
+
+```typescript
+// Observe w/o Operator
+
+this.ref = toast.observe(
+  {
+    loading: 'Saving...',
+    success: successTemplate,
+    error: errorTemplate,
+  },
+  saveSettings(settings)
+);
+
+ngOnDestroy() {
+  this.ref.unsubscribe();
+}
+
+// template
+// <ng-template #successTemplate>
+//   <b>Settings saved!</b>
+// </ng-template>
+// <ng-template #errorTemplate>
+//   <b>Could not save.</b>
+// </ng-template>
+```
 
 ### Classes
 

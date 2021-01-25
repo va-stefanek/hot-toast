@@ -1,6 +1,8 @@
 import { Injectable, Optional } from '@angular/core';
 import { Content, ViewService } from '@ngneat/overview';
-import { Observable } from 'rxjs';
+import { UpdateToastOptions } from 'dist/ngneat/hot-toast/public-api';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
@@ -10,6 +12,7 @@ import {
   DefaultToastOptions,
   HotToastServiceMethods,
   ObservableMessages,
+  resolveValueOrFunction,
   Toast,
   ToastConfig,
   ToastOptions,
@@ -183,30 +186,85 @@ export class HotToastService implements HotToastServiceMethods {
    *
    *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
    * @template T
-   * @param {Observable<T>} observable Observable to which subscription will happen and messages will be displayed according to messages
    * @param {ObservableMessages<T>} messages Messages for each state i.e. loading, next and error
    * @param {DefaultToastOptions} [options] Additional configuration options for the hot-toast.
+   * @param {Observable<T>} observable Observable to which subscription will happen and messages will be displayed according to messages
    * @returns {CreateHotToastRef}
    * @memberof HotToastService
    */
   observe<T>(
-    observable: Observable<T>,
     messages: ObservableMessages<T>,
     options?: DefaultToastOptions
-  ): CreateHotToastRef {
-    let toastRef = this.createToast(
-      messages.loading || 'Loading...',
-      'loading',
-      {
+  ): <T>(source: Observable<T>) => Observable<T | ((error: any) => void)>;
+  observe<T>(
+    messages: ObservableMessages<T>,
+    options?: DefaultToastOptions,
+    observable?: Observable<T>
+  ): CreateHotToastRef;
+  observe<T>(
+    messages: ObservableMessages<T>,
+    options?: DefaultToastOptions,
+    observable?: Observable<T>
+  ): CreateHotToastRef | (<T>(source: Observable<T>) => Observable<T | ((error: any) => void)>) {
+    if (observable) {
+      let toastRef = this.createToast(
+        messages.loading || 'Loading...',
+        'loading',
+        {
+          ...this._defaultConfig,
+          ...this._defaultConfig?.loading,
+          ...options,
+          ...options?.loading,
+        },
+        observable,
+        messages
+      );
+
+      return toastRef;
+    }
+    return (source) => {
+      const toastRef = this.createToast(messages.loading || 'Loading...', 'loading', {
         ...this._defaultConfig,
         ...this._defaultConfig?.loading,
         ...options,
         ...options?.loading,
-      },
-      observable,
-      messages
-    );
+      });
+      return source.pipe(
+        tap(
+          (next) => {
+            if (messages.next) {
+              const message = resolveValueOrFunction(messages.next, next as unknown);
+              toastRef.updateMessage(message);
+              const options: UpdateToastOptions = {
+                ...toastRef.getToast(),
+                type: 'success',
+                duration: HOT_TOAST_DEFAULT_TIMEOUTS['success'],
+                ...this._defaultConfig?.success,
+                ...(toastRef.getToast() as DefaultToastOptions)?.success,
+              };
+              toastRef.updateToast(options);
+            }
+          },
+          (error) => {
+            if (messages.error) {
+              const message = resolveValueOrFunction(messages.error, error as unknown);
+              toastRef.updateMessage(message);
+              const options: UpdateToastOptions = {
+                ...toastRef.getToast(),
+                type: 'error',
+                duration: HOT_TOAST_DEFAULT_TIMEOUTS['error'],
+                ...this._defaultConfig?.error,
+                ...(toastRef.getToast() as DefaultToastOptions)?.error,
+              };
+              toastRef.updateToast(options);
+            }
+          }
+        ),
 
-    return toastRef;
+        // if we don't keep catchError, we get following error:
+        // Cannot read property 'ngOriginalError' of undefined
+        catchError((error) => of(error))
+      );
+    };
   }
 }

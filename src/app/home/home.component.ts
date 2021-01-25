@@ -49,13 +49,13 @@ export class HomeComponent {
     const observable = from(promise);
     const shared = observable.pipe(share());
     this.toastService.observe(
-      shared,
       {
         loading: 'Preparing toast',
         error: 'Whoops, it burnt',
         next: "Here's your toast",
       },
-      { style: { width: '200px' } }
+      { style: { width: '200px' } },
+      shared
     );
   }
 }

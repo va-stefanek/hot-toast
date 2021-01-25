@@ -54,16 +54,52 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
-        title: 'Observe',
+        title: 'Observe w/ Operator',
         emoji: '⏳',
         snippet: `
-  this.ref = toast.observe(
-    saveSettings(settings),
+  saveSettings(settings).pipe(toast.observe(
     {
       loading: 'Saving...',
       success: successTemplate,
       error: errorTemplate,
     }
+  )).subscribe();
+
+  // template
+  // &lt;ng-template #successTemplate&gt;
+  //   &lt;b&gt;Settings saved!&lt;/b&gt;
+  // &lt;/ng-template&gt;
+  // &lt;ng-template #errorTemplate&gt;
+  //   &lt;b&gt;Could not save.&lt;/b&gt;
+  // &lt;/ng-template&gt;
+        `,
+        action: () => {
+          from(
+            new Promise((res, rej) => {
+              setTimeout(Math.random() > 0.5 ? res : rej, 1000);
+            })
+          )
+            .pipe(
+              this.toast.observe({
+                loading: 'Saving...',
+                next: this.successTemplate,
+                error: this.errorTemplate,
+              })
+            )
+            .subscribe();
+        },
+      },
+      {
+        title: 'Observe w/o Operator',
+        emoji: '⏳',
+        snippet: `
+  this.ref = toast.observe(
+    {
+      loading: 'Saving...',
+      success: successTemplate,
+      error: errorTemplate,
+    },
+    saveSettings(settings)
   );
 
   ngOnDestroy() {
@@ -82,12 +118,15 @@ export class ExampleComponent implements OnInit, AfterViewInit {
           const promise = new Promise((res, rej) => {
             setTimeout(Math.random() > 0.5 ? res : rej, 1000);
           });
-
-          this.toast.observe(from(promise), {
-            loading: 'Saving...',
-            next: this.successTemplate,
-            error: this.errorTemplate,
-          });
+          this.toast.observe(
+            {
+              loading: 'Saving...',
+              next: this.successTemplate,
+              error: this.errorTemplate,
+            },
+            {},
+            from(promise)
+          );
         },
       },
       {
