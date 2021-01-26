@@ -1,6 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
 import { Content, ViewService } from '@ngneat/overview';
-import { UpdateToastOptions } from 'dist/ngneat/hot-toast/public-api';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -18,6 +17,7 @@ import {
   ToastOptions,
   ToastPersistConfig,
   ToastType,
+  UpdateToastOptions,
 } from './hot-toast.model';
 
 @Injectable({ providedIn: 'root' })
