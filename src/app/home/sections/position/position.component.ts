@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HotToastService, ToastPosition } from '@ngneat/hot-toast';
 
 interface Position {
+  id: string;
   title: ToastPosition;
   action: () => void;
   emoji: string;
@@ -16,6 +17,7 @@ interface Position {
 export class PositionComponent implements OnInit {
   positionExamples: Position[] = [
     {
+      id: 'top-left',
       title: 'top-left',
       emoji: '↖',
       snippet: `
@@ -31,6 +33,7 @@ export class PositionComponent implements OnInit {
       },
     },
     {
+      id: 'top-center',
       title: 'top-center',
       emoji: '⬆',
       snippet: `
@@ -46,6 +49,7 @@ export class PositionComponent implements OnInit {
       },
     },
     {
+      id: 'top-right',
       title: 'top-right',
       emoji: '↗',
       snippet: `
@@ -61,6 +65,7 @@ export class PositionComponent implements OnInit {
       },
     },
     {
+      id: 'bottom-left',
       title: 'bottom-left',
       emoji: '↙',
       snippet: `
@@ -76,6 +81,7 @@ export class PositionComponent implements OnInit {
       },
     },
     {
+      id: 'bottom-center',
       title: 'bottom-center',
       emoji: '⬇',
       snippet: `
@@ -91,6 +97,7 @@ export class PositionComponent implements OnInit {
       },
     },
     {
+      id: 'bottom-right',
       title: 'bottom-right',
       emoji: '↘',
       snippet: `

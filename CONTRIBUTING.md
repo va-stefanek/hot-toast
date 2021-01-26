@@ -10,24 +10,23 @@ Start by installing all dependencies:
 npm i
 ```
 
+Run the playground app:
+
+```bash
+npm start
+```
+
 Check the tests:
 
 ```bash
-ng build --prod
-npm run ci:cy-open
+# npm start
+npm run cy:open
 ```
 
 Run the tests:
 
 ```bash
-ng build --prod
-npm run ci:cy-run
-```
-
-Run the playground app:
-
-```bash
-npm start
+npm run test
 ```
 
 ## Building

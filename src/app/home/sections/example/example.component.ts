@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { HotToastService } from '@ngneat/hot-toast';
+import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -26,6 +26,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   examples: Example[] = [];
 
   snippet = '';
+  closedEventData: HotToastClose = undefined;
 
   readonly EXAMPLE_LINK = `https://github.com/ngneat/hot-toast/tree/${
     environment.production ? 'master' : 'development'
@@ -154,6 +155,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
       },
       {
+        id: 'dismissible',
         title: 'Dismissible',
         emoji: '❎',
         snippet: `
@@ -189,7 +191,10 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         `,
         action: () => {
           const toastRef = this.toast.show('Events', { dismissible: true, duration: 5000 });
-          toastRef.afterClosed.subscribe((e) => console.log(e));
+          toastRef.afterClosed.subscribe((e) => {
+            console.log(e);
+            this.closedEventData = e;
+          });
         },
       },
       {
@@ -199,15 +204,13 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         snippet: `
   toast.success('Look at my styles', {
     style: {
-      border: '2px solid #ff4081',
-      backgroundColor: '#3f51b5',
+      border: '1px solid #713200',
       padding: '16px',
-      color: '#fff',
+      color: '#713200',
     },
-    icon: '&#x2714;'
     iconTheme: {
-      primary: '#ff4081',
-      secondary: '#fff',
+      primary: '#713200',
+      secondary: '#FFFAEE',
     },
   });
         `,

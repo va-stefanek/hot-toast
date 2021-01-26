@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng build --prod && npm run ci:cy-run",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "contributors:add": "all-contributors add",
@@ -22,8 +22,7 @@
     "ci:start-server": "angular-http-server --path ./dist/toast -p 4200",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "ci:cy-run": "start-server-and-test ci:start-server http://localhost:4200 cy:run",
-    "ci:cy-open": "start-server-and-test ci:start-server http://localhost:4200 cy:open"
+    "ci:cy-run": "start-server-and-test ci:start-server http://localhost:4200 cy:run"
   },
   "private": true,
   "dependencies": {

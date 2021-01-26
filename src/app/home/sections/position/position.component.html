@@ -7,6 +7,7 @@
     >
       <ng-container *ngFor="let pos of positionExamples">
         <app-emoji-button
+          [btnId]="pos.id"
           [emoji]="pos.emoji"
           (btnClick)="setSnippet(pos)"
           [class]="
