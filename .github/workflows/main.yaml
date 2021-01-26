@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [development, master]
+    branches: [$default-branch]
   pull_request:
-    branches: [master]
+    branches: [$default-branch]
 
 jobs:
   build:
@@ -17,5 +17,6 @@ jobs:
         with:
           node-version: '12.x'
       - run: npm ci
+      - run: npm run lint
       - run: npm run build --if-present -- --prod
       - run: npm test
