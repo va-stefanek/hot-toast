@@ -55,7 +55,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   toast.error("This didn't work.")
   `,
         action: () => {
-          this.toast.error("This didn't work.");
+          this.toast.error(`This didn't work.`);
         },
       },
       {

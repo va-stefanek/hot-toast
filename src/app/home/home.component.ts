@@ -53,7 +53,7 @@ export class HomeComponent {
           {
             loading: 'Preparing toast',
             error: 'Whoops, it burnt',
-            next: "Here's your toast",
+            next: `Here's your toast`,
           },
           { style: { width: '200px' } }
         ),
