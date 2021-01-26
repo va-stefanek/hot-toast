@@ -1,3 +1,5 @@
-<div class="rounded-lg bg-toast-1000" [ngClass]="containerClass">
-  <code class="language-{{ language }}" #code [innerHTML]="snippet"> </code>
+<div class="rounded-lg" [ngClass]="containerClass">
+  <pre class="language-{{ language }}">
+    <code class="language-{{ language }}" #code [innerHTML]="snippet"> </code>
+  </pre>
 </div>

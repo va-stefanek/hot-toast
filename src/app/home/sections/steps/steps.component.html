@@ -7,12 +7,7 @@
         </div>
         <div class="font-bold">{{ step.title }}</div>
         <div class="text-red-700 text-sm mb-2">{{ step.subTitle }}</div>
-        <app-code
-          [language]="step.language"
-          containerClass="border border-toast-200 p-4 rounded font-bold bg-white"
-          [snippet]="step.code"
-        >
-        </app-code>
+        <app-code [language]="step.language" [snippet]="step.code"> </app-code>
       </div>
     </div>
   </ng-container>

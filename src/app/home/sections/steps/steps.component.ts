@@ -10,7 +10,8 @@ export class StepsComponent implements OnInit {
     {
       title: 'Install package',
       subTitle: 'It weighs less than ??kb',
-      code: 'npm i @ngneat/hot-toast',
+      code: `
+ npm i @ngneat/hot-toast`,
       language: 'bash',
     },
     {
@@ -25,8 +26,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
   imports: [BrowserModule, HotToastModule.forRoot()],
 })
 
-// ...
-      `,
+// ...`,
       language: 'typescript',
     },
     {
@@ -43,8 +43,7 @@ export class AppComponent {
 
 showToast() {
   this.toastService.show('Hello World!')
-}
-      `,
+}`,
       language: 'typescript',
     },
   ];

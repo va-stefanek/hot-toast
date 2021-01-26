@@ -26,8 +26,7 @@ export class PositionComponent implements OnInit {
       icon: '↖',
       position: 'top-left'
     }
-  )
-      `,
+  )`,
       action: () => {
         this.toast.show('I am on top-left', { icon: '↖', position: 'top-left' });
       },
@@ -42,8 +41,7 @@ export class PositionComponent implements OnInit {
       icon: '⬆',
       position: 'top-center'
     }
-  )
-      `,
+  )`,
       action: () => {
         this.toast.show('I am on top-center', { icon: '⬆', position: 'top-center' });
       },
@@ -58,8 +56,7 @@ export class PositionComponent implements OnInit {
       icon: '↗',
       position: 'top-right'
     }
-  )
-      `,
+  )`,
       action: () => {
         this.toast.show('I am on top-right', { icon: '↗', position: 'top-right' });
       },
@@ -74,8 +71,7 @@ export class PositionComponent implements OnInit {
       icon: '↙',
       position: 'bottom-left'
     }
-  )
-      `,
+  )`,
       action: () => {
         this.toast.show('I am on bottom-left', { icon: '↙', position: 'bottom-left' });
       },
@@ -90,8 +86,7 @@ export class PositionComponent implements OnInit {
       icon: '⬇',
       position: 'bottom-center'
     }
-  )
-      `,
+  )`,
       action: () => {
         this.toast.show('I am on bottom-center', { icon: '⬇', position: 'bottom-center' });
       },
@@ -106,8 +101,7 @@ export class PositionComponent implements OnInit {
       icon: '↘',
       position: 'bottom-right'
     }
-  )
-      `,
+  )`,
       action: () => {
         this.toast.show('I am on bottom-right', { icon: '↘', position: 'bottom-right' });
       },
@@ -133,8 +127,7 @@ export class PositionComponent implements OnInit {
       ],
   })
 
-  // ...
-  `;
+  // ...`;
 
   constructor(private toast: HotToastService) {}
 
