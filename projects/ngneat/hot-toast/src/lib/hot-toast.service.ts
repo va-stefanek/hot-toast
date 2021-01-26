@@ -1,7 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
 import { Content, ViewService } from '@ngneat/overview';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
@@ -44,7 +44,7 @@ export class HotToastService implements HotToastServiceMethods {
     const componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultConfig)
-      .appendTo(document.body);
+      .appendTo(this._defaultConfig.windowRef.document.body);
 
     this.componentInstance = componentRef.ref.instance;
   }

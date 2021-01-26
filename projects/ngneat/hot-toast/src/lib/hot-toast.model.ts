@@ -9,6 +9,13 @@ export class ToastConfig implements DefaultToastOptions {
    */
   reverseOrder = false;
 
+  /**
+   * Sets the window, from which document will be fetched and hot-toasts will be added to there.
+   *
+   * @default window
+   */
+  windowRef = window;
+
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
   position: ToastPosition = 'top-center';

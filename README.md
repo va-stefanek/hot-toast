@@ -232,9 +232,10 @@ toast.close(toastID);
 
 All options, which are set *Available in global config?* from `ToastOptions` are supported. Below are extra configurable options:
 
-| Name         | Type      | Description                                                       |
-| ------------ | --------- | ----------------------------------------------------------------- |
-| reverseOrder | `boolean` | Sets the reverse order for hot-toast stacking<br>*Default: false* |
+| Name         | Type                         | Description                                                                                                        |
+| ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| reverseOrder | `boolean`                    | Sets the reverse order for hot-toast stacking<br>*Default: false*                                                  |
+| windowRef    | `Window & typeof globalThis` | Sets the window, from which document will be fetched and hot-toasts will be added to there.<br>*Default: `window`* |
 
 ### Types
 
