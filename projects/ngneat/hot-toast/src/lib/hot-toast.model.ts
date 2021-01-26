@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 export class ToastConfig implements DefaultToastOptions {
   /**
    * Sets the reverse order for hot-toast stacking
+   *
    * @default false
    */
-  reverseOrder: boolean = false;
+  reverseOrder = false;
 
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
@@ -14,7 +15,7 @@ export class ToastConfig implements DefaultToastOptions {
   className: string;
   closeStyle: any;
   dismissible: boolean;
-  autoClose: boolean = true;
+  autoClose = true;
   duration: number;
   icon: Content;
   iconTheme: IconTheme;
@@ -58,6 +59,7 @@ export interface Toast {
   /**
    * Unique id to associate with hot-toast.
    * There can't be multiple hot-toasts opened with same id.
+   *
    * @default Date.now().toString()
    */
   id: string;
@@ -67,11 +69,13 @@ export interface Toast {
 
   /**
    * Role of the live region.
+   *
    * @default status
    */
   role: ToastRole;
 
   /** aria-live value for the live region.
+   *
    * @default polite
    */
   ariaLive: ToastAriaLive;
@@ -82,18 +86,21 @@ export interface Toast {
   /**
    * Duration in milliseconds after which hot-toast will be auto closed.
    * Can be disabled via `autoClose: false`
+   *
    * @default 3000 | error = 4000 | loading = 30000
    */
   duration?: number;
 
   /**
    * Show close button in hot-toast
+   *
    * @default false
    */
   dismissible?: boolean;
 
   /**
    * Auto close hot-toast after duration
+   *
    * @default true
    */
   autoClose?: boolean;
@@ -109,12 +116,14 @@ export interface Toast {
 
   /**
    * Visual appearance of hot-toast
+   *
    * @default toast
    */
   theme?: ToastTheme;
 
   /**
    * The position to place the hot-toast.
+   *
    *  @default top-center
    */
   position?: ToastPosition;
@@ -132,8 +141,11 @@ export interface Toast {
 
   /**
    * Useful when you want to keep a persistance for toast based on ids, across sessions.
+   *
    * @example
-   * // Lets say you want show hot-toast, with a particular id, max 3 times to a user irrespective of browser session. In this case you will set this as:
+   * // Lets say you want show hot-toast, with a particular id,
+   * // max 3 times to a user irrespective of browser session.
+   * // In this case you will set this as:
    * { enabled: true, count: 3 }
    *
    * @type {ToastPersistConfig}
@@ -177,7 +189,7 @@ export interface HotToastServiceMethods {
   error(message: Content, options?: ToastOptions): CreateHotToastRef;
   success(message: Content, options?: ToastOptions): CreateHotToastRef;
   loading(message: Content, options?: ToastOptions): CreateHotToastRef;
-  observe<T>(messages: ObservableMessages<T>, options?: ToastOptions): <T>(source: Observable<T>) => Observable<T>;
+  observe<T>(messages: ObservableMessages<T>, options?: ToastOptions): (source: Observable<T>) => Observable<T>;
   close(id: string): void;
 }
 
@@ -191,7 +203,7 @@ export type UpdateToastOptions = Partial<
 export interface HotToastRefProps {
   /** Returns all the toast options */
   getToast: () => Toast;
-  dispose: Function;
+  dispose: () => void;
   /**Updates only message */
   updateMessage: (message: Content) => void;
   /**Update updatable options of toast */

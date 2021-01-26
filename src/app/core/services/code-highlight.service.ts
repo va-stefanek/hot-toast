@@ -8,8 +8,6 @@ import 'prismjs/components/prism-typescript';
   providedIn: 'root',
 })
 export class CodeHighlightService {
-  constructor() {}
-
   highlightElement(el: HTMLElement) {
     highlightElement(el);
   }

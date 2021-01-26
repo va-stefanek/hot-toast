@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import * as ts from 'typescript';
 import { addImportToModule } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
@@ -30,13 +31,11 @@ export function addStyleToTarget(
   if (!targetOptions.styles) {
     targetOptions.styles = [assetPath];
   } else {
-    const existingStyles = targetOptions.styles.map((style: string | { input: string }) => {
-      return typeof style === 'string' ? style : style.input;
-    });
+    const existingStyles = targetOptions.styles.map((style: string | { input: string }) =>
+      typeof style === 'string' ? style : style.input
+    );
 
-    const hasBootstrapStyle = existingStyles.find((style: string) => {
-      return style.includes(assetPath);
-    });
+    const hasBootstrapStyle = existingStyles.find((style: string) => style.includes(assetPath));
 
     if (!hasBootstrapStyle) {
       targetOptions.styles.unshift(assetPath);
@@ -47,7 +46,7 @@ export function addStyleToTarget(
 }
 
 export function getProjectFromWorkspace(workspace: WorkspaceSchema, projectName?: string): WorkspaceProject {
-  /* tslint:disable-next-line: no-non-null-assertion */
+  /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
   const project = workspace.projects[projectName || workspace.defaultProject!];
 
   if (!project) {
@@ -55,13 +54,6 @@ export function getProjectFromWorkspace(workspace: WorkspaceSchema, projectName?
   }
 
   return project;
-}
-
-export function expectProjectStyleFile(project: WorkspaceProject, filePath: string) {
-  expect(getProjectTargetOptions(project, 'build').styles).toContain(
-    filePath,
-    `Expected "${filePath}" to be added to the project styles in the workspace.`
-  );
 }
 
 export function getProjectTargetOptions(project: WorkspaceProject, buildTarget: string) {
@@ -79,14 +71,14 @@ function sortObjectByKeys(obj: { [key: string]: string }) {
   return (
     Object.keys(obj)
       .sort()
-      /* tslint:disable-next-line: no-any */
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
       .reduce((result: any, key: any) => (result[key] = obj[key]) && result, {})
   );
 }
 
 export function addPackageToPackageJson(host: Tree, pkg: string, version: string): Tree {
   if (host.exists('package.json')) {
-    /* tslint:disable-next-line: no-non-null-assertion */
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     const sourceText = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(sourceText);
 

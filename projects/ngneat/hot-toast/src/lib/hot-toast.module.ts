@@ -25,14 +25,14 @@ import { HotToastService } from './hot-toast.service';
   imports: [CommonModule, DynamicContentModule],
 })
 export class HotToastModule {
+  constructor(service: HotToastService) {
+    service.init();
+  }
+
   static forRoot(config?: Partial<ToastConfig>): ModuleWithProviders<HotToastModule> {
     return {
       ngModule: HotToastModule,
       providers: [{ provide: ToastConfig, useValue: config }],
     };
-  }
-
-  constructor(service: HotToastService) {
-    service.init();
   }
 }

@@ -7,7 +7,7 @@ import { REPO_URL } from 'src/app/core/constants';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
-  REPO_URL = REPO_URL;
+  repoUrl = REPO_URL;
 
   constructor() {}
 

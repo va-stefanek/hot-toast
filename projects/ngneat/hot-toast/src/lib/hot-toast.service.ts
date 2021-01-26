@@ -22,11 +22,12 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
-  private _defaultConfig = new ToastConfig();
-  private _defaultPersistConfig = new ToastPersistConfig();
   componentInstance: HotToastContainerComponent;
 
-  constructor(private viewService: ViewService, @Optional() config: ToastConfig) {
+  private _defaultConfig = new ToastConfig();
+  private _defaultPersistConfig = new ToastPersistConfig();
+
+  constructor(private _viewService: ViewService, @Optional() config: ToastConfig) {
     if (config) {
       this._defaultConfig = {
         ...this._defaultConfig,
@@ -40,12 +41,159 @@ export class HotToastService implements HotToastServiceMethods {
    * Creates a container component and attaches it to document.body.
    */
   init() {
-    const componentRef = this.viewService
+    const componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultConfig)
       .appendTo(document.body);
 
     this.componentInstance = componentRef.ref.instance;
+  }
+
+  /**
+   * Opens up an hot-toast without any pre-configurations
+   *
+   * @param message The message to show in the hot-toast.
+   * @param [options] Additional configuration options for the hot-toast.
+   * @returns
+   * @memberof HotToastService
+   */
+  show(message: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message, 'blank', { ...this._defaultConfig, ...options });
+
+    return toast;
+  }
+
+  /**
+   * Opens up an hot-toast with pre-configurations for error state
+   *
+   * @param message The message to show in the hot-toast.
+   * @param [options] Additional configuration options for the hot-toast.
+   * @returns
+   * @memberof HotToastService
+   */
+  error(message: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message, 'error', {
+      ...this._defaultConfig,
+      ...this._defaultConfig?.error,
+      ...options,
+    });
+
+    return toast;
+  }
+
+  /**
+   * Opens up an hot-toast with pre-configurations for success state
+   *
+   * @param message The message to show in the hot-toast.
+   * @param [options] Additional configuration options for the hot-toast.
+   * @returns
+   * @memberof HotToastService
+   */
+  success(message: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message, 'success', {
+      ...this._defaultConfig,
+      ...this._defaultConfig?.success,
+      ...options,
+    });
+
+    return toast;
+  }
+
+  /**
+   * Opens up an hot-toast with pre-configurations for loading state
+   *
+   * @param message The message to show in the hot-toast.
+   * @param [options] Additional configuration options for the hot-toast.
+   * @returns
+   * @memberof HotToastService
+   */
+  loading(message: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message, 'loading', {
+      ...this._defaultConfig,
+      ...this._defaultConfig?.loading,
+      ...options,
+    });
+
+    return toast;
+  }
+
+  /**
+   *
+   *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
+   *
+   * @template T T
+   * @param messages Messages for each state i.e. loading, next and error
+   * @param [options] Additional configuration options for the hot-toast.
+   * @param observable Observable to which subscription will happen and messages will be displayed according to messages
+   * @returns
+   * @memberof HotToastService
+   */
+  observe<T>(messages: ObservableMessages<T>, options?: DefaultToastOptions): (source: Observable<T>) => Observable<T> {
+    return (source) => {
+      let toastRef: CreateHotToastRef;
+      if (messages.loading) {
+        toastRef = this.createToast(messages.loading, 'loading', {
+          ...this._defaultConfig,
+          ...this._defaultConfig?.loading,
+          ...options,
+          ...options?.loading,
+        });
+      }
+
+      return source.pipe(
+        tap({
+          next: (val) => {
+            if (messages.next) {
+              toastRef = this.createOrUpdateToast(messages, val, toastRef, options, 'success');
+            }
+          },
+          error: (e) => {
+            if (messages.error) {
+              toastRef = this.createOrUpdateToast(messages, e, toastRef, options, 'error');
+            }
+          },
+        })
+      );
+    };
+  }
+
+  /**
+   * Closes the hot-toast
+   *
+   * @param id - ID of the toast
+   */
+  close(id: string) {
+    this.componentInstance.closeToast(id);
+  }
+
+  private createOrUpdateToast<T>(
+    messages: ObservableMessages<T>,
+    val: unknown,
+    toastRef: CreateHotToastRef,
+    options: DefaultToastOptions,
+    type: ToastType
+  ) {
+    const message = resolveValueOrFunction(messages[type === 'success' ? 'next' : 'error'], val);
+    if (toastRef) {
+      toastRef.updateMessage(message);
+      const updatedOptions: UpdateToastOptions = {
+        ...toastRef.getToast(),
+        type,
+        duration: HOT_TOAST_DEFAULT_TIMEOUTS[type],
+        ...(this._defaultConfig[type] ?? undefined),
+        ...((toastRef.getToast() as DefaultToastOptions)[type] ?? {}),
+      };
+      toastRef.updateToast(updatedOptions);
+    } else {
+      const newOptions = {
+        ...this._defaultConfig,
+        ...(this._defaultConfig[type] ?? undefined),
+        ...options,
+        ...(options && options[type] ? options[type] : undefined),
+      };
+      this.createToast(message, type, newOptions);
+    }
+    return toastRef;
   }
 
   private createToast<T>(
@@ -98,7 +246,7 @@ export class HotToastService implements HotToastServiceMethods {
       let item: string | number = storage.getItem(key);
 
       if (item) {
-        item = parseInt(item);
+        item = parseInt(item, 10);
         if (item > 0) {
           count = item - 1;
         } else {
@@ -112,154 +260,5 @@ export class HotToastService implements HotToastServiceMethods {
     }
 
     return count;
-  }
-
-  /**
-   * Opens up an hot-toast without any pre-configurations
-   *
-   * @param {Content} message The message to show in the hot-toast.
-   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
-   * @returns {CreateHotToastRef}
-   * @memberof HotToastService
-   */
-  show(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'blank', { ...this._defaultConfig, ...options });
-
-    return toast;
-  }
-
-  /**
-   * Opens up an hot-toast with pre-configurations for error state
-   *
-   * @param {Content} message The message to show in the hot-toast.
-   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
-   * @returns {CreateHotToastRef}
-   * @memberof HotToastService
-   */
-  error(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'error', {
-      ...this._defaultConfig,
-      ...this._defaultConfig?.error,
-      ...options,
-    });
-
-    return toast;
-  }
-
-  /**
-   * Opens up an hot-toast with pre-configurations for success state
-   *
-   * @param {Content} message The message to show in the hot-toast.
-   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
-   * @returns {CreateHotToastRef}
-   * @memberof HotToastService
-   */
-  success(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'success', {
-      ...this._defaultConfig,
-      ...this._defaultConfig?.success,
-      ...options,
-    });
-
-    return toast;
-  }
-
-  /**
-   * Opens up an hot-toast with pre-configurations for loading state
-   *
-   * @param {Content} message The message to show in the hot-toast.
-   * @param {ToastOptions} [options] Additional configuration options for the hot-toast.
-   * @returns {CreateHotToastRef}
-   * @memberof HotToastService
-   */
-  loading(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'loading', {
-      ...this._defaultConfig,
-      ...this._defaultConfig?.loading,
-      ...options,
-    });
-
-    return toast;
-  }
-
-  /**
-   *
-   *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
-   * @template T
-   * @param {ObservableMessages<T>} messages Messages for each state i.e. loading, next and error
-   * @param {DefaultToastOptions} [options] Additional configuration options for the hot-toast.
-   * @param {Observable<T>} observable Observable to which subscription will happen and messages will be displayed according to messages
-   * @returns {CreateHotToastRef}
-   * @memberof HotToastService
-   */
-  observe<T>(
-    messages: ObservableMessages<T>,
-    options?: DefaultToastOptions
-  ): <T>(source: Observable<T>) => Observable<T> {
-    return (source) => {
-      let toastRef: CreateHotToastRef = undefined;
-      if (messages.loading) {
-        toastRef = this.createToast(messages.loading, 'loading', {
-          ...this._defaultConfig,
-          ...this._defaultConfig?.loading,
-          ...options,
-          ...options?.loading,
-        });
-      }
-
-      return source.pipe(
-        tap({
-          next: (val) => {
-            if (messages.next) {
-              toastRef = this.createOrUpdateToast(messages, val, toastRef, options, 'success');
-            }
-          },
-          error: (e) => {
-            if (messages.error) {
-              toastRef = this.createOrUpdateToast(messages, e, toastRef, options, 'error');
-            }
-          },
-        })
-      );
-    };
-  }
-
-  /**
-   * Closes the hot-toast
-   *
-   * @param {string} id - ID of the toast
-   */
-  close(id: string) {
-    this.componentInstance.closeToast(id);
-  }
-
-  private createOrUpdateToast<T>(
-    messages: ObservableMessages<T>,
-    val: unknown,
-    toastRef: CreateHotToastRef,
-    options: DefaultToastOptions,
-    type: ToastType
-  ) {
-    const message = resolveValueOrFunction(messages[type === 'success' ? 'next' : 'error'], val);
-    if (toastRef) {
-      toastRef.updateMessage(message);
-      const updatedOptions: UpdateToastOptions = {
-        ...toastRef.getToast(),
-        type,
-        duration: HOT_TOAST_DEFAULT_TIMEOUTS[type],
-        ...(this._defaultConfig[type] ?? undefined),
-        ...((toastRef.getToast() as DefaultToastOptions)[type] ?? {}),
-      };
-      toastRef.updateToast(updatedOptions);
-    } else {
-      const newOptions = {
-        ...this._defaultConfig,
-        ...(this._defaultConfig[type] ?? undefined),
-        ...options,
-        ...(options && options[type] ? options[type] : undefined),
-      };
-      this.createToast(message, type, newOptions);
-    }
-    return toastRef;
   }
 }

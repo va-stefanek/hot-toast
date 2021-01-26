@@ -4,7 +4,7 @@ import * as ts from 'typescript';
 /**
  * Whether the Angular module in the given path imports the specifed module class name.
  */
-export function hasNgModuleImport(tree: Tree, modulePath: string, className: string): boolean {
+export const hasNgModuleImport = (tree: Tree, modulePath: string, className: string): boolean => {
   const moduleFileContent = tree.read(modulePath);
 
   if (!moduleFileContent) {
@@ -30,7 +30,7 @@ export function hasNgModuleImport(tree: Tree, modulePath: string, className: str
     throw new Error(`Could not find NgModule declaration inside: "${modulePath}"`);
   }
 
-  /* tslint:disable-next-line: no-non-null-assertion */
+  /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
   for (const property of ngModuleMetadata!.properties) {
     if (
       !ts.isPropertyAssignment(property) ||
@@ -40,20 +40,20 @@ export function hasNgModuleImport(tree: Tree, modulePath: string, className: str
       continue;
     }
 
-    /* tslint:disable-next-line: no-any */
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     if (property.initializer.elements.some((element: ts.Identifier) => element.getText().includes(className))) {
       return true;
     }
   }
 
   return false;
-}
+};
 
 /**
  * Resolves the last identifier that is part of the given expression. This helps resolving
  * identifiers of nested property access expressions (e.g. myNamespace.core.NgModule).
  */
-function resolveIdentifierOfExpression(expression: ts.Expression): ts.Identifier | null {
+const resolveIdentifierOfExpression = (expression: ts.Expression): ts.Identifier | null => {
   if (ts.isIdentifier(expression)) {
     return expression;
   } else if (ts.isPropertyAccessExpression(expression)) {
@@ -61,10 +61,10 @@ function resolveIdentifierOfExpression(expression: ts.Expression): ts.Identifier
   }
 
   return null;
-}
+};
 
 /** Whether the specified call expression is referring to a NgModule definition. */
-function isNgModuleCallExpression(callExpression: ts.CallExpression): boolean {
+const isNgModuleCallExpression = (callExpression: ts.CallExpression): boolean => {
   if (
     !(callExpression.arguments && callExpression.arguments.length) ||
     !ts.isObjectLiteralExpression(callExpression.arguments[0])
@@ -75,4 +75,4 @@ function isNgModuleCallExpression(callExpression: ts.CallExpression): boolean {
   const decoratorIdentifier = resolveIdentifierOfExpression(callExpression.expression);
 
   return decoratorIdentifier ? decoratorIdentifier.text === 'NgModule' : false;
-}
+};

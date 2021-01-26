@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HotToastService, ToastOptions } from '@ngneat/hot-toast';
 import { of } from 'rxjs';
 import { from } from 'rxjs';
-import { catchError, share } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { version } from '../../../package.json';
 import { REPO_URL } from '../core/constants';
@@ -21,7 +21,7 @@ export class HomeComponent {
 
   msgComponent = MessageComponent;
 
-  REPO_URL = REPO_URL;
+  readonly repoUrl = REPO_URL;
 
   version = version;
 

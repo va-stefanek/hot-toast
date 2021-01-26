@@ -4,17 +4,17 @@ import { HotToastContainerComponent } from './components/hot-toast-container/hot
 import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps } from './hot-toast.model';
 
 export class HotToastRef implements HotToastRefProps {
-  private _dispose: Function;
-  set dispose(value: Function) {
+  updateMessage: (message: Content) => void;
+  updateToast: (options: UpdateToastOptions) => void;
+  afterClosed: Observable<HotToastClose>;
+
+  private _dispose: () => void;
+  set dispose(value: () => void) {
     this._dispose = value;
   }
 
-  updateMessage: (message: Content) => void;
-  updateToast: (options: UpdateToastOptions) => void;
-
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
-  afterClosed: Observable<HotToastClose>;
 
   constructor(private toast: Toast) {}
 

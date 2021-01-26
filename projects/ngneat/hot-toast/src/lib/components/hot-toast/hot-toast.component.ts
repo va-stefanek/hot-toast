@@ -23,20 +23,17 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
 
-  @Output() onHeight = new EventEmitter<number>();
+  @Output() height = new EventEmitter<number>();
   @Output() beforeClosed = new EventEmitter();
   @Output() afterClosed = new EventEmitter<HotToastClose>();
 
-  /**This is same as enter animation time of toast */
-  readonly TOAST_SHOW_ANIMATION_TIME = 350;
+  @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
 
   isManualClose = false;
 
-  @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
-
   ngAfterViewInit() {
     const nativeElement = this.toastBarBase.nativeElement;
-    this.onHeight.emit(nativeElement.offsetHeight);
+    this.height.emit(nativeElement.offsetHeight);
 
     nativeElement.addEventListener('animationstart', (ev: AnimationEvent) => {
       if (this.isExitAnimation(ev)) {
@@ -48,10 +45,6 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
         this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id });
       }
     });
-  }
-
-  private isExitAnimation(ev: AnimationEvent) {
-    return ev.animationName.includes('hotToastExitAnimation');
   }
 
   getPositionStyle() {
@@ -121,5 +114,9 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.close();
+  }
+
+  private isExitAnimation(ev: AnimationEvent) {
+    return ev.animationName.includes('hotToastExitAnimation');
   }
 }

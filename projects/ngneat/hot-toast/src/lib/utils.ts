@@ -1,11 +1,3 @@
-import { TemplateRef } from '@angular/core';
-
-export function isTemplateRef(value) {
-  return value instanceof TemplateRef;
-}
-export function isComponent(value) {
-  return typeof value === 'function';
-}
-export function animate(element: HTMLElement, value: string) {
+export const animate = (element: HTMLElement, value: string) => {
   element.style.animation = value;
-}
+};

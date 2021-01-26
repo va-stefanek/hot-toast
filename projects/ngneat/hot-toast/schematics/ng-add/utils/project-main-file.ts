@@ -3,7 +3,7 @@ import { SchematicsException } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from './project-targets';
 
 /** Looks for the main TypeScript file in the given project and returns its path. */
-export function getProjectMainFile(project: WorkspaceProject): string {
+export const getProjectMainFile = (project: WorkspaceProject): string => {
   const buildOptions = getProjectTargetOptions(project, 'build');
 
   if (!buildOptions.main) {
@@ -13,4 +13,4 @@ export function getProjectMainFile(project: WorkspaceProject): string {
   }
 
   return buildOptions.main;
-}
+};

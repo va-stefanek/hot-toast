@@ -28,7 +28,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   snippet = '';
   closedEventData: HotToastClose = undefined;
 
-  readonly EXAMPLE_LINK = `https://github.com/ngneat/hot-toast/tree/${
+  readonly exampleLink = `https://github.com/ngneat/hot-toast/tree/${
     environment.production ? 'master' : 'development'
   }/src/app/home/sections/example`;
 
@@ -114,7 +114,8 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         `,
         action: () => {
           this.toast.show(
-            "This toast is super big.I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.",
+            // eslint-disable-next-line max-len
+            `This toast is super big.I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.`,
             {
               autoClose: false,
               dismissible: true,
