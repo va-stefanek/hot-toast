@@ -26,6 +26,7 @@ npm run cy:open
 Run the tests:
 
 ```bash
+npm run build -- --prod
 npm run test
 ```
 
