@@ -25,10 +25,9 @@
 - [Features](#features)
 - [Installation](#installation)
   - [Angular CLI](#angular-cli)
-  - [NPM](#npm)
-  - [Yarn](#yarn)
+  - [NPM or Yarn](#npm-or-yarn)
+    - [Import Toaster in your app](#import-toaster-in-your-app)
 - [Usage](#usage)
-  - [Import Toaster in your app](#import-toaster-in-your-app)
   - [Start toasting](#start-toasting)
 - [Examples](#examples)
 - [API](#api)
@@ -73,17 +72,13 @@
 
 `ng add @ngneat/hot-toast`
 
-### NPM
+### NPM or Yarn
 
 `npm install @ngneat/overview @ngneat/hot-toast`
 
-### Yarn
-
 `yarn add @ngneat/overview @ngneat/hot-toast`
 
-## Usage
-
-### Import Toaster in your app
+#### Import Toaster in your app
 
 You can set options here.
 
@@ -98,6 +93,10 @@ import { HotToastModule } from '@ngneat/hot-toast';
 
 // ...
 ```
+
+## Usage
+
+Once installed and imported...
 
 ### Start toasting
 
