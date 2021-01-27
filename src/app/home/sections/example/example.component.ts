@@ -229,7 +229,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'themed',
         title: 'Themed',
-        subtitle: "You can pass your styles so that hot-toast matches with your app's theme.",
+        subtitle: `You can pass your styles so that hot-toast matches with your app's theme.`,
         emoji: '🎨',
         activeSnippet: 'typescript',
         snippet: {
