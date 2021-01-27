@@ -16,6 +16,7 @@ describe('Test hot toasts - observe', () => {
       if (observeToast.text() === 'Settings saved!') {
         cy.get('@observeToast').should('not.be.visible');
       } else {
+        cy.wait(1000);
         cy.get('@observeToast').should('not.be.visible');
       }
       cy.wait(1000);
