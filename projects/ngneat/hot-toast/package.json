@@ -1,6 +1,9 @@
 {
   "name": "@ngneat/hot-toast",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
+  "files": [
+    "../../../dist/ngneat/**"
+  ],
   "schematics": "./schematics/collection.json",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
