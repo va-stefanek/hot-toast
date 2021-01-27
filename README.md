@@ -19,39 +19,6 @@
 <p align="center">
  <img src="./assets/demo.gif">
 </p>
-
-## Table of Contents <!-- omit in toc -->
-
-- [Features](#features)
-- [Installation](#installation)
-  - [Angular CLI](#angular-cli)
-  - [NPM or Yarn](#npm-or-yarn)
-    - [Import Toaster in your app](#import-toaster-in-your-app)
-- [Usage](#usage)
-  - [Start toasting](#start-toasting)
-- [Examples](#examples)
-- [API](#api)
-  - [HotToastModule](#hottoastmodule)
-    - [forRoot(config?: Partial<ToastConfig>)](#forrootconfig-partialtoastconfig)
-  - [HotToastService](#hottoastservice)
-    - [show(message: Content, options?: ToastOptions): CreateHotToastRef](#showmessage-content-options-toastoptions-createhottoastref)
-    - [error(message: Content, options?: ToastOptions): CreateHotToastRef](#errormessage-content-options-toastoptions-createhottoastref)
-    - [success(message: Content, options?: ToastOptions): CreateHotToastRef](#successmessage-content-options-toastoptions-createhottoastref)
-    - [loading(message: Content, options?: ToastOptions): CreateHotToastRef](#loadingmessage-content-options-toastoptions-createhottoastref)
-    - [observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions ): <T>(source: Observable<T>) => Observable<T>](#observet-messages-observablemessagest-options-defaulttoastoptions--tsource-observablet--observablet)
-    - [close(id: string): void](#closeid-string-void)
-  - [Classes](#classes)
-    - [ToastConfig](#toastconfig)
-  - [Types](#types)
-    - [CreateHotToastRef](#createhottoastref)
-      - [Methods](#methods)
-      - [Properties](#properties)
-    - [ToastOptions](#toastoptions)
-    - [ObservableMessages](#observablemessages)
-    - [ToastPersistConfig](#toastpersistconfig)
-    - [ToastPosition](#toastposition)
-- [Contributors ✨](#contributors-)
-
 ## Features
 
 - 🔥 **Hot by default**
@@ -64,23 +31,26 @@
 - ✋ **Pause on hover** - *No JavaScript, paused through CSS `animation-play-state`*
 - 🔁 **Events**
 - 🔒 **Persistent** - *Opens one toast at a time with unique id. Can be configured.*
-- 🕊 **Lightweight** - _less than ??kb including styles_
 
 ## Installation
 
-### Angular CLI
+You can install it through **Angular CLI**:
 
-`ng add @ngneat/hot-toast`
+```bash
+ng add @ngneat/hot-toast
+```
 
-### NPM or Yarn
+or with **npm or yarn**:
 
-`npm install @ngneat/overview @ngneat/hot-toast`
+```bash
+npm install @ngneat/overview @ngneat/hot-toast
 
-`yarn add @ngneat/overview @ngneat/hot-toast`
+#or
 
-#### Import Toaster in your app
+yarn add @ngneat/overview @ngneat/hot-toast
+```
 
-You can set options here.
+When you install using **npm or yarn**, you will also need to import `HotToastModule` in your `app.module`. You can also set global toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:
 
 ```typescript
 // ..
@@ -94,13 +64,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
 // ...
 ```
 
-## Usage
-
-Once installed and imported...
-
-### Start toasting
-
-Call it from anywhere in the component
+## Basic Usage
 
 ```typescript
 // ...
@@ -120,115 +84,7 @@ showToast() {
 
 You can checkout examples at: <https://ngneat.github.io/hot-toast>.
 
-## API
-
-### HotToastModule
-
-#### forRoot(config?: Partial<ToastConfig>)
-
-Initializes the hot-toast module and creates and appends container component with help of `HotToastService`.
-
-- **Parameters:**
-  - `config?` - [`Partial<ToastConfig>`](#toastconfig) - Default configuration options to set for all hot-toasts.
-
-### HotToastService
-
-Service to dispatch Hot Toasts.
-
-#### show(message: Content, options?: ToastOptions): CreateHotToastRef
-
-Opens up an hot-toast without any pre-configurations.
-
-- **Parameters:**
-  - `message` — [`Content`](#toastmessage) — The message to show in the hot-toast
-  - `[options]` — [`ToastOptions`](#toastoptions) — Additional configuration options for the hot-toast
-- **Returns:** [`CreateHotToastRef`](#createhottoastref)
-- **Basic Usage**:
-
-```typescript
-toast.show('Hello World!')
-```
-
-#### error(message: Content, options?: ToastOptions): CreateHotToastRef
-
-Opens up an hot-toast with pre-configurations for error state.
-
-Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
-
-- **Basic Usage**:
-
-```typescript
-toast.error("This didn't work.")
-```
-
-#### success(message: Content, options?: ToastOptions): CreateHotToastRef
-
-Opens up an hot-toast with pre-configurations for success state.
-
-Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
-
-- **Basic Usage**:
-
-```typescript
-toast.success('Successfully toasted!')
-```
-
-#### loading(message: Content, options?: ToastOptions): CreateHotToastRef
-
-Opens up an hot-toast with pre-configurations for loading state.
-
-Parameters and Returns are same as [`show`](#showmessage-toastmessage-options-toastoptions-createhottoastref)
-
-- **Basic Usage**:
-
-```typescript
-toast.loading('Saving...);
-```
-
-#### observe<T>( messages: ObservableMessages<T>, options?: DefaultToastOptions ): <T>(source: Observable<T>) => Observable<T>
-
-Opens up an hot-toast with pre-configurations for loading initially, subscribes to observable and then changes state based on messages.
-
-- **Parameters:**
-  - `messages`: [`ObservableMessages<T>`](#observablemessages) - Messages for each state i.e. `loading`, `next` and `error`
-  - `[options]` — [`ToastOptions`](#toastoptions) — Additional configuration options for the hot-toast
-  - `[observable]` — `Observable<T>` — Observable to which subscription will happen and messages will be displayed according to messages
-- **Returns:** [`CreateHotToastRef`](#createhottoastref)
-- **Basic Usage**:
-
-```typescript
-saveSettings(settings).pipe(toast.observe(
-  {
-    loading: 'Saving...',
-    success: successTemplate,
-    error: errorTemplate,
-  }
-)).subscribe();
-
-// template
-// <ng-template #successTemplate>
-//   <b>Settings saved!</b>
-// </ng-template>
-// <ng-template #errorTemplate>
-//   <b>Could not save.</b>
-// </ng-template>
-```
-
-#### close(id: string): void
-
-Closes the hot-taost.
-
-- **Parameters:**
-  - `id`: `string` - ID of the toast
-- **Basic Usage**:
-
-```typescript
-toast.close(toastID);
-```
-
-### Classes
-
-#### ToastConfig
+### ToastConfig
 
 All options, which are set *Available in global config?* from `ToastOptions` are supported. Below are extra configurable options:
 
@@ -237,26 +93,7 @@ All options, which are set *Available in global config?* from `ToastOptions` are
 | reverseOrder | `boolean`                    | Sets the reverse order for hot-toast stacking<br>*Default: false*                                                  |
 | windowRef    | `Window & typeof globalThis` | Sets the window, from which document will be fetched and hot-toasts will be added to there.<br>*Default: `window`* |
 
-### Types
-
-#### CreateHotToastRef
-
-##### Methods
-
-| Method        | Parameters                                           | Description                                                                | Returns        |
-| ------------- | ---------------------------------------------------- | -------------------------------------------------------------------------- | -------------- |
-| getToast      | --                                                   | Returns all the toast options                                              | `ToastOptions` |
-| updateMessage | message: [`Content`](#content)                       | Updates only message                                                       | --             |
-| updateToast   | options: [`UpdateToastOptions`](#updatetoastoptions) | Update updatable options of toast                                          | --             |
-| close         | dismissedByAction: `boolean` = `false`               | Closes the toast. Make `dismissedByAction` true when calling from template | --             |
-
-##### Properties
-
-| Name        | Type                                          | Description                                                       |
-| ----------- | --------------------------------------------- | ----------------------------------------------------------------- |
-| afterClosed | [`Observable<HotToastClose>`](#hottoastclose) | Observable for notifying the user that the toast has been closed. |
-
-#### ToastOptions
+### ToastOptions
 
 Configuration used when opening an hot-toast.
 
@@ -276,91 +113,6 @@ Configuration used when opening an hot-toast.
 | className   | `string`                                      | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
 | style       | `any`                                         | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
 | closeStyle  | `any`                                         | Extra styles to apply for close button                                                                                                                         | Yes                         |
-
-#### ObservableMessages
-
-```typescript
-type ObservableMessages<T> = {
-  loading?: Content;
-  next: ValueOrFunction<Content, T>;
-  error?: ValueOrFunction<Content, any>;
-};
-```
-
-#### ToastPersistConfig
-
-| Name    | Type                  | Description                                                                                                                              |
-| ------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| storage | `'local' | 'session'` | In which storage id vs. counts should be stored<br>*Default: `local`*                                                                    |
-| key     | `string`              | The key pattern to store object in storage. `${id}` in pattern is replaced with actual toast id.<br>*Default: `'ngneat/hottoast-${id}'`* |
-| count   | `number`              | The number of toasts allowed to show.<br>*Default: `1`*                                                                                  |
-| enabled | `boolean`             | Enable or disable persistance.<br>*Default: `false`*                                                                                     |
-
-#### ToastPosition
-
-```typescript
-type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
-```
-  
-#### Content <!-- omit in toc -->
-
-```typescript
-type Content = string | TemplateRef<any> | Type<any>
-```
-
-#### HotToastClose <!-- omit in toc -->
-
-```typescript
-interface HotToastClose {
-  /** Whether the snack bar was dismissed using the action button. */
-  dismissedByAction: boolean;
-  id: string;
-}
-```
-
-#### IconTheme <!-- omit in toc -->
-
-```typescript
-type IconTheme = {
-  primary: string;
-  secondary?: string;
-};
-```
-
-#### ToastAriaLive <!-- omit in toc -->
-
-```typescript
-type ToastAriaLive = 'assertive' | 'off' | 'polite';
-```
-
-#### ToastRole <!-- omit in toc -->
-
-```typescript
-type ToastRole = 'status' | 'alert';
-```
-
-#### ToastTheme <!-- omit in toc -->
-
-```typescript
-type ToastTheme = 'toast' | 'snackbar';
-```
-
-#### UpdateToastOptions <!-- omit in toc -->
-
-```typescript
-type UpdateToastOptions = Partial<
-  Pick<
-    ToastOptions,
-    'icon' | 'duration' | 'dismissible' | 'className' | 'style' | 'iconTheme' | 'type' | 'theme' | 'closeStyle'
-  >
->
-```
-
-#### ValueOrFunction <!-- omit in toc -->
-
-```typescript
-type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;
-```
 
 ---
 

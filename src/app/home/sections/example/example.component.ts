@@ -8,9 +8,11 @@ import { environment } from 'src/environments/environment';
 interface Example {
   id: string;
   title: string;
+  subtitle?: string;
   action: () => void;
   emoji: string;
-  snippet: string;
+  snippet: { typescript: string; html?: string };
+  activeSnippet: 'typescript' | 'html';
 }
 
 @Component({
@@ -26,8 +28,12 @@ export class ExampleComponent implements OnInit, AfterViewInit {
 
   examples: Example[] = [];
 
-  snippet = '';
   closedEventData: HotToastClose = undefined;
+
+  snippetLanguages: { label: string; value: string }[] = [
+    { label: 'TypeScript', value: 'typescript' },
+    { label: 'HTML', value: 'html' },
+  ];
 
   readonly exampleLink = `https://github.com/ngneat/hot-toast/tree/${
     environment.production ? 'master' : 'development'
@@ -36,13 +42,17 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   constructor(private toast: HotToastService) {}
 
   ngOnInit(): void {
-    Array.prototype.push.apply(this.examples, [
+    const examples: Example[] = [
       {
         id: 'success',
         title: 'Success',
+        subtitle: 'Opens up an hot-toast with pre-configurations for success state.',
         emoji: '✅',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.success('Successfully toasted!')`,
+        },
         action: () => {
           this.toast.success('Successfully toasted!');
         },
@@ -50,9 +60,13 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'error',
         title: 'Error',
+        subtitle: 'Open it when you want to show any error!',
         emoji: '❌',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.error("This didn't work.")`,
+        },
         action: () => {
           this.toast.error(`This didn't work.`);
         },
@@ -60,23 +74,26 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'observe',
         title: 'Observe',
+        subtitle: 'This is useful when you want to show the toast based on a stream, for example an http call.',
         emoji: '⏳',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   saveSettings(settings).pipe(toast.observe(
     {
       loading: 'Saving...',
       success: successTemplate,
       error: errorTemplate,
     }
-  )).subscribe();
-
-  // template
-  // &lt;ng-template #successTemplate&gt;
-  //   &lt;b&gt;Settings saved!&lt;/b&gt;
-  // &lt;/ng-template&gt;
-  // &lt;ng-template #errorTemplate&gt;
-  //   &lt;b&gt;Could not save.&lt;/b&gt;
-  // &lt;/ng-template&gt;`,
+  )).subscribe();`,
+          html: `
+  &lt;ng-template #successTemplate&gt;
+    &lt;b&gt;Settings saved!&lt;/b&gt;
+  &lt;/ng-template&gt;
+  &lt;ng-template #errorTemplate&gt;
+    &lt;b&gt;Could not save.&lt;/b&gt;
+  &lt;/ng-template&gt;`,
+        },
         action: () => {
           from(
             new Promise((res, rej) => {
@@ -97,8 +114,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'multi',
         title: 'Multi Line',
+        subtitle: `An example which demonstrates that hot-toast can handle multi-lines, too. 😎 It's advisable that you also have <b><i><code>autoClose: false</code></i></b> in such cases.`,
         emoji: '↕️',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.show(
     "This toast is super big. I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.",
     {
@@ -106,6 +126,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       dismissible: true
     }
   );`,
+        },
         action: () => {
           this.toast.show(
             // eslint-disable-next-line max-len
@@ -120,11 +141,15 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'emoji',
         title: 'Emoji',
+        subtitle: 'This will show provided emoji in the hot-toast!',
         emoji: '👏',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.show('Good Job!', {
     icon: '👏',
   });`,
+        },
         action: () => {
           this.toast.show('Good Job!', {
             icon: '👏',
@@ -134,8 +159,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'snackbar',
         title: 'Snackbar (Dark)',
+        subtitle: `Same as toast, but with dark theme. It is advisable that you use <b><i><code>position: 'bottom-center'</code></i></b> with this.`,
         emoji: '🌚',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.show('Snackbar',
     {
       theme: 'snackbar',
@@ -143,6 +171,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       position: 'bottom-center'
     }
   )`,
+        },
         action: () => {
           this.toast.show('Snackbar', { theme: 'snackbar', icon: '🌚', position: 'bottom-center' });
         },
@@ -150,8 +179,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'dismissible',
         title: 'Dismissible',
+        subtitle: 'This will show a close button and will allow user to close the hot-toast.',
         emoji: '❎',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.show('Dismissible',
     {
       autoClose: false,
@@ -159,6 +191,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       icon: '❎',
     }
   )`,
+        },
         action: () => {
           this.toast.show('Dismissible', {
             autoClose: false,
@@ -170,8 +203,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'events',
         title: 'Events',
+        subtitle: 'Useful when you want to perform any action based on events.',
         emoji: '🔁',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   const toastRef = toast.show('Events',
     {
       dismissible: true,
@@ -181,6 +217,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   toastRef.afterClosed.subscribe((e) => {
     console.log(e)
   });`,
+        },
         action: () => {
           const toastRef = this.toast.show('Events', { dismissible: true, duration: 5000 });
           toastRef.afterClosed.subscribe((e) => {
@@ -192,8 +229,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'themed',
         title: 'Themed',
+        subtitle: "You can pass your styles so that hot-toast matches with your app's theme.",
         emoji: '🎨',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.success('Look at my styles', {
     style: {
       border: '1px solid #713200',
@@ -205,6 +245,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       secondary: '#FFFAEE',
     },
   });`,
+        },
         action: () => {
           this.toast.success('Look at my styles', {
             style: {
@@ -222,8 +263,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'toast-ref',
         title: 'Toast ref',
+        subtitle: 'Perform actions like close, update message and options, etc. through your code.',
         emoji: '🕵️',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   const ref = toast.show(
     'I will be closed using ref.',
     { autoClose: false, icon: '🕵️' }
@@ -231,6 +275,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   setTimeout(() => {
     ref.close();
   }, 3000);`,
+        },
         action: () => {
           const ref = this.toast.show('I will be closed using ref.', { autoClose: false, icon: '🕵️' });
           setTimeout(() => {
@@ -241,12 +286,16 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'only-one-at-a-time',
         title: 'Only one at a time',
+        subtitle: 'Pass unique id and it will show that toast only one at a time.',
         emoji: '☝',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.show(
     'I can have only single toast at a time, cz I have an unique id!',
     { id: 'pause' }
   );`,
+        },
         action: () => {
           this.toast.show('I can have only single toast at a time, cz I have an unique id!', { id: 'pause' });
         },
@@ -254,14 +303,22 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'persistent',
         title: 'Persistent',
+        subtitle: `This allows you to show a toast, with unique id, only specific amount of times.
+        This config will be stored in either local or session storage.<br>
+        The <b><code>\${id}</code></b> in key will replaced with actual hot-toast id.<br>
+        Lets say you want show hot-toast, with a particular id, max 3 times to a user irrespective of browser session. In this case you will set this as:<br>
+        <b><code>{ enabled: true, count: 3 }</code></b>`,
         emoji: '🔢',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   toast.show('I can be opened only once across multiple browser sessions!', {
     id: 'persist-1',
     persist: { enabled: true },
   });
 
   // clear localStorage for current url to open it again!`,
+        },
         action: () => {
           this.toast.show('I can be opened only once across multiple browser sessions!', {
             id: 'persist-1',
@@ -272,15 +329,19 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'template',
         title: 'Template',
+        subtitle:
+          'You can give your template for more custom behavior. <b><code>toastRef</code></b> will be accessible in the template.',
         emoji: '🔩',
-        snippet: `
-  toast.show(template, { autoClose: false });
-
-  // template
-  // &lt;ng-template #template let-toast="toastRef"&gt;
-  //  Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-  //  &lt;button (click)="toast.close()"&gt;Dismiss&lt;/button&gt;
-  // &lt;/ng-template&gt;`,
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  toast.show(template, { autoClose: false });`,
+          html: `
+  &lt;ng-template #template let-toast="toastRef"&gt;
+   Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
+   &lt;button (click)="toast.close()"&gt;Dismiss&lt;/button&gt;
+  &lt;/ng-template&gt;`,
+        },
         action: () => {
           const ref = this.toast.show(this.ngTemplate, { autoClose: false });
           ref.afterClosed.subscribe((e) => console.log(e));
@@ -289,8 +350,11 @@ export class ExampleComponent implements OnInit, AfterViewInit {
       {
         id: 'component',
         title: 'Component',
+        subtitle: '',
         emoji: '🆕',
-        snippet: `
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
   @Component({
     selector: 'app-dummy',
     template: 'Hi 👋 from the component!',
@@ -300,21 +364,18 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   ngComponent = DummyComponent;
 
   toast.show(this.ngComponent);`,
+        },
         action: () => {
           this.toast.show(this.ngComponent);
         },
       },
-    ]);
-
-    this.snippet = this.examples[0].snippet;
+    ];
+    Array.prototype.push.apply(this.examples, examples);
   }
 
   ngAfterViewInit(): void {}
 
   click(e: Example) {
-    if (e.snippet) {
-      this.snippet = e.snippet;
-    }
     e.action();
   }
 }

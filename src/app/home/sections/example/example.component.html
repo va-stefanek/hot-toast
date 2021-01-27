@@ -11,17 +11,41 @@
     >.
   </h3>
 </div>
-<section class="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-3">
-  <div class="flex items-start h-100">
-    <div class="w-full grid grid-cols-2 gap-2 bg-toast-200 rounded-xl p-4">
-      <ng-container *ngFor="let example of examples">
-        <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" class="w-full">
-          {{ example.title }}
-        </app-emoji-button>
-      </ng-container>
+<section class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+  <ng-container *ngFor="let example of examples">
+    <div class="col-span-1">
+      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)">
+        {{ example.title }}
+      </app-emoji-button>
+      <p class="mt-1 text-sm text-toast-800" *ngIf="example.subtitle" [innerHTML]="example.subtitle | html"></p>
     </div>
-  </div>
-  <app-code [snippet]="snippet" language="typescript"> </app-code>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-col sm:flex-row">
+            <ng-container *ngFor="let language of snippetLanguages">
+              <button
+                class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+                *ngIf="example.snippet[language.value]"
+                [ngClass]="[
+                  example.activeSnippet === language.value
+                    ? 'bg-gray-50 text-toast-700 font-medium border-toast-700'
+                    : ''
+                ]"
+                (click)="example.activeSnippet = language.value"
+              >
+                {{ language.label }}
+              </button>
+            </ng-container>
+          </nav>
+          <div class="mb-4 px-4">
+            <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet"> </app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+  </ng-container>
 </section>
 
 <ng-template #success><b>Settings saved!</b></ng-template>
