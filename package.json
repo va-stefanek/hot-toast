@@ -1,6 +1,7 @@
 {
-  "name": "toast",
+  "name": "@ngneat/hot-toast",
   "version": "0.0.0-development",
+  "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
   "files": [
     "dist/ngneat/hot-toast/**"
   ],
