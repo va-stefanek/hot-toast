@@ -352,7 +352,7 @@ export class ExampleComponent implements OnInit {
           html: `
   &lt;ng-template #template let-toast&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-   &lt;button (click)="toast.close()"&gt;Dismiss&lt;/button&gt;
+   &lt;button (click)="toast.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
         },
         action: () => {

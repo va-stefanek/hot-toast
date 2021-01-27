@@ -52,6 +52,6 @@
 <ng-template #error><b>Could not save.</b></ng-template>
 <ng-template #template let-toast>
   Custom and <b>bold</b>&nbsp;
-  <button (click)="toast.close()" class="toast-dismiss">Dismiss</button>
+  <button (click)="toast.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
 </ng-template>
 <div class="hidden" id="closed-event-data">{{ closedEventData | json }}</div>
