@@ -35,9 +35,15 @@ export class HotToastRef implements HotToastRefProps {
     return this;
   }
 
-  close() {
+  /**
+   * Closes the toast
+   *
+   * @param [dismissedByAction=false] - Make it true when called from template
+   * @memberof HotToastRef
+   */
+  close(dismissedByAction = false) {
     this._dispose();
-    this._onClosed.next({ dismissedByAction: false, id: this.toast.id });
+    this._onClosed.next({ dismissedByAction, id: this.toast.id });
     this._onClosed.complete();
   }
 }

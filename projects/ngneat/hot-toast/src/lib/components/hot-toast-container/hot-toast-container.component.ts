@@ -11,6 +11,7 @@ import {
   ToastPosition,
   UpdateToastOptions,
   AddToastRef,
+  CreateHotToastRef,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -28,6 +29,7 @@ export class HotToastContainerComponent implements OnDestroy {
   @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
 
   toasts: Toast[] = [];
+  toastRefs: CreateHotToastRef[] = [];
 
   private readonly _offsetMargin = 8;
 
@@ -61,6 +63,8 @@ export class HotToastContainerComponent implements OnDestroy {
   }
 
   addToast(ref: HotToastRef): AddToastRef {
+    this.toastRefs.push(ref);
+
     let toast = ref.getToast();
     let subscription: Subscription;
 
@@ -109,6 +113,7 @@ export class HotToastContainerComponent implements OnDestroy {
     if (toastIndex > -1) {
       this._onClosed.next(closeToast);
       this.toasts = this.toasts.filter((t) => t.id !== closeToast.id);
+      this.toastRefs = this.toastRefs.filter((t) => t.getToast().id !== closeToast.id);
       this.cdr.detectChanges();
     }
   }

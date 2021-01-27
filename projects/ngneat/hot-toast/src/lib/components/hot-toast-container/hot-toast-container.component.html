@@ -1,9 +1,10 @@
 <div style="position: fixed; z-index: 9999; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none">
   <div style="position: relative; height: 100%">
     <hot-toast
-      *ngFor="let toast of toasts; trackBy: trackById"
+      *ngFor="let toast of toasts; trackBy: trackById; let i = index"
       [toast]="toast"
       [offset]="calculateOffset(toast.id, toast.position)"
+      [toastRef]="toastRefs[i]"
       (height)="updateHeight($event, toast)"
       (beforeClosed)="beforeClosed(toast)"
       (afterClosed)="afterClosed($event)"

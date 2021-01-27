@@ -243,12 +243,12 @@ All options, which are set *Available in global config?* from `ToastOptions` are
 
 ##### Methods
 
-| Method        | Parameters                                           | Description                       | Returns        |
-| ------------- | ---------------------------------------------------- | --------------------------------- | -------------- |
-| getToast      | --                                                   | Returns all the toast options     | `ToastOptions` |
-| updateMessage | message: [`Content`](#content)                       | Updates only message              | --             |
-| updateToast   | options: [`UpdateToastOptions`](#updatetoastoptions) | Update updatable options of toast | --             |
-| close         | --                                                   | Closes the toast                  | --             |
+| Method        | Parameters                                           | Description                                                                | Returns        |
+| ------------- | ---------------------------------------------------- | -------------------------------------------------------------------------- | -------------- |
+| getToast      | --                                                   | Returns all the toast options                                              | `ToastOptions` |
+| updateMessage | message: [`Content`](#content)                       | Updates only message                                                       | --             |
+| updateToast   | options: [`UpdateToastOptions`](#updatetoastoptions) | Update updatable options of toast                                          | --             |
+| close         | dismissedByAction: `boolean` = `false`               | Closes the toast. Make `dismissedByAction` true when calling from template | --             |
 
 ##### Properties
 

@@ -21,7 +21,7 @@
     </ng-template>
 
     <div class="hot-toast-message">
-      <dynamic-content [content]="toast.message"></dynamic-content>
+      <dynamic-content [content]="toast.message" [context]="{ toastRef: toastRef }"></dynamic-content>
     </div>
 
     <button

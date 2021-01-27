@@ -274,14 +274,16 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         title: 'Template',
         emoji: '🔩',
         snippet: `
-  toast.show(template);
+  toast.show(template, { autoClose: false });
 
   // template
-  // &lt;ng-template #template&gt;
-  //  Custom and &lt;b&gt;bold&lt;/b&gt;
+  // &lt;ng-template #template let-toast="toastRef"&gt;
+  //  Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
+  //  &lt;button (click)="toast.close()"&gt;Dismiss&lt;/button&gt;
   // &lt;/ng-template&gt;`,
         action: () => {
-          this.toast.show(this.ngTemplate);
+          const ref = this.toast.show(this.ngTemplate, { autoClose: false });
+          ref.afterClosed.subscribe((e) => console.log(e));
         },
       },
       {

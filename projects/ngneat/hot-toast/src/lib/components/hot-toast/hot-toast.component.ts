@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
+import { CreateHotToastRef, HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 
 @Component({
@@ -22,6 +22,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
   @Input() toast: Toast;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
+  @Input() toastRef: CreateHotToastRef;
 
   @Output() height = new EventEmitter<number>();
   @Output() beforeClosed = new EventEmitter();
