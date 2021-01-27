@@ -34,9 +34,10 @@ export class ToastConfig implements DefaultToastOptions {
   error?: ToastOptions;
   loading?: ToastOptions;
   blank?: ToastOptions;
+  warning?: ToastOptions;
 }
 
-export type ToastType = 'success' | 'error' | 'loading' | 'blank';
+export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning';
 export type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
 export type IconTheme = {
@@ -196,6 +197,7 @@ export interface HotToastServiceMethods {
   error(message: Content, options?: ToastOptions): CreateHotToastRef;
   success(message: Content, options?: ToastOptions): CreateHotToastRef;
   loading(message: Content, options?: ToastOptions): CreateHotToastRef;
+  warning(message: Content, options?: ToastOptions): CreateHotToastRef;
   observe<T>(messages: ObservableMessages<T>, options?: ToastOptions): (source: Observable<T>) => Observable<T>;
   close(id: string): void;
 }

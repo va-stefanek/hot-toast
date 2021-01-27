@@ -7,4 +7,5 @@ export const HOT_TOAST_DEFAULT_TIMEOUTS: {
   error: 4000,
   success: 3000,
   loading: 30000,
+  warning: 4000,
 };

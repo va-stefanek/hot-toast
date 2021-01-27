@@ -50,7 +50,7 @@
 
 <ng-template #success><b>Settings saved!</b></ng-template>
 <ng-template #error><b>Could not save.</b></ng-template>
-<ng-template #template let-toast="toastRef">
+<ng-template #template let-toast>
   Custom and <b>bold</b>&nbsp;
   <button (click)="toast.close()" class="toast-dismiss">Dismiss</button>
 </ng-template>

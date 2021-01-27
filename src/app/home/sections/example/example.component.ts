@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -20,11 +20,10 @@ interface Example {
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
 })
-export class ExampleComponent implements OnInit, AfterViewInit {
+export class ExampleComponent implements OnInit {
   @ViewChild('success') successTemplate;
   @ViewChild('error') errorTemplate;
   @ViewChild('template') ngTemplate;
-  ngComponent = DummyComponent;
 
   examples: Example[] = [];
 
@@ -55,6 +54,20 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         },
         action: () => {
           this.toast.success('Successfully toasted!');
+        },
+      },
+      {
+        id: 'warning',
+        title: 'Warning',
+        subtitle: 'Suitable to show warnings',
+        emoji: '⚠',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  toast.warning('Please be cautious!')`,
+        },
+        action: () => {
+          this.toast.warning('Please be cautious!');
         },
       },
       {
@@ -160,20 +173,20 @@ export class ExampleComponent implements OnInit, AfterViewInit {
         id: 'snackbar',
         title: 'Snackbar (Dark)',
         subtitle: `Same as toast, but with dark theme. It is advisable that you use <b><i><code>position: 'bottom-center'</code></i></b> with this.`,
-        emoji: '🌚',
+        emoji: '🌞',
         activeSnippet: 'typescript',
         snippet: {
           typescript: `
   toast.show('Snackbar',
     {
       theme: 'snackbar',
-      icon: '🌚',
+      icon: '🌞',
       position: 'bottom-center'
     }
   )`,
         },
         action: () => {
-          this.toast.show('Snackbar', { theme: 'snackbar', icon: '🌚', position: 'bottom-center' });
+          this.toast.show('Snackbar', { theme: 'snackbar', icon: '🌞', position: 'bottom-center' });
         },
       },
       {
@@ -337,7 +350,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
           typescript: `
   toast.show(template, { autoClose: false });`,
           html: `
-  &lt;ng-template #template let-toast="toastRef"&gt;
+  &lt;ng-template #template let-toast&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
    &lt;button (click)="toast.close()"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
@@ -361,19 +374,15 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   })
   export class DummyComponent {}
 
-  ngComponent = DummyComponent;
-
-  toast.show(this.ngComponent);`,
+  toast.show(DummyComponent);`,
         },
         action: () => {
-          this.toast.show(this.ngComponent);
+          this.toast.show(DummyComponent);
         },
       },
     ];
     Array.prototype.push.apply(this.examples, examples);
   }
-
-  ngAfterViewInit(): void {}
 
   click(e: Example) {
     e.action();

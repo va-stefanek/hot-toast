@@ -3,12 +3,17 @@
     <hot-toast-loader [theme]="theme"></hot-toast-loader>
     <ng-container *ngIf="type !== 'loading'">
       <div class="hot-toast-status-wrapper">
-        <ng-container *ngIf="type === 'error'; else checkMark">
-          <hot-toast-error [theme]="theme"></hot-toast-error>
-        </ng-container>
-        <ng-template #checkMark>
-          <hot-toast-checkmark [theme]="theme"></hot-toast-checkmark>
-        </ng-template>
+        <div [ngSwitch]="type">
+          <div *ngSwitchCase="'error'">
+            <hot-toast-error [theme]="theme"></hot-toast-error>
+          </div>
+          <div *ngSwitchCase="'success'">
+            <hot-toast-checkmark [theme]="theme"></hot-toast-checkmark>
+          </div>
+          <div *ngSwitchCase="'warning'">
+            <hot-toast-warning [theme]="theme"></hot-toast-warning>
+          </div>
+        </div>
       </div>
     </ng-container>
   </div>

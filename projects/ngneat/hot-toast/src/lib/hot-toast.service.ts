@@ -118,6 +118,24 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   /**
+   * Opens up an hot-toast with pre-configurations for warning state
+   *
+   * @param message The message to show in the hot-toast.
+   * @param [options] Additional configuration options for the hot-toast.
+   * @returns
+   * @memberof HotToastService
+   */
+  warning(message: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message, 'warning', {
+      ...this._defaultConfig,
+      ...this._defaultConfig?.warning,
+      ...options,
+    });
+
+    return toast;
+  }
+
+  /**
    *
    *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
    *

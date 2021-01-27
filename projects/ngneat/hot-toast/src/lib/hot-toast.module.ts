@@ -11,6 +11,7 @@ import { IndicatorComponent } from './components/indicator/indicator.component';
 import { ToastConfig } from './hot-toast.model';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HotToastService } from './hot-toast.service';
+import { WarningComponent } from './components/indicator/icons/warning/warning.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HotToastService } from './hot-toast.service';
     CheckMarkComponent,
     ErrorComponent,
     LoaderComponent,
+    WarningComponent,
   ],
   imports: [CommonModule, DynamicContentModule],
 })

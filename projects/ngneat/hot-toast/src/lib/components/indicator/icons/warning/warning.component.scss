@@ -1,0 +1,66 @@
+@keyframes animate-warn-background {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes animate-warn-line {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+
+  40% {
+    height: 4.8px;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    height: 8px;
+  }
+}
+
+.hot-toast-warning-icon {
+  position: relative;
+  display: block;
+  transform: scale(0);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--warn-primary, #ffab00);
+  opacity: 0;
+  animation: animate-warn-background 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 100ms;
+
+  &::after,
+  &::before {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 3px;
+    width: 2.5px;
+    background-color: var(--warn-secondary, #fff);
+    left: 8.5px;
+  }
+
+  &::after {
+    top: 4px;
+    height: 0;
+    opacity: 0;
+    animation: animate-warn-line 0.2s ease-out forwards;
+    animation-delay: 200ms;
+  }
+
+  &::before {
+    height: 2px;
+    bottom: 4px;
+  }
+}
