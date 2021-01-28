@@ -7,12 +7,13 @@
     "build": "tsc -p tsconfig.schematics.json",
     "copy:schemas": "cpx schematics/ng-add ../../../dist/ngneat/hot-toast/",
     "copy:collection": "cpx schematics/collection.json ../../../dist/ngneat/hot-toast/schematics/",
-    "postbuild": "npm run copy:schemas && npm run copy:collection"
+    "postbuild": "npm run copy:schemas && npm run copy:collection",
+    "postpublish": "cpx package.json ../../../../../ && cpx npm-shrinkwrap.json ../../../../../"
   },
   "peerDependencies": {
     "@angular/common": "^11.0.5",
     "@angular/core": "^11.0.5",
-    "@ngneat/overview": "^1.0.0-beta.6"
+    "@ngneat/overview": "^1.0.0-beta.7"
   },
   "dependencies": {
     "tslib": "^2.0.0"
