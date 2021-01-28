@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngneat/hot-toast/src/lib/constants';
 
 describe('Test hot toasts - emoji', () => {
   it('should show and toast with emoji', () => {
@@ -6,9 +7,8 @@ describe('Test hot toasts - emoji', () => {
     cy.get('hot-toast').as('emojiToast');
 
     cy.get('@emojiToast').should('contain', '👏');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@emojiToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@emojiToast').should('not.exist');
   });
 });

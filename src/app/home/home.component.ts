@@ -49,14 +49,11 @@ export class HomeComponent {
     });
     const observable = from(promise)
       .pipe(
-        this.toastService.observe(
-          {
-            loading: 'Preparing toast',
-            error: 'Whoops, it burnt',
-            next: `Here's your toast`,
-          },
-          { style: { width: '200px' } }
-        ),
+        this.toastService.observe({
+          loading: { content: 'Preparing toast', style: { width: '200px' } },
+          error: { content: 'Whoops, it burnt', style: { width: '200px' } },
+          success: { content: `Here's your toast`, style: { width: '200px' } },
+        }),
         catchError((error) => of(error))
       )
       .subscribe();

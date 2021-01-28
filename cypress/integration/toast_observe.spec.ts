@@ -8,15 +8,7 @@ describe('Test hot toasts - observe', () => {
     cy.get('@observeToast').should('contain', 'Saving...');
     cy.wait(1000);
     cy.get('@observeToast').should('not.contain', 'Saving...');
-    cy.get('@observeToast').then((observeToast) => {
-      if (observeToast.text() === 'Settings saved!') {
-        cy.get('@observeToast').should('not.be.visible');
-      } else {
-        cy.wait(1000);
-        cy.get('@observeToast').should('not.be.visible');
-      }
-      cy.wait(1000);
-      cy.get('@observeToast').should('not.exist');
-    });
+    cy.get('@observeToast').should('not.be.visible');
+    cy.get('@observeToast').should('not.exist');
   });
 });

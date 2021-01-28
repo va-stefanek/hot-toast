@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Input, QueryList, ViewChildren } from '@angular/core';
 import { Component } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import {
   HotToastClose,
   Toast,
@@ -14,23 +14,20 @@ import { HotToastRef } from '../../hot-toast-ref';
 import { filter } from 'rxjs/operators';
 import { Content } from '@ngneat/overview';
 import { HotToastComponent } from '../hot-toast/hot-toast.component';
+import { HOT_TOAST_MARGIN } from '../../constants';
 
 @Component({
   selector: 'hot-toast-container',
   templateUrl: './hot-toast-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HotToastContainerComponent implements OnDestroy {
+export class HotToastContainerComponent {
   @Input() defaultConfig: ToastConfig;
 
   @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
 
   toasts: Toast[] = [];
   toastRefs: CreateHotToastRef[] = [];
-
-  private readonly _offsetMargin = 8;
-
-  private subscriptionList: Subscription[] = [];
 
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
@@ -50,7 +47,7 @@ export class HotToastContainerComponent implements OnDestroy {
       index !== -1
         ? visibleToasts
             .slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index]))
-            .reduce((acc, t) => acc + (t.height || 0) + this._offsetMargin, 0)
+            .reduce((acc, t) => acc + (t.height || 0) + HOT_TOAST_MARGIN, 0)
         : 0;
     return offset;
   }
@@ -107,10 +104,6 @@ export class HotToastContainerComponent implements OnDestroy {
 
   hasToast(id: string) {
     return this.toasts.findIndex((t) => t.id === id) > -1;
-  }
-
-  ngOnDestroy() {
-    this.subscriptionList.forEach((s) => s.unsubscribe());
   }
 
   private getAfterClosed(toast: Toast) {

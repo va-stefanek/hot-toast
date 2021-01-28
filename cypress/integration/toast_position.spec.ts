@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngneat/hot-toast/src/lib/constants';
+
 describe('Test hot toasts - position', () => {
   it('should show and hide toast on top-left position', () => {
     cy.get('#top-left').click();
@@ -8,9 +10,8 @@ describe('Test hot toasts - position', () => {
     cy.get('@topLeftToast').should('contain', 'I am on top-left');
     cy.get('@topLeftToast').find('.hot-toast-bar-base-container').should('have.css', 'left', '0px');
     cy.get('@topLeftToast').find('.hot-toast-bar-base-container').should('have.css', 'top', '0px');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@topLeftToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@topLeftToast').should('not.exist');
   });
 
@@ -23,9 +24,8 @@ describe('Test hot toasts - position', () => {
     cy.get('@topCenterToast').find('.hot-toast-bar-base-container').should('have.css', 'left', '0px');
     cy.get('@topCenterToast').find('.hot-toast-bar-base-container').should('have.css', 'right', '0px');
     cy.get('@topCenterToast').find('.hot-toast-bar-base-container').should('have.css', 'top', '0px');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@topCenterToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@topCenterToast').should('not.exist');
   });
 
@@ -36,9 +36,8 @@ describe('Test hot toasts - position', () => {
     cy.get('@topRightToast').should('contain', 'I am on top-right');
     cy.get('@topRightToast').find('.hot-toast-bar-base-container').should('have.css', 'right', '0px');
     cy.get('@topRightToast').find('.hot-toast-bar-base-container').should('have.css', 'top', '0px');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@topRightToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@topRightToast').should('not.exist');
   });
 
@@ -49,9 +48,8 @@ describe('Test hot toasts - position', () => {
     cy.get('@bottomLeftToast').should('contain', 'I am on bottom-left');
     cy.get('@bottomLeftToast').find('.hot-toast-bar-base-container').should('have.css', 'bottom', '0px');
     cy.get('@bottomLeftToast').find('.hot-toast-bar-base-container').should('have.css', 'left', '0px');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@bottomLeftToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@bottomLeftToast').should('not.exist');
   });
 
@@ -64,9 +62,8 @@ describe('Test hot toasts - position', () => {
     cy.get('@bottomCenterToast').find('.hot-toast-bar-base-container').should('have.css', 'justify-content', 'center');
     cy.get('@bottomCenterToast').find('.hot-toast-bar-base-container').should('have.css', 'left', '0px');
     cy.get('@bottomCenterToast').find('.hot-toast-bar-base-container').should('have.css', 'right', '0px');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@bottomCenterToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@bottomCenterToast').should('not.exist');
   });
 
@@ -77,9 +74,8 @@ describe('Test hot toasts - position', () => {
     cy.get('@bottomRightToast').should('contain', 'I am on bottom-right');
     cy.get('@bottomRightToast').find('.hot-toast-bar-base-container').should('have.css', 'bottom', '0px');
     cy.get('@bottomRightToast').find('.hot-toast-bar-base-container').should('have.css', 'right', '0px');
-    cy.wait(3000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@bottomRightToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@bottomRightToast').should('not.exist');
   });
 });

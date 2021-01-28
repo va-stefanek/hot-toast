@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="20%" height="20%" src="./assets/logo.svg">
+  <img width="20%" height="20%" src="https://github.com/ngneat/hot-toast/blob/master/assets/logo.svg?raw=true">
 </p>
 
 <br />
@@ -15,7 +15,7 @@
 > Smoking hot Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
 
 <p align="center">
- <img src="./assets/demo.gif">
+ <img src="https://github.com/ngneat/hot-toast/blob/master/assets/demo.gif?raw=true">
 </p>
 
 ## Features
@@ -65,14 +65,76 @@ import { HotToastService } from '@ngneat/hot-toast';
 @Component({})
 export class AppComponent {
   constructor(private toast: HotToastService) {}
-}
 
-showToast() {
-  this.toast.show('Hello World!');
-  this.toast.success('Yeah!!');
-  this.toast.warn('Boo!');
-  this.toast.error('Oh no!');
+  showToast() {
+    this.toast.show('Hello World!');
+    this.toast.loading('Lazyyy...');
+    this.toast.success('Yeah!!');
+    this.toast.warning('Boo!');
+    this.toast.error('Oh no!');
+  }
+
+  apiToast() {
+    // below would your API call
+    const saveSettings = from(
+            new Promise((res, rej) => {
+              setTimeout(Math.random() > 0.5 ? res : rej, 1000);
+            })
+          );
+
+    saveSettings.pipe(
+      toast.observe(
+        {
+            loading: 'Saving...',
+            success: 'Settings saved!',
+            error: 'Could not save.',
+        }
+      )
+    ).subscribe();
+  }
 }
+```
+
+You can pass [`ToastOptions`](#toastoptions) while creating the toast to customize the look and behavior:
+
+```typescript
+import { HotToastService } from '@ngneat/hot-toast';
+
+@Component({})
+export class AppComponent {
+  constructor(private toast: HotToastService) {}
+
+  customToast() {
+    this.toast.success('Look at my styles, and I also need more time!', {
+      duration: 5000,
+      style: {
+        border: '1px solid #713200',
+        padding: '16px',
+        color: '#713200',
+      },
+      iconTheme: {
+        primary: '#713200',
+        secondary: '#FFFAEE',
+      },
+    });
+  }
+}
+```
+
+You can also set global [`ToastConfig`](#toastconfig) options while importing:
+
+```typescript
+import { HotToastModule } from '@ngneat/hot-toast';
+
+@NgModule({
+  imports: [HotToastModule.forRoot({
+    reverseOrder: true,
+    dismissible: true,
+    autoClose: false,
+    theme: 'snackbar'
+  })],
+})
+class AppModule {}
 ```
 
 ## Examples
@@ -83,31 +145,30 @@ You can checkout examples at: <https://ngneat.github.io/hot-toast>.
 
 All options, which are set _Available in global config?_ from `ToastOptions` are supported. Below are extra configurable options:
 
-| Name         | Type                         | Description                                                                                                        |
-| ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| reverseOrder | `boolean`                    | Sets the reverse order for hot-toast stacking<br>_Default: false_                                                  |
-| windowRef    | `Window & typeof globalThis` | Sets the window, from which document will be fetched and hot-toasts will be added to there.<br>_Default: `window`_ |
+| Name         | Type      | Description                                                       |
+| ------------ | --------- | ----------------------------------------------------------------- |
+| reverseOrder | `boolean` | Sets the reverse order for hot-toast stacking<br>_Default: false_ |
 
 ### ToastOptions
 
 Configuration used when opening an hot-toast.
 
-| Name        | Type                                          | Description                                                                                                                                                    | Available in global config? |
-| ----------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| id          | `string`                                      | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id.                                                                 | No                          |
-| duration    | `number`                                      | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>_Default: `3000, error = 4000, loading = 30000`_ | Yes                         |
-| autoClose   | `boolean`                                     | Auto close hot-toast after duration<br>_Default: `true`_                                                                                                       | Yes                         |
-| position    | [`ToastPosition`](#toastposition)             | The position to place the hot-toast.<br>_Default: `top-center`_                                                                                                | Yes                         |
-| dismissible | `boolean`                                     | Show close button in hot-toast<br>_Default: `false`_                                                                                                           | Yes                         |
-| role        | [`ToastRole`](#toastrole)                     | Role of the live region.<br>_Default: `status`_                                                                                                                | Yes                         |
-| ariaLive    | [`ToastAriaLive`](#toastarialive)             | aria-live value for the live region.<br>_Default: `polite`_                                                                                                    | Yes                         |
-| theme       | [`ToastTheme`](#toasttheme)                   | Visual appearance of hot-toast<br>_Default: `toast`_                                                                                                           | Yes                         |
-| persist     | [`{ToastPersistConfig}`](#toastpersistconfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.                                                                            | No                          |
-| icon        | [`Content`](#content)                         | Icon to show in the hot-toast                                                                                                                                  | Yes                         |
-| iconTheme   | [`IconTheme`](#icontheme)                     | Use this to change icon color                                                                                                                                  | Yes                         |
-| className   | `string`                                      | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
-| style       | `style object`                                | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
-| closeStyle  | `style object`                                | Extra styles to apply for close button                                                                                                                         | Yes                         |
+| Name        | Type                                                                                                                                | Description                                                                                                                                                    | Available in global config? |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| id          | `string`                                                                                                                            | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id.                                                                 | No                          |
+| duration    | `number`                                                                                                                            | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>_Default: `3000, error = 4000, loading = 30000`_ | Yes                         |
+| autoClose   | `boolean`                                                                                                                           | Auto close hot-toast after duration<br>_Default: `true`_                                                                                                       | Yes                         |
+| position    | [`ToastPosition`](https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts#L41)         | The position to place the hot-toast.<br>_Default: `top-center`_                                                                                                | Yes                         |
+| dismissible | `boolean`                                                                                                                           | Show close button in hot-toast<br>_Default: `false`_                                                                                                           | Yes                         |
+| role        | [`ToastRole`](https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts#L60)             | Role of the live region.<br>_Default: `status`_                                                                                                                | Yes                         |
+| ariaLive    | [`ToastAriaLive`](https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts#L62)         | aria-live value for the live region.<br>_Default: `polite`_                                                                                                    | Yes                         |
+| theme       | [`ToastTheme`](https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts#L48)            | Visual appearance of hot-toast<br>_Default: `toast`_                                                                                                           | Yes                         |
+| persist     | [`{ToastPersistConfig}`](https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts#L231) | Useful when you want to keep a persistance for toast based on ids, across sessions.                                                                            | No                          |
+| icon        | [`Content`](https://github.com/ngneat/overview/blob/main/projects/ngneat/overview/src/lib/views/types.ts#L16)                       | Icon to show in the hot-toast                                                                                                                                  | Yes                         |
+| iconTheme   | [`IconTheme`](https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts#L43)             | Use this to change icon color                                                                                                                                  | Yes                         |
+| className   | `string`                                                                                                                            | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
+| style       | `style object`                                                                                                                      | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
+| closeStyle  | `style object`                                                                                                                      | Extra styles to apply for close button                                                                                                                         | Yes                         |
 
 ---
 

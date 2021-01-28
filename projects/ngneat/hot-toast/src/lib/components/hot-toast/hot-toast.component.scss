@@ -102,22 +102,6 @@
   }
 }
 
-.hot-toast-enter-animation-negative {
-  animation: hotToastEnterAnimationNegative 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
-}
-
-.hot-toast-enter-animation-positive {
-  animation: hotToastEnterAnimationPositive 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
-}
-
-.hot-toast-exit-animation-positive {
-  animation: hotToastExitAnimationPositive 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1);
-}
-
-.hot-toast-exit-animation-negative {
-  animation: hotToastExitAnimationNegative 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1);
-}
-
 .hot-toast-close-btn {
   align-self: flex-start;
   box-sizing: content-box;
@@ -138,4 +122,9 @@
   &:focus {
     outline: none;
   }
+}
+
+.hot-toast-icon {
+  align-self: flex-start;
+  padding-top: 0.25em;
 }

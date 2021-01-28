@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { ENTER_ANIMATION_DURATION } from '../../projects/ngneat/hot-toast/src/lib/constants';
+
 describe('Test hot toasts - multi line', () => {
   it('should show multi-line toast', () => {
     cy.get('#multi').click();
@@ -13,11 +15,9 @@ describe('Test hot toasts - multi line', () => {
     cy.get('@multiToast')
       .find('.hot-toast-message')
       .then((el) => expect(countLines(el)).to.be.above(1));
-    cy.wait(350);
+    cy.wait(ENTER_ANIMATION_DURATION);
     cy.get('@multiToast').get('.hot-toast-close-btn').click();
-    cy.wait(50);
     cy.get('@multiToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@multiToast').should('not.exist');
   });
 });

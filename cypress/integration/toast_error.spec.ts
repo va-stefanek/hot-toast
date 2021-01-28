@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngneat/hot-toast/src/lib/constants';
 
 describe('Test hot toasts - error', () => {
   it('should show and hide error toast', () => {
@@ -6,9 +7,8 @@ describe('Test hot toasts - error', () => {
     cy.get('hot-toast').as('errorToast');
 
     cy.get('@errorToast').should('contain', `This didn't work.`);
-    cy.wait(4000);
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.error);
     cy.get('@errorToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@errorToast').should('not.exist');
   });
 });

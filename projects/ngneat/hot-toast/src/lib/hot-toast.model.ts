@@ -9,13 +9,6 @@ export class ToastConfig implements DefaultToastOptions {
    */
   reverseOrder = false;
 
-  /**
-   * Sets the window, from which document will be fetched and hot-toasts will be added to there.
-   *
-   * @default window
-   */
-  windowRef = window;
-
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
   position: ToastPosition = 'top-center';
@@ -184,10 +177,18 @@ export type DefaultToastOptions = ToastOptions &
     [key in ToastType]?: ToastOptions;
   };
 
+export type ObservableLoading = {
+  content: Content;
+} & ToastOptions;
+
+export type ObservableSuccessOrError<T> = {
+  content: ValueOrFunction<Content, T>;
+} & ToastOptions;
+
 export type ObservableMessages<T> = {
-  loading?: Content;
-  next: ValueOrFunction<Content, T>;
-  error?: ValueOrFunction<Content, any>;
+  loading?: Content | ObservableLoading;
+  success: ValueOrFunction<Content, T> | ObservableSuccessOrError<T>;
+  error?: ValueOrFunction<Content, any> | ObservableSuccessOrError<any>;
 };
 
 export interface HotToastServiceMethods {
@@ -196,7 +197,7 @@ export interface HotToastServiceMethods {
   success(message: Content, options?: ToastOptions): CreateHotToastRef;
   loading(message: Content, options?: ToastOptions): CreateHotToastRef;
   warning(message: Content, options?: ToastOptions): CreateHotToastRef;
-  observe<T>(messages: ObservableMessages<T>, options?: ToastOptions): (source: Observable<T>) => Observable<T>;
+  observe<T>(messages: ObservableMessages<T>): (source: Observable<T>) => Observable<T>;
   close(id: string): void;
 }
 

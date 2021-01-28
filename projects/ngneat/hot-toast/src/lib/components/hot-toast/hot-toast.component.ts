@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION } from '../../constants';
 import { CreateHotToastRef, HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 
@@ -77,11 +78,11 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
 
     const enterAnimation = `hotToastEnterAnimation${
       top ? 'Negative' : 'Positive'
-    } 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
     const exitAnimation = `hotToastExitAnimation${
       top ? 'Negative' : 'Positive'
-    } 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1) ${this.toast.duration}ms`;
+    } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1) ${this.toast.duration}ms`;
 
     const animation = this.toast.autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
 
@@ -98,7 +99,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
 
     const exitAnimation = `hotToastExitAnimation${
       top ? 'Negative' : 'Positive'
-    } 0.8s forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
+    } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
 
     const nativeElement = this.toastBarBase.nativeElement;
 

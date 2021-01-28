@@ -10,7 +10,6 @@ describe('Test hot toasts - dismissible', () => {
     cy.wait(350);
     cy.get('@closeBtn').click();
     cy.get('@dismissibleToast').should('not.be.visible');
-    cy.wait(1000);
     cy.get('@dismissibleToast').should('not.exist');
   });
 });

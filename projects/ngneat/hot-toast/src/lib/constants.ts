@@ -3,9 +3,14 @@ import { ToastType } from './hot-toast.model';
 export const HOT_TOAST_DEFAULT_TIMEOUTS: {
   [key in ToastType]: number;
 } = {
-  blank: 3000,
+  blank: 4000,
   error: 4000,
-  success: 3000,
-  loading: 30000,
+  success: 4000,
+  loading: 4000,
   warning: 4000,
 };
+
+export const EXIT_ANIMATION_DURATION = 800;
+export const ENTER_ANIMATION_DURATION = 350;
+
+export const HOT_TOAST_MARGIN = 8;

@@ -116,7 +116,7 @@ export class ExampleComponent implements OnInit {
             .pipe(
               this.toast.observe({
                 loading: 'Saving...',
-                next: this.successTemplate,
+                success: this.successTemplate,
                 error: this.errorTemplate,
               }),
               catchError((error) => of(error))

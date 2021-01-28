@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { Content, ViewService } from '@ngneat/overview';
+import { Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -10,7 +10,9 @@ import {
   CreateHotToastRef,
   DefaultToastOptions,
   HotToastServiceMethods,
+  ObservableLoading,
   ObservableMessages,
+  ObservableSuccessOrError,
   resolveValueOrFunction,
   Toast,
   ToastConfig,
@@ -18,6 +20,7 @@ import {
   ToastPersistConfig,
   ToastType,
   UpdateToastOptions,
+  ValueOrFunction,
 } from './hot-toast.model';
 
 @Injectable({ providedIn: 'root' })
@@ -44,7 +47,7 @@ export class HotToastService implements HotToastServiceMethods {
     const componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultConfig)
-      .appendTo(this._defaultConfig.windowRef.document.body);
+      .appendTo(document.body);
 
     this.componentInstance = componentRef.ref.instance;
   }
@@ -139,35 +142,27 @@ export class HotToastService implements HotToastServiceMethods {
    *
    *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
    *
-   * @template T T
-   * @param messages Messages for each state i.e. loading, next and error
-   * @param [options] Additional configuration options for the hot-toast.
-   * @param observable Observable to which subscription will happen and messages will be displayed according to messages
+   * @template T Type of observable
+   * @param messages Messages for each state i.e. loading, success and error
    * @returns
    * @memberof HotToastService
    */
-  observe<T>(messages: ObservableMessages<T>, options?: DefaultToastOptions): (source: Observable<T>) => Observable<T> {
+  observe<T>(messages: ObservableMessages<T>): (source: Observable<T>) => Observable<T> {
     return (source) => {
       let toastRef: CreateHotToastRef;
+
       if (messages.loading) {
-        toastRef = this.createToast(messages.loading, 'loading', {
-          ...this._defaultConfig,
-          ...this._defaultConfig?.loading,
-          ...options,
-          ...options?.loading,
-        });
+        toastRef = this.createLoadingToast<T>(messages.loading);
       }
 
       return source.pipe(
         tap({
           next: (val) => {
-            if (messages.next) {
-              toastRef = this.createOrUpdateToast(messages, val, toastRef, options, 'success');
-            }
+            toastRef = this.createOrUpdateToast(messages, val, toastRef, 'success');
           },
           error: (e) => {
             if (messages.error) {
-              toastRef = this.createOrUpdateToast(messages, e, toastRef, options, 'error');
+              toastRef = this.createOrUpdateToast(messages, e, toastRef, 'error');
             }
           },
         })
@@ -188,12 +183,14 @@ export class HotToastService implements HotToastServiceMethods {
     messages: ObservableMessages<T>,
     val: unknown,
     toastRef: CreateHotToastRef,
-    options: DefaultToastOptions,
     type: ToastType
   ) {
-    const message = resolveValueOrFunction(messages[type === 'success' ? 'next' : 'error'], val);
+    let content: Content | ValueOrFunction<Content, T> = null;
+    let options: ToastOptions = {};
+    ({ content, options } = this.getContentAndOptions<any>(type, messages[type]));
+    content = resolveValueOrFunction(content, val);
     if (toastRef) {
-      toastRef.updateMessage(message);
+      toastRef.updateMessage(content);
       const updatedOptions: UpdateToastOptions = {
         ...toastRef.getToast(),
         type,
@@ -209,7 +206,7 @@ export class HotToastService implements HotToastServiceMethods {
         ...options,
         ...(options && options[type] ? options[type] : undefined),
       };
-      this.createToast(message, type, newOptions);
+      this.createToast(content, type, newOptions);
     }
     return toastRef;
   }
@@ -218,14 +215,15 @@ export class HotToastService implements HotToastServiceMethods {
     message: Content,
     type: ToastType,
     options?: DefaultToastOptions,
-    observable?: Observable<T>,
     observableMessages?: ObservableMessages<T>
   ): CreateHotToastRef {
     const now = Date.now();
-
     const id = options?.id ?? now.toString();
 
-    if (!this.isDuplicate(id) && this.createStorage(id, options)) {
+    if (
+      !this.isDuplicate(id) &&
+      (!options.persist?.enabled || (options.persist?.enabled && this.createStorage(id, options)))
+    ) {
       const toast: Toast = {
         ariaLive: options?.ariaLive ?? 'polite',
         createdAt: now,
@@ -243,6 +241,12 @@ export class HotToastService implements HotToastServiceMethods {
     }
   }
 
+  /**
+   * Checks whether any toast with same id is present.
+   *
+   * @private
+   * @param id - Toast ID
+   */
   private isDuplicate(id: string) {
     return this.componentInstance.hasToast(id);
   }
@@ -255,27 +259,59 @@ export class HotToastService implements HotToastServiceMethods {
    */
   private createStorage(id: string, options: DefaultToastOptions): number {
     let count = 1;
-    if (options.persist?.enabled) {
-      const persist = { ...this._defaultPersistConfig, ...options.persist };
-      const storage: Storage = persist.storage === 'local' ? localStorage : sessionStorage;
-      const key = persist.key.replace(/\${id}/g, id);
+    const persist = { ...this._defaultPersistConfig, ...options.persist };
+    const storage: Storage = persist.storage === 'local' ? localStorage : sessionStorage;
+    const key = persist.key.replace(/\${id}/g, id);
 
-      let item: string | number = storage.getItem(key);
+    let item: string | number = storage.getItem(key);
 
-      if (item) {
-        item = parseInt(item, 10);
-        if (item > 0) {
-          count = item - 1;
-        } else {
-          count = item;
-        }
+    if (item) {
+      item = parseInt(item, 10);
+      if (item > 0) {
+        count = item - 1;
       } else {
-        count = persist.count;
+        count = item;
       }
-
-      storage.setItem(key, count.toString());
+    } else {
+      count = persist.count;
     }
 
+    storage.setItem(key, count.toString());
+
     return count;
+  }
+
+  private getContentAndOptions<T>(
+    toastType: ToastType,
+    message: Content | ValueOrFunction<Content, T> | ObservableSuccessOrError<T>
+  ) {
+    let content: Content | ValueOrFunction<Content, T>;
+    let options: ToastOptions = {
+      ...this._defaultConfig,
+      ...this._defaultConfig[toastType],
+    };
+
+    // typeof message === 'object' won't work, cz TemplateRef's type is object
+    if (typeof message === 'string' || isTemplateRef(message) || isComponent(message)) {
+      content = message;
+    } else {
+      let restOptions: ToastOptions;
+      ({ content, ...restOptions } = message as ObservableLoading);
+      options = { ...options, ...restOptions };
+    }
+
+    return { content, options };
+  }
+
+  private createLoadingToast<T>(messages: Content | ObservableLoading) {
+    let content: Content | ValueOrFunction<Content, T> = null;
+    let options: ToastOptions = {
+      ...this._defaultConfig,
+      ...this._defaultConfig?.loading,
+    };
+
+    ({ content, options } = this.getContentAndOptions<any>('loading', messages));
+
+    return this.loading(content as Content, options);
   }
 }
