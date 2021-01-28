@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-01-28)
+
+
+### Bug Fixes
+
+* 🐛 change @ngneat/overview version ([b126aff](https://github.com/ngneat/hot-toast/commit/b126affd6e4be3f57528c775e3854768e896d1e4))
+
 # 1.0.0-beta.1 (2021-01-28)
 
 
