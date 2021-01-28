@@ -8,7 +8,7 @@
     "copy:schemas": "cpx schematics/ng-add ../../../dist/ngneat/hot-toast/",
     "copy:collection": "cpx schematics/collection.json ../../../dist/ngneat/hot-toast/schematics/",
     "postbuild": "npm run copy:schemas && npm run copy:collection",
-    "postpublish": "cpx package.json ../../../../../ && cpx npm-shrinkwrap.json ../../../../../"
+    "postpublish": "cpx package.json ../../../../../projects/ngneat/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngneat/hot-toast/"
   },
   "peerDependencies": {
     "@angular/common": "^11.0.5",
