@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - component', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide component toast', () => {
     cy.get('#component').click();
     cy.get('hot-toast').as('componentToast');

@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - emoji', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and toast with emoji', () => {
     cy.get('#emoji').click();
     cy.get('hot-toast').as('emojiToast');

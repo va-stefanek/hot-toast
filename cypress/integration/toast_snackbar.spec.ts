@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - snackbar', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and toast with snackbar theme', () => {
     cy.get('#snackbar').click();
     cy.get('hot-toast').as('snackbarToast');

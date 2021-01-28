@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - position', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide toast on top-left position', () => {
     cy.get('#top-left').click();
     cy.get('hot-toast').as('topLeftToast');

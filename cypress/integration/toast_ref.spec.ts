@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - ToastRef', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show toast and closed by toastRef', () => {
     cy.get('#toast-ref').click();
     cy.clock();

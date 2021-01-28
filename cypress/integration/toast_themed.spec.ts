@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - themed', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide themed toast', () => {
     cy.get('#themed').click();
     cy.get('hot-toast', { timeout: 0 }).as('themedToast');

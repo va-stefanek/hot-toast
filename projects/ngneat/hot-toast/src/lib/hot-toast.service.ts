@@ -235,7 +235,6 @@ export class HotToastService implements HotToastServiceMethods {
         role: options?.role ?? 'status',
         type,
         visible: true,
-        observable: observable ?? undefined,
         observableMessages: observableMessages ?? undefined,
         ...options,
       };

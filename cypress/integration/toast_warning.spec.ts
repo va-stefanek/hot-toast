@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - success', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide success toast', () => {
     cy.get('#warning').click();
     cy.get('hot-toast').as('warningToast');

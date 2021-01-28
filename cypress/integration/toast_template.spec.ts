@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - template', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide toast with template', () => {
     cy.get('#template').click();
     cy.get('hot-toast').as('templateToast');

@@ -16,18 +16,22 @@ Run the playground app:
 npm start
 ```
 
-Check the tests:
+## Testing
+
+### Run unit tests
 
 ```bash
-# npm start
-npm run cy:open
+npm start
+npm run unit
 ```
 
-Run the tests:
+Cypress window will open, you can click on individual tests.
+
+### Run e2e tests (generally run in CI)
 
 ```bash
 npm run build -- --prod
-npm run test
+npm run e2e
 ```
 
 ## Building

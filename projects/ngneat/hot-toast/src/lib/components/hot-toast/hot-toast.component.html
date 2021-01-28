@@ -1,8 +1,9 @@
-<div class="hot-toast-bar-base-container" [ngStyle]="getPositionStyle()" [ngClass]="getToastBarContainerClasses()">
+<div class="hot-toast-bar-base-container" [ngStyle]="containerPositionStyle" [ngClass]="toast.theme">
   <div
     class="hot-toast-bar-base"
     #hotToastBarBase
     [ngStyle]="toastBarBaseStyles"
+    [ngClass]="toast.className"
     [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
     [attr.aria-live]="toast.ariaLive"
     [attr.role]="toast.role"

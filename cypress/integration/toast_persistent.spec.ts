@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - persistent', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide persistent toast, and it should not open again', () => {
     cy.get('#persistent')
       .click()

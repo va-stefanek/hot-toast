@@ -1,11 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { Component } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../constants';
 import {
-  DefaultToastOptions,
   HotToastClose,
-  resolveValueOrFunction,
   Toast,
   ToastConfig,
   ToastPosition,
@@ -14,7 +11,7 @@ import {
   CreateHotToastRef,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Content } from '@ngneat/overview';
 import { HotToastComponent } from '../hot-toast/hot-toast.component';
 
@@ -65,24 +62,14 @@ export class HotToastContainerComponent implements OnDestroy {
   addToast(ref: HotToastRef): AddToastRef {
     this.toastRefs.push(ref);
 
-    let toast = ref.getToast();
-    let subscription: Subscription;
+    const toast = ref.getToast();
 
     this.toasts.push(ref.getToast());
 
     this.cdr.detectChanges();
 
-    if (toast.observable) {
-      ({ toast, subscription } = this.updateSubscription(toast, subscription));
-      this.subscriptionList.push(subscription);
-    }
-
     return {
       dispose: () => {
-        if (subscription) {
-          subscription.unsubscribe();
-        }
-
         this.closeToast(toast.id);
       },
       updateMessage: (message: Content) => {
@@ -124,40 +111,6 @@ export class HotToastContainerComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionList.forEach((s) => s.unsubscribe());
-  }
-
-  private updateSubscription(toast: Toast, subscription: Subscription) {
-    subscription = toast.observable.pipe(takeUntil(this.getAfterClosed(toast))).subscribe(
-      (v) => {
-        if (toast.observableMessages?.next) {
-          toast.message = resolveValueOrFunction(toast.observableMessages.next, v);
-          toast = Object.assign(toast, {
-            ...toast,
-            type: 'success',
-            duration: HOT_TOAST_DEFAULT_TIMEOUTS.success,
-            ...this.defaultConfig?.success,
-            ...(toast as DefaultToastOptions)?.success,
-          });
-          this.updateToasts(toast);
-          this.cdr.detectChanges();
-        }
-      },
-      (e) => {
-        if (toast.observableMessages?.error) {
-          toast.message = resolveValueOrFunction(toast.observableMessages.error, e);
-          toast = Object.assign(toast, {
-            ...toast,
-            type: 'error',
-            duration: HOT_TOAST_DEFAULT_TIMEOUTS.error,
-            ...this.defaultConfig?.error,
-            ...(toast as DefaultToastOptions)?.error,
-          });
-          this.updateToasts(toast);
-          this.cdr.detectChanges();
-        }
-      }
-    );
-    return { toast, subscription };
   }
 
   private getAfterClosed(toast: Toast) {

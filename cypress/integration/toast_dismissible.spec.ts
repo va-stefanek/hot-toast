@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - dismissible', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide dismissible toast', () => {
     cy.get('#dismissible').click();
     cy.get('hot-toast').as('dismissibleToast');

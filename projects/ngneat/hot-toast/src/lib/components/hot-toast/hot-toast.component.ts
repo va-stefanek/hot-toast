@@ -48,7 +48,7 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  getPositionStyle() {
+  get containerPositionStyle() {
     const top = this.toast.position.includes('top');
     const verticalStyle = top ? { top: 0 } : { bottom: 0 };
 
@@ -72,10 +72,6 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     };
   }
 
-  getToastBarContainerClasses() {
-    return (this.toast.className ?? ' ') + this.toast.theme;
-  }
-
   get toastBarBaseStyles() {
     const top = this.toast.position.includes('top');
 
@@ -92,6 +88,10 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     return { ...this.toast.style, animation };
   }
 
+  get isIconString() {
+    return typeof this.toast.icon === 'string';
+  }
+
   close() {
     this.isManualClose = true;
     const top = this.toast.position.includes('top');
@@ -103,14 +103,6 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     const nativeElement = this.toastBarBase.nativeElement;
 
     animate(nativeElement, exitAnimation);
-  }
-
-  get isIconString() {
-    return typeof this.toast.icon === 'string';
-  }
-
-  get isMessageString() {
-    return typeof this.toast.message === 'string';
   }
 
   ngOnDestroy() {

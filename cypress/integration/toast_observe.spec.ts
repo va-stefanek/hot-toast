@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Test hot toasts - observe', () => {
-  it('open the dev app', () => {
-    cy.visit('/');
-  });
-
   it('should show and hide observe toast', () => {
     cy.get('#observe').click();
     cy.get('hot-toast').as('observeToast');

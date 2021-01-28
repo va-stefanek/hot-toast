@@ -143,8 +143,6 @@ export interface Toast {
   visible: boolean;
   height?: number;
 
-  /**Observable to which subscription will happen and messages will be displayed according to observableMessages */
-  observable?: Observable<unknown>;
   observableMessages?: ObservableMessages<unknown>;
 
   /**
