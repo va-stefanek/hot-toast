@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngneat/hot-toast/src/lib/constants';
+
 describe('Test hot toasts - observe', () => {
   it('should show and hide observe toast', () => {
     cy.get('#observe').click();
@@ -8,7 +10,15 @@ describe('Test hot toasts - observe', () => {
     cy.get('@observeToast').should('contain', 'Saving...');
     cy.wait(1000);
     cy.get('@observeToast').should('not.contain', 'Saving...');
-    cy.get('@observeToast').should('not.be.visible');
+    cy.get('@observeToast').then((observeToast) => {
+      if (observeToast.text() === 'Settings saved!') {
+        cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.success - 1000);
+        cy.get('@observeToast').should('not.be.visible');
+      } else {
+        cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.error - 1000);
+        cy.get('@observeToast').should('not.be.visible');
+      }
+    });
     cy.wait(1000);
     cy.get('@observeToast').should('not.exist');
   });

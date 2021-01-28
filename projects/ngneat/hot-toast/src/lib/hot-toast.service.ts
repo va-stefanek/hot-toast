@@ -222,7 +222,7 @@ export class HotToastService implements HotToastServiceMethods {
 
     if (
       !this.isDuplicate(id) &&
-      (!options.persist?.enabled || (options.persist?.enabled && this.createStorage(id, options)))
+      (!options.persist?.enabled || (options.persist?.enabled && this.handleStorageValue(id, options)))
     ) {
       const toast: Toast = {
         ariaLive: options?.ariaLive ?? 'polite',
@@ -257,7 +257,7 @@ export class HotToastService implements HotToastServiceMethods {
    * and returns the count.
    * Count can not be less than 0.
    */
-  private createStorage(id: string, options: DefaultToastOptions): number {
+  private handleStorageValue(id: string, options: DefaultToastOptions): number {
     let count = 1;
     const persist = { ...this._defaultPersistConfig, ...options.persist };
     const storage: Storage = persist.storage === 'local' ? localStorage : sessionStorage;
