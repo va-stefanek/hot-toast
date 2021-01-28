@@ -1,5 +1,3 @@
-<h1 id="ngneat-hot-toast" align="center">ngneat hot toast</h1>
-
 <p align="center">
   <img width="20%" height="20%" src="./assets/logo.svg">
 </p>
@@ -10,11 +8,11 @@
 [![commitizen](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)]()
 [![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)]()
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 [![ngneat](https://img.shields.io/badge/@-ngneat-383636?style=flat-square&labelColor=8f68d4)](https://github.com/ngneat/)
 [![spectator](https://img.shields.io/badge/tested%20with-spectator-2196F3.svg?style=flat-square)]()
 
-> Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
+> Smoking hot Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
 
 <p align="center">
  <img src="./assets/demo.gif">
@@ -28,10 +26,10 @@
 - 🖐️ **Reduce motion support**
 - 😊 **Emoji Support**
 - 🛠 **Customizable**
-- ⏳ **Observable API** - _Automatic loader from an observable_
-- ✋ **Pause on hover** - *No JavaScript, paused through CSS `animation-play-state`*
+- ⏳ **Observable API**
+- ✋ **Pause on hover**
 - 🔁 **Events**
-- 🔒 **Persistent** - *Opens one toast at a time with unique id. Can be configured.*
+- 🔒 **Persistent**
 
 ## Installation
 
@@ -41,34 +39,26 @@ You can install it through **Angular CLI**:
 ng add @ngneat/hot-toast
 ```
 
-or with **npm or yarn**:
+or with **npm**:
 
 ```bash
-npm install @ngneat/overview @ngneat/hot-toast
-
-#or
-
-yarn add @ngneat/overview @ngneat/hot-toast
+npm install @ngneat/{overview,hot-toast}
 ```
 
 When you install using **npm or yarn**, you will also need to import `HotToastModule` in your `app.module`. You can also set global toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:
 
 ```typescript
-// ..
 import { HotToastModule } from '@ngneat/hot-toast';
 
-// ...
 @NgModule({
   imports: [HotToastModule.forRoot()],
 })
-
-// ...
+class AppModule {}
 ```
 
 ## Basic Usage
 
 ```typescript
-// ...
 import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({})
@@ -77,7 +67,10 @@ export class AppComponent {
 }
 
 showToast() {
-  this.toast.show('Hello World!')
+  this.toast.show('Hello World!');
+  this.toast.success('Yeah!!');
+  this.toast.warn('Boo!');
+  this.toast.error('Oh no!');
 }
 ```
 
@@ -87,12 +80,12 @@ You can checkout examples at: <https://ngneat.github.io/hot-toast>.
 
 ### ToastConfig
 
-All options, which are set *Available in global config?* from `ToastOptions` are supported. Below are extra configurable options:
+All options, which are set _Available in global config?_ from `ToastOptions` are supported. Below are extra configurable options:
 
 | Name         | Type                         | Description                                                                                                        |
 | ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| reverseOrder | `boolean`                    | Sets the reverse order for hot-toast stacking<br>*Default: false*                                                  |
-| windowRef    | `Window & typeof globalThis` | Sets the window, from which document will be fetched and hot-toasts will be added to there.<br>*Default: `window`* |
+| reverseOrder | `boolean`                    | Sets the reverse order for hot-toast stacking<br>_Default: false_                                                  |
+| windowRef    | `Window & typeof globalThis` | Sets the window, from which document will be fetched and hot-toasts will be added to there.<br>_Default: `window`_ |
 
 ### ToastOptions
 
@@ -101,13 +94,13 @@ Configuration used when opening an hot-toast.
 | Name        | Type                                          | Description                                                                                                                                                    | Available in global config? |
 | ----------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | id          | `string`                                      | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id.                                                                 | No                          |
-| duration    | `number`                                      | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>*Default: `3000, error = 4000, loading = 30000`* | Yes                         |
-| autoClose   | `boolean`                                     | Auto close hot-toast after duration<br>*Default: `true`*                                                                                                       | Yes                         |
-| position    | [`ToastPosition`](#toastposition)             | The position to place the hot-toast.<br>*Default: `top-center`*                                                                                                | Yes                         |
-| dismissible | `boolean`                                     | Show close button in hot-toast<br>*Default: `false`*                                                                                                           | Yes                         |
-| role        | [`ToastRole`](#toastrole)                     | Role of the live region.<br>*Default: `status`*                                                                                                                | Yes                         |
-| ariaLive    | [`ToastAriaLive`](#toastarialive)             | aria-live value for the live region.<br>*Default: `polite`*                                                                                                    | Yes                         |
-| theme       | [`ToastTheme`](#toasttheme)                   | Visual appearance of hot-toast<br>*Default: `toast`*                                                                                                           | Yes                         |
+| duration    | `number`                                      | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>_Default: `3000, error = 4000, loading = 30000`_ | Yes                         |
+| autoClose   | `boolean`                                     | Auto close hot-toast after duration<br>_Default: `true`_                                                                                                       | Yes                         |
+| position    | [`ToastPosition`](#toastposition)             | The position to place the hot-toast.<br>_Default: `top-center`_                                                                                                | Yes                         |
+| dismissible | `boolean`                                     | Show close button in hot-toast<br>_Default: `false`_                                                                                                           | Yes                         |
+| role        | [`ToastRole`](#toastrole)                     | Role of the live region.<br>_Default: `status`_                                                                                                                | Yes                         |
+| ariaLive    | [`ToastAriaLive`](#toastarialive)             | aria-live value for the live region.<br>_Default: `polite`_                                                                                                    | Yes                         |
+| theme       | [`ToastTheme`](#toasttheme)                   | Visual appearance of hot-toast<br>_Default: `toast`_                                                                                                           | Yes                         |
 | persist     | [`{ToastPersistConfig}`](#toastpersistconfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.                                                                            | No                          |
 | icon        | [`Content`](#content)                         | Icon to show in the hot-toast                                                                                                                                  | Yes                         |
 | iconTheme   | [`IconTheme`](#icontheme)                     | Use this to change icon color                                                                                                                                  | Yes                         |
