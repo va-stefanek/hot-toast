@@ -1,3 +1,5 @@
+# [1.0.0-beta.3](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-01-28)
+
 # [1.0.0-beta.2](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-01-28)
 
 
