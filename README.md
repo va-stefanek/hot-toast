@@ -44,7 +44,7 @@ ng add @ngneat/hot-toast
 or with **npm**:
 
 ```bash
-npm install @ngneat/{overview,hot-toast}
+npm install @ngneat/overview @ngneat/hot-toast
 ```
 
 When you install using **npm or yarn**, you will also need to import `HotToastModule` in your `app.module`. You can also set global toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:
