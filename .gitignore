@@ -52,3 +52,6 @@ cypress/integration/examples
 
 # eslint
 .eslintcache
+
+# dist
+dist
