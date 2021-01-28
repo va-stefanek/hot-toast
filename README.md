@@ -22,6 +22,7 @@
 
 - 🔥 **Hot by default**
 - ☕ **Easy to use**
+- 🐍 **Snackbar variation**
 - ♿ **Accessible**
 - 🖐️ **Reduce motion support**
 - 😊 **Emoji Support**
@@ -105,8 +106,8 @@ Configuration used when opening an hot-toast.
 | icon        | [`Content`](#content)                         | Icon to show in the hot-toast                                                                                                                                  | Yes                         |
 | iconTheme   | [`IconTheme`](#icontheme)                     | Use this to change icon color                                                                                                                                  | Yes                         |
 | className   | `string`                                      | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
-| style       | `any`                                         | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
-| closeStyle  | `any`                                         | Extra styles to apply for close button                                                                                                                         | Yes                         |
+| style       | `style object`                                | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
+| closeStyle  | `style object`                                | Extra styles to apply for close button                                                                                                                         | Yes                         |
 
 ---
 
