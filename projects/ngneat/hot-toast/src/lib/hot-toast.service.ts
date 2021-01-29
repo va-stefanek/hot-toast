@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
+import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -25,9 +25,19 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
-  componentInstance: HotToastContainerComponent;
+  private _componentRef: CompRef<HotToastContainerComponent>;
 
   private _defaultConfig = new ToastConfig();
+  get defaultConfig() {
+    return this._defaultConfig;
+  }
+  set defaultConfig(config: ToastConfig) {
+    this._defaultConfig = {
+      ...this._defaultConfig,
+      ...config,
+    };
+    this._componentRef.setInput('defaultConfig', this._defaultConfig);
+  }
   private _defaultPersistConfig = new ToastPersistConfig();
 
   constructor(private _viewService: ViewService, @Optional() config: ToastConfig) {
@@ -44,12 +54,10 @@ export class HotToastService implements HotToastServiceMethods {
    * Creates a container component and attaches it to document.body.
    */
   init() {
-    const componentRef = this._viewService
+    this._componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultConfig)
       .appendTo(document.body);
-
-    this.componentInstance = componentRef.ref.instance;
   }
 
   /**
@@ -176,16 +184,7 @@ export class HotToastService implements HotToastServiceMethods {
    * @param id - ID of the toast
    */
   close(id: string) {
-    this.componentInstance.closeToast(id);
-  }
-
-  /**
-   * Updates the reverse order run time
-   *
-   * @param reverseOrder
-   */
-  updateReverseOrder(reverseOrder: boolean) {
-    this._defaultConfig.reverseOrder = reverseOrder;
+    this._componentRef.ref.instance.closeToast(id);
   }
 
   private createOrUpdateToast<T>(
@@ -246,7 +245,7 @@ export class HotToastService implements HotToastServiceMethods {
         ...options,
       };
 
-      return new HotToastRef(toast).appendTo(this.componentInstance);
+      return new HotToastRef(toast).appendTo(this._componentRef.ref.instance);
     }
   }
 
@@ -257,7 +256,7 @@ export class HotToastService implements HotToastServiceMethods {
    * @param id - Toast ID
    */
   private isDuplicate(id: string) {
-    return this.componentInstance.hasToast(id);
+    return this._componentRef.ref.instance.hasToast(id);
   }
 
   /**

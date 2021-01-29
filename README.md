@@ -140,7 +140,7 @@ class AppModule {}
 
 ## Examples
 
-You can checkout examples at: <https://ngneat.github.io/hot-toast>.
+You can checkout examples at: <https://ngneat.github.io/hot-toast#examples>.
 
 ### ToastConfig
 

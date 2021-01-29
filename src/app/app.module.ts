@@ -10,6 +10,7 @@ import { FeaturesComponent } from './sections/features/features.component';
 import { PositionComponent } from './sections/position/position.component';
 import { StepsComponent } from './sections/steps/steps.component';
 import { SharedModule } from './shared/shared.module';
+import { ReverseOrderComponent } from './sections/reverse-order/reverse-order.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SharedModule } from './shared/shared.module';
     FeaturesComponent,
     PositionComponent,
     DummyComponent,
+    ReverseOrderComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, SharedModule, HotToastModule.forRoot()],
   providers: [],

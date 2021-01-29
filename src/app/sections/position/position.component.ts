@@ -110,24 +110,6 @@ export class PositionComponent implements OnInit {
 
   snippet = this.positionExamples[0].snippet;
   position: ToastPosition = 'top-left';
-  globalSnippet = `
-  // ..
-  import { HotToastModule } from '@ngneat/hot-toast';
-
-  // ...
-  @NgModule({
-    imports: [
-      //...,
-      HotToastModule.forRoot(
-          {
-            position: 'top-left',
-            reverseOrder: true,
-          }
-        )
-      ],
-  })
-
-  // ...`;
 
   constructor(private toast: HotToastService) {}
 
@@ -141,5 +123,20 @@ export class PositionComponent implements OnInit {
     pos.action();
   }
 
-  toggleDirection() {}
+  get globalSnippet() {
+    return `
+  import { HotToastModule } from '@ngneat/hot-toast';
+
+  @NgModule({
+    imports: [
+      HotToastModule.forRoot(
+          {
+            position: '${this.position}',
+          }
+        )
+      ],
+  })
+
+  export class AppModule {}`;
+  }
 }
