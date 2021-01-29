@@ -179,6 +179,15 @@ export class HotToastService implements HotToastServiceMethods {
     this.componentInstance.closeToast(id);
   }
 
+  /**
+   * Updates the reverse order run time
+   *
+   * @param reverseOrder
+   */
+  updateReverseOrder(reverseOrder: boolean) {
+    this._defaultConfig.reverseOrder = reverseOrder;
+  }
+
   private createOrUpdateToast<T>(
     messages: ObservableMessages<T>,
     val: unknown,

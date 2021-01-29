@@ -54,6 +54,7 @@ export class HotToastContainerComponent {
 
   updateHeight(height: number, toast: Toast) {
     toast.height = height;
+    this.cdr.detectChanges();
   }
 
   addToast(ref: HotToastRef): AddToastRef {
