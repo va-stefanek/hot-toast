@@ -1,3 +1,15 @@
+# [1.0.0-beta.4](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-01-29)
+
+
+### Bug Fixes
+
+* 🐛 detect changes on height update, a method to update reve ([ea5f6e5](https://github.com/ngneat/hot-toast/commit/ea5f6e5abe9c475891b98b65d00ad2bb68a19135))
+
+
+### Features
+
+* 🎸 add function to update global config through service ([15bebbc](https://github.com/ngneat/hot-toast/commit/15bebbc6a7f62dd99943bafde8373cfb50c58ba3))
+
 # [1.0.0-beta.3](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-01-28)
 
 # [1.0.0-beta.2](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-01-28)
