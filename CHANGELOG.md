@@ -1,3 +1,10 @@
+# [1.0.0-beta.5](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-01-30)
+
+
+### Features
+
+* 🎸 hover and focus style for close button ([f160cdf](https://github.com/ngneat/hot-toast/commit/f160cdfe51e6d287de2327884ba1058b02d0f480))
+
 # [1.0.0-beta.4](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-01-29)
 
 
