@@ -9,9 +9,12 @@
 [![commitizen](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)]()
 [![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/ngneat/hot-toast/compare)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![styled with prettier](https://img.shields.io/badge/linted_with-eslint-4b32c3.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 [![ngneat](https://img.shields.io/badge/@-ngneat-383636?style=flat-square&labelColor=8f68d4)](https://github.com/ngneat/)
-[![cypress](https://img.shields.io/badge/tested%20with-cypress-2196F3.svg?style=flat-square)]()
+[![cypress](https://img.shields.io/badge/tested%20with-cypress-2196F3.svg?style=flat-square)](https://www.cypress.io/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![workflow status](https://github.com/ngneat/hot-toast/workflows/.github/workflows/main.yaml/badge.svg)](https://github.com/ngneat/hot-toast/actions)
 
 > Smoking hot Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
 
@@ -32,6 +35,10 @@
 - ✋ **Pause on hover**
 - 🔁 **Events**
 - 🔒 **Persistent**
+
+## Supported Browsers
+
+Latest versions of Chrome, Edge, Firefox and Safari are supported.
 
 ## Installation
 

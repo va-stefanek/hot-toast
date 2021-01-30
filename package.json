@@ -27,7 +27,13 @@
     "ci:start-server": "angular-http-server --path ./dist/toast -p 4200",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:firefox": "cypress run --browser firefox",
+    "cy:run:edge": "cypress run --browser edge",
     "ci:cy-run": "start-server-and-test ci:start-server http://localhost:4200 cy:run",
+    "ci:cy-run:chrome": "start-server-and-test ci:start-server http://localhost:4200 cy:run:chrome",
+    "ci:cy-run:firefox": "start-server-and-test ci:start-server http://localhost:4200 cy:run:firefox",
+    "ci:cy-run:edge": "start-server-and-test ci:start-server http://localhost:4200 cy:run:edge",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
@@ -43,6 +49,7 @@
     "@ngneat/overview": "^1.0.0-beta.7",
     "@ngneat/tailwind": "^5.1.0",
     "@tailwindcss/typography": "^0.3.1",
+    "classlist.js": "^1.1.20150312",
     "prismjs": "^1.23.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

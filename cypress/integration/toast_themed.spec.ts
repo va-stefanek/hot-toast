@@ -10,6 +10,8 @@ describe('Test hot toasts - themed', () => {
     cy.get('.hot-toast-checkmark-icon').as('checkMarkIcon');
 
     cy.get('@themedToast').should('contain', 'Look at my styles');
+
+    // below will fail in firefox, known issue: https://github.com/cypress-io/cypress/issues/9349
     cy.get('@toastBase').should('have.css', 'border', '1px solid rgb(113, 50, 0)');
     cy.get('@toastBase').should('have.css', 'padding', '16px');
     cy.get('@toastBase').should('have.css', 'color', 'rgb(113, 50, 0)');
