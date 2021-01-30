@@ -22,22 +22,19 @@ export class StepsComponent implements OnInit {
       title: 'Import Toaster in your app',
       subTitle: 'You can skip this if you installed using Angular CLI. You can set options here',
       code: `
-  // ..
   import { HotToastModule } from '@ngneat/hot-toast';
 
-  // ...
   @NgModule({
-    imports: [BrowserModule, HotToastModule.forRoot()],
+    imports: [HotToastModule.forRoot()],
   })
 
-  // ...`,
+  export class AppModule {}`,
       language: 'typescript',
     },
     {
       title: 'Start toasting!',
       subTitle: 'Call it from anywhere in the component',
       code: `
-  // ...
   import { HotToastService } from '@ngneat/hot-toast';
 
   @Component({})

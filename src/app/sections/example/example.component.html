@@ -1,5 +1,5 @@
-<div class="my-14">
-  <h2 class="ml-5 text-2xl font-bold mb-5" id="examples">
+<div class="my-14" id="examples">
+  <h2 class="ml-5 text-2xl font-bold mb-5">
     <small class="text-sm opacity-25 hover:opacity-100"><a href="#examples"> 🔗 </a></small>
     Examples
   </h2>
@@ -14,7 +14,7 @@
     >.
   </h3>
 </div>
-<section class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
   <ng-container *ngFor="let example of examples">
     <div class="col-span-1">
       <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)">
@@ -25,7 +25,7 @@
     <div class="sm:col-span-1 md:col-span-2">
       <div class="shadow border sm:rounded-md">
         <div class="bg-white">
-          <nav class="flex flex-col sm:flex-row">
+          <nav class="flex flex-row">
             <ng-container *ngFor="let language of snippetLanguages">
               <button
                 class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
@@ -41,7 +41,7 @@
               </button>
             </ng-container>
           </nav>
-          <div class="mb-4 px-4">
+          <div class="mb-4 px-4 max-w-full">
             <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet"> </app-code>
           </div>
         </div>
