@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="20%" height="20%" src="./logo.svg?raw=true">
+  <img width="20%" height="20%" src="./assets/logo.svg?raw=true">
 </p>
 
 <br />
@@ -18,7 +18,7 @@
 > Smoking hot Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
 
 <p align="center">
- <img src="./demo.gif?raw=true">
+ <img src="./assets/demo.gif?raw=true">
 </p>
 
 ## Features
@@ -34,10 +34,6 @@
 - ✋ **Pause on hover**
 - 🔁 **Events**
 - 🔒 **Persistent**
-
-## Supported Browsers
-
-Latest versions of Chrome, Edge, Firefox and Safari are supported.
 
 ## Installation
 
@@ -81,14 +77,7 @@ export class AppComponent {
     this.toast.error('Oh no!');
   }
 
-  apiToast() {
-    // below would your API call
-    const saveSettings = from(
-            new Promise((res, rej) => {
-              setTimeout(Math.random() > 0.5 ? res : rej, 1000);
-            })
-          );
-
+  update() {
     saveSettings.pipe(
       toast.observe(
         {
@@ -178,6 +167,10 @@ Configuration used when opening an hot-toast.
 | closeStyle  | `style object`                                                                                                                      | Extra styles to apply for close button                                                                                                                         | Yes                         |
 
 ---
+
+## Supported Browsers
+
+Latest versions of Chrome, Edge, Firefox and Safari are supported.
 
 ## Contributors ✨
 
