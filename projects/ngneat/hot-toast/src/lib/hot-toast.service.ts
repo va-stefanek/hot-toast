@@ -200,21 +200,13 @@ export class HotToastService implements HotToastServiceMethods {
     if (toastRef) {
       toastRef.updateMessage(content);
       const updatedOptions: UpdateToastOptions = {
-        ...toastRef.getToast(),
         type,
         duration: HOT_TOAST_DEFAULT_TIMEOUTS[type],
-        ...(this._defaultConfig[type] ?? undefined),
-        ...((toastRef.getToast() as DefaultToastOptions)[type] ?? {}),
+        ...options,
       };
       toastRef.updateToast(updatedOptions);
     } else {
-      const newOptions = {
-        ...this._defaultConfig,
-        ...(this._defaultConfig[type] ?? undefined),
-        ...options,
-        ...(options && options[type] ? options[type] : undefined),
-      };
-      this.createToast(content, type, newOptions);
+      this.createToast(content, type, options);
     }
     return toastRef;
   }
@@ -291,7 +283,7 @@ export class HotToastService implements HotToastServiceMethods {
 
   private getContentAndOptions<T>(
     toastType: ToastType,
-    message: Content | ValueOrFunction<Content, T> | ObservableSuccessOrError<T>
+    message: Content | ValueOrFunction<Content, T> | ObservableLoading | ObservableSuccessOrError<T>
   ) {
     let content: Content | ValueOrFunction<Content, T>;
     let options: ToastOptions = {
@@ -304,7 +296,7 @@ export class HotToastService implements HotToastServiceMethods {
       content = message;
     } else {
       let restOptions: ToastOptions;
-      ({ content, ...restOptions } = message as ObservableLoading);
+      ({ content, ...restOptions } = message as ObservableLoading | ObservableSuccessOrError<T>);
       options = { ...options, ...restOptions };
     }
 
@@ -313,10 +305,7 @@ export class HotToastService implements HotToastServiceMethods {
 
   private createLoadingToast<T>(messages: Content | ObservableLoading) {
     let content: Content | ValueOrFunction<Content, T> = null;
-    let options: ToastOptions = {
-      ...this._defaultConfig,
-      ...this._defaultConfig?.loading,
-    };
+    let options: ToastOptions = {};
 
     ({ content, options } = this.getContentAndOptions<any>('loading', messages));
 
