@@ -16,6 +16,7 @@ describe('Test hot toasts - reverse order', () => {
         offset += $el.height() + HOT_TOAST_MARGIN;
       });
     cy.get('@orderedToast', { timeout: 0 })
+      .first()
       .find('.hot-toast-bar-base-container')
       .should('have.attr', 'style')
       .should('contain', `translateY(${offset}px)`);
@@ -31,6 +32,7 @@ describe('Test hot toasts - non reverse order', () => {
 
     cy.get('@orderedToast').should('have.length', 5);
     cy.get('@orderedToast', { timeout: 0 })
+      .first()
       .find('.hot-toast-bar-base-container')
       .should('have.attr', 'style')
       .should('contain', `translateY(0px)`);
