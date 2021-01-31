@@ -68,8 +68,11 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  show(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'blank', { ...this._defaultConfig, ...options });
+  show(message?: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message || this._defaultConfig.blank.content, 'blank', {
+      ...this._defaultConfig,
+      ...options,
+    });
 
     return toast;
   }
@@ -82,8 +85,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  error(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'error', {
+  error(message?: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message || this._defaultConfig.error.content, 'error', {
       ...this._defaultConfig,
       ...this._defaultConfig?.error,
       ...options,
@@ -100,8 +103,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  success(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'success', {
+  success(message?: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message || this._defaultConfig.success.content, 'success', {
       ...this._defaultConfig,
       ...this._defaultConfig?.success,
       ...options,
@@ -118,8 +121,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  loading(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'loading', {
+  loading(message?: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message || this._defaultConfig.loading.content, 'loading', {
       ...this._defaultConfig,
       ...this._defaultConfig?.loading,
       ...options,
@@ -136,8 +139,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  warning(message: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message, 'warning', {
+  warning(message?: Content, options?: ToastOptions): CreateHotToastRef {
+    const toast = this.createToast(message || this._defaultConfig.warning.content, 'warning', {
       ...this._defaultConfig,
       ...this._defaultConfig?.warning,
       ...options,
@@ -160,8 +163,11 @@ export class HotToastService implements HotToastServiceMethods {
       let toastRef: CreateHotToastRef;
       let start = 0;
 
-      if (messages.loading) {
-        toastRef = this.createLoadingToast<T>(messages.loading);
+      const loadingContent = messages.loading || this._defaultConfig.loading?.content;
+      const errorContent = messages.error || this._defaultConfig.error?.content;
+
+      if (loadingContent) {
+        toastRef = this.createLoadingToast<T>(loadingContent);
         start = Date.now();
       }
 
@@ -176,8 +182,8 @@ export class HotToastService implements HotToastServiceMethods {
               start === 0 ? start : Date.now() - start
             );
           },
-          error: (e) => {
-            if (messages.error) {
+          ...(errorContent && {
+            error: (e) => {
               toastRef = this.createOrUpdateToast(
                 messages,
                 e,
@@ -185,8 +191,8 @@ export class HotToastService implements HotToastServiceMethods {
                 'error',
                 start === 0 ? start : Date.now() - start
               );
-            }
-          },
+            },
+          }),
         })
       );
     };
@@ -210,7 +216,10 @@ export class HotToastService implements HotToastServiceMethods {
   ) {
     let content: Content | ValueOrFunction<Content, T> = null;
     let options: ToastOptions = {};
-    ({ content, options } = this.getContentAndOptions<any>(type, messages[type]));
+    ({ content, options } = this.getContentAndOptions<any>(
+      type,
+      messages[type] || (this._defaultConfig[type] ? this._defaultConfig[type].content : '')
+    ));
     content = resolveValueOrFunction(content, val);
     if (toastRef) {
       toastRef.updateMessage(content);

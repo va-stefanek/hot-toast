@@ -23,11 +23,11 @@ export class ToastConfig implements DefaultToastOptions {
   theme: ToastTheme = 'toast';
 
   // key in ToastType
-  success?: ToastOptions;
-  error?: ToastOptions;
-  loading?: ToastOptions;
-  blank?: ToastOptions;
-  warning?: ToastOptions;
+  success: ToastOptions & { content?: Content } = { content: '' };
+  error: ToastOptions & { content?: Content } = { content: '' };
+  loading: ToastOptions & { content?: Content } = { content: '' };
+  blank: ToastOptions & { content?: Content } = { content: '' };
+  warning: ToastOptions & { content?: Content } = { content: '' };
 }
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning';
@@ -174,7 +174,7 @@ export type ToastOptions = Partial<
 
 export type DefaultToastOptions = ToastOptions &
   {
-    [key in ToastType]?: ToastOptions;
+    [key in ToastType]?: ToastOptions & { content?: Content };
   };
 
 export type ObservableLoading = {
@@ -192,11 +192,11 @@ export type ObservableMessages<T> = {
 };
 
 export interface HotToastServiceMethods {
-  show(message: Content, options?: ToastOptions): CreateHotToastRef;
-  error(message: Content, options?: ToastOptions): CreateHotToastRef;
-  success(message: Content, options?: ToastOptions): CreateHotToastRef;
-  loading(message: Content, options?: ToastOptions): CreateHotToastRef;
-  warning(message: Content, options?: ToastOptions): CreateHotToastRef;
+  show(message?: Content, options?: ToastOptions): CreateHotToastRef;
+  error(message?: Content, options?: ToastOptions): CreateHotToastRef;
+  success(message?: Content, options?: ToastOptions): CreateHotToastRef;
+  loading(message?: Content, options?: ToastOptions): CreateHotToastRef;
+  warning(message?: Content, options?: ToastOptions): CreateHotToastRef;
   observe<T>(messages: ObservableMessages<T>): (source: Observable<T>) => Observable<T>;
   close(id: string): void;
 }
