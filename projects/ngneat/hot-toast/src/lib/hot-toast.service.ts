@@ -158,19 +158,33 @@ export class HotToastService implements HotToastServiceMethods {
   observe<T>(messages: ObservableMessages<T>): (source: Observable<T>) => Observable<T> {
     return (source) => {
       let toastRef: CreateHotToastRef;
+      let start = 0;
 
       if (messages.loading) {
         toastRef = this.createLoadingToast<T>(messages.loading);
+        start = Date.now();
       }
 
       return source.pipe(
         tap({
           next: (val) => {
-            toastRef = this.createOrUpdateToast(messages, val, toastRef, 'success');
+            toastRef = this.createOrUpdateToast(
+              messages,
+              val,
+              toastRef,
+              'success',
+              start === 0 ? start : Date.now() - start
+            );
           },
           error: (e) => {
             if (messages.error) {
-              toastRef = this.createOrUpdateToast(messages, e, toastRef, 'error');
+              toastRef = this.createOrUpdateToast(
+                messages,
+                e,
+                toastRef,
+                'error',
+                start === 0 ? start : Date.now() - start
+              );
             }
           },
         })
@@ -191,7 +205,8 @@ export class HotToastService implements HotToastServiceMethods {
     messages: ObservableMessages<T>,
     val: unknown,
     toastRef: CreateHotToastRef,
-    type: ToastType
+    type: ToastType,
+    diff: number
   ) {
     let content: Content | ValueOrFunction<Content, T> = null;
     let options: ToastOptions = {};
@@ -201,8 +216,9 @@ export class HotToastService implements HotToastServiceMethods {
       toastRef.updateMessage(content);
       const updatedOptions: UpdateToastOptions = {
         type,
-        duration: HOT_TOAST_DEFAULT_TIMEOUTS[type],
+        duration: diff + HOT_TOAST_DEFAULT_TIMEOUTS[type],
         ...options,
+        ...(options.duration && { duration: diff + options.duration }),
       };
       toastRef.updateToast(updatedOptions);
     } else {
