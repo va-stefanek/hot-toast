@@ -1,3 +1,15 @@
+# [1.0.0-beta.8](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2021-01-31)
+
+
+### Bug Fixes
+
+* 🐛 remove failing test ([463d0a8](https://github.com/ngneat/hot-toast/commit/463d0a8c5e03beff3919b99116404f9b1585ceca))
+
+
+### Features
+
+* 🎸 add content in global config ([3f014cc](https://github.com/ngneat/hot-toast/commit/3f014ccf84229f00ce59bbc60cb31a841a440ce2))
+
 # [1.0.0-beta.7](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2021-01-31)
 
 
