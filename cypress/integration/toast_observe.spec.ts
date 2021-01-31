@@ -12,10 +12,10 @@ describe('Test hot toasts - observe', () => {
     cy.get('@observeToast').should('not.contain', 'Saving...');
     cy.get('@observeToast').then((observeToast) => {
       if (observeToast.text() === 'Settings saved!') {
-        cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.success - 1000);
+        cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.success);
         cy.get('@observeToast').should('not.be.visible');
       } else {
-        cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.error - 1000);
+        cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.error);
         cy.get('@observeToast').should('not.be.visible');
       }
     });
