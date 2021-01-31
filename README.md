@@ -79,11 +79,11 @@ export class AppComponent {
 
   update() {
     saveSettings.pipe(
-      toast.observe(
+      this.toast.observe(
         {
-            loading: 'Saving...',
-            success: 'Settings saved!',
-            error: 'Could not save.',
+          loading: 'Saving...',
+          success: 'Settings saved!',
+          error: 'Could not save.',
         }
       )
     ).subscribe();
@@ -126,8 +126,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
   imports: [HotToastModule.forRoot({
     reverseOrder: true,
     dismissible: true,
-    autoClose: false,
-    theme: 'snackbar'
+    autoClose: false
   })],
 })
 class AppModule {}
