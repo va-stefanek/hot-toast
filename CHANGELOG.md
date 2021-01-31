@@ -1,3 +1,10 @@
+# [1.0.0-beta.6](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-01-31)
+
+
+### Bug Fixes
+
+* 🐛 override options in observe fixed ([f3b76ca](https://github.com/ngneat/hot-toast/commit/f3b76ca990366d88c7a9510be445565fc8d017e9))
+
 # [1.0.0-beta.5](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-01-30)
 
 
