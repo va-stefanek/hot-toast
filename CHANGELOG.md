@@ -1,3 +1,11 @@
+# [1.0.0-beta.7](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2021-01-31)
+
+
+### Bug Fixes
+
+* 🐛 add difference in duration in observe ([c0d3136](https://github.com/ngneat/hot-toast/commit/c0d3136e1a8182aa30501f70d9376d39a58ec60f))
+* 🐛 increase toast max-width to 350px ([ca39723](https://github.com/ngneat/hot-toast/commit/ca39723556c42e9f33088297a9f42c61c61c80d0))
+
 # [1.0.0-beta.6](https://github.com/ngneat/hot-toast/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-01-31)
 
 
