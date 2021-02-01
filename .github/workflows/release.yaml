@@ -21,4 +21,4 @@ jobs:
          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
          npm ci
-         npm run deploy -- --no-silent
+         npm run deploy -- --no-silent --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com
