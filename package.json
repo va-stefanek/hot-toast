@@ -17,7 +17,7 @@
     "hooks:pre-commit": "node hooks/pre-commit.js",
     "commit": "git-cz",
     "release:first": "npm run release -- --first-release",
-    "deploy": "ng deploy --base-href=https://ngneat.github.io/hot-toast/",
+    "deploy": "ng deploy --base-href=/hot-toast/",
     "copy": "cp -r README.md dist/ngneat/hot-toast",
     "build:lib": "ng build @ngneat/hot-toast --prod && npm run copy",
     "postbuild:lib": "npm run build --prefix ./projects/ngneat/hot-toast",
