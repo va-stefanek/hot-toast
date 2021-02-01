@@ -15,7 +15,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: npm ci
-      - run: npm run deploy
+
+      - name: Prepare and deploy
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+         npm ci
+         npm run deploy -- --no-silent
