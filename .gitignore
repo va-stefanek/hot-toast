@@ -44,3 +44,14 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Cypress
+# cypress/videos
+# cypress/screenshots
+cypress/integration/examples
+
+# eslint
+.eslintcache
+
+# dist
+dist

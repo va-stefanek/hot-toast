@@ -1,0 +1,60 @@
+<div class="my-14" id="examples">
+  <h2 class="ml-5 text-2xl font-bold mb-5">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#examples"> 🔗 </a></small>
+    Examples
+  </h2>
+  <h3 class="ml-5 mr-5 mb-4 bg-toast-200 p-4 rounded-2xl p-4">
+    ℹ All the examples are available on
+    <a
+      [href]="exampleLink"
+      target="_blank"
+      class="text-toast-600 hover:bg-gray-100 hover:text-toast-800 transform"
+      style="transition-property: background-color, color"
+      >GitHub</a
+    >.
+  </h3>
+</div>
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+  <ng-container *ngFor="let example of examples">
+    <div class="col-span-1">
+      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)">
+        {{ example.title }}
+      </app-emoji-button>
+      <p class="mt-1 text-sm text-toast-800" *ngIf="example.subtitle" [innerHTML]="example.subtitle | html"></p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <ng-container *ngFor="let language of snippetLanguages">
+              <button
+                class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+                *ngIf="example.snippet[language.value]"
+                [ngClass]="[
+                  example.activeSnippet === language.value
+                    ? 'bg-gray-50 text-toast-700 font-medium border-toast-700'
+                    : ''
+                ]"
+                (click)="example.activeSnippet = language.value"
+              >
+                {{ language.label }}
+              </button>
+            </ng-container>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet"> </app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+  </ng-container>
+</section>
+
+<ng-template #success><b>Settings saved!</b></ng-template>
+<ng-template #error><b>Could not save.</b></ng-template>
+<ng-template #template let-toast>
+  Custom and <b>bold</b>&nbsp;
+  <button (click)="toast.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
+</ng-template>
+<div class="hidden" id="closed-event-data">{{ closedEventData | json }}</div>

@@ -1,0 +1,24 @@
+@keyframes hotToastRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hot-toast-loader-icon {
+  padding-top: 2px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-radius: 100%;
+  border-color: #e0e0e0;
+  border-right-color: #616161;
+  animation: hotToastRotate 1s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 5s;
+  }
+}

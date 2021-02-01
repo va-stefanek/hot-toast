@@ -1,0 +1,20 @@
+<ng-container *ngIf="type !== 'blank'">
+  <div class="hot-toast-indicator-wrapper">
+    <hot-toast-loader [theme]="theme"></hot-toast-loader>
+    <ng-container *ngIf="type !== 'loading'">
+      <div class="hot-toast-status-wrapper">
+        <div [ngSwitch]="type">
+          <div *ngSwitchCase="'error'">
+            <hot-toast-error [theme]="theme"></hot-toast-error>
+          </div>
+          <div *ngSwitchCase="'success'">
+            <hot-toast-checkmark [theme]="theme"></hot-toast-checkmark>
+          </div>
+          <div *ngSwitchCase="'warning'">
+            <hot-toast-warning [theme]="theme"></hot-toast-warning>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

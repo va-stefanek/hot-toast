@@ -1,0 +1,39 @@
+<div class="hot-toast-bar-base-container" [ngStyle]="containerPositionStyle" [ngClass]="toast.theme">
+  <div
+    class="hot-toast-bar-base"
+    #hotToastBarBase
+    [ngStyle]="toastBarBaseStyles"
+    [ngClass]="toast.className"
+    [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
+    [attr.aria-live]="toast.ariaLive"
+    [attr.role]="toast.role"
+  >
+    <div class="hot-toast-icon">
+      <ng-container *ngIf="toast.icon !== undefined; else indicator">
+        <ng-container *ngIf="isIconString; else iconTemplateOrComponent">
+          <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
+        </ng-container>
+        <ng-template #iconTemplateOrComponent>
+          <dynamic-content [content]="toast.icon"></dynamic-content>
+        </ng-template>
+      </ng-container>
+
+      <ng-template #indicator>
+        <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
+      </ng-template>
+    </div>
+
+    <div class="hot-toast-message">
+      <dynamic-content [content]="toast.message" [context]="{ $implicit: toastRef }"></dynamic-content>
+    </div>
+
+    <button
+      *ngIf="toast.dismissible"
+      (click)="close()"
+      type="button"
+      class="hot-toast-close-btn"
+      aria-label="Close"
+      [ngStyle]="toast.closeStyle"
+    ></button>
+  </div>
+</div>

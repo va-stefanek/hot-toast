@@ -2,7 +2,7 @@
 
 🙏 We would ❤️ for you to contribute to Hot-toast and help make it even better than it is today!
 
-# Developing
+## Developing
 
 Start by installing all dependencies:
 
@@ -10,17 +10,28 @@ Start by installing all dependencies:
 npm i
 ```
 
-Run the tests:
-
-```bash
-npm test
-npm run e2e
-```
-
 Run the playground app:
 
 ```bash
 npm start
+```
+
+## Testing
+
+### Run unit tests
+
+```bash
+npm start
+npm run unit
+```
+
+Cypress window will open, you can click on individual tests.
+
+### Run e2e tests (generally run in CI)
+
+```bash
+npm run build -- --prod
+npm run e2e
 ```
 
 ## Building

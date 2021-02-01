@@ -1,0 +1,22 @@
+@keyframes hotToastEnter {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.hot-toast-animated-icon {
+  position: relative;
+  transform: scale(0);
+  min-width: 20px;
+  animation: hotToastEnter 0.3s ease-in-out forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
