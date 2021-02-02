@@ -34,7 +34,7 @@
   opacity: 0;
   height: 20px;
   border-radius: 10px;
-  background: var(--check-primary, '#61d345');
+  background: var(--check-primary, #61d345);
   position: relative;
   transform: rotate(45deg);
 
@@ -54,7 +54,7 @@
   position: absolute;
   border-right: 2px solid;
   border-bottom: 2px solid;
-  border-color: var(--check-secondary, '#fff');
+  border-color: var(--check-secondary, #fff);
   bottom: 6px;
   left: 6px;
   height: 10px;

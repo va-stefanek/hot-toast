@@ -25,6 +25,7 @@ import { WarningComponent } from './components/indicator/icons/warning/warning.c
     WarningComponent,
   ],
   imports: [CommonModule, DynamicContentModule],
+  entryComponents: [HotToastContainerComponent],
 })
 export class HotToastModule {
   constructor(service: HotToastService) {
