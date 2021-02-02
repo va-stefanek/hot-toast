@@ -1,3 +1,10 @@
+## [1.0.1-beta.2](https://github.com/ngneat/hot-toast/compare/v1.0.1-beta.1...v1.0.1-beta.2) (2021-02-02)
+
+
+### Bug Fixes
+
+* 🐛 fallback color syntax in css ([fb17ba4](https://github.com/ngneat/hot-toast/commit/fb17ba487cff2a113316791116d6d3b9044dce24)), closes [#13](https://github.com/ngneat/hot-toast/issues/13)
+
 ## [1.0.1-beta.1](https://github.com/ngneat/hot-toast/compare/v1.0.0...v1.0.1-beta.1) (2021-02-02)
 
 
