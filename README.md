@@ -171,6 +171,14 @@ Configuration used when opening an hot-toast.
 
 Latest versions of Chrome, Edge, Firefox and Safari are supported.
 
+## Accessibility
+
+Hot-toast messages are announced via an `aria-live` region. By default, the `polite` setting is used. While `polite` is recommended, this can be customized by setting the `ariaLive` property of the `ToastConfig` or `ToastOptions`.
+
+Focus is not, and should not be, moved to the hot-toast element. Moving the focus would be disruptive to a user in the middle of a workflow. It is recommended that, for any action offered in the hot-toast, the application offers the user an alternative way to perform the action. Alternative interactions are typically keyboard shortcuts or menu options. When the action is performed in this way, the hot-toast should be dismissed.
+
+Hot-toasts that have an [action available](https://ngneat.github.io/hot-toast/#template) should be set `autoClose: false`, as to accommodate screen-reader users that want to navigate to the hot-toast element to activate the action.
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
