@@ -8,7 +8,7 @@
     [attr.aria-live]="toast.ariaLive"
     [attr.role]="toast.role"
   >
-    <div class="hot-toast-icon">
+    <div class="hot-toast-icon" aria-hidden="true">
       <ng-container *ngIf="toast.icon !== undefined; else indicator">
         <ng-container *ngIf="isIconString; else iconTemplateOrComponent">
           <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
