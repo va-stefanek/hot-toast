@@ -1,3 +1,10 @@
+## [1.0.1-beta.1](https://github.com/ngneat/hot-toast/compare/v1.0.0...v1.0.1-beta.1) (2021-02-02)
+
+
+### Bug Fixes
+
+* 🐛 add container component in entry components for viewengi ([b3e5691](https://github.com/ngneat/hot-toast/commit/b3e5691d1df18f020bce08684109c0dcf0398d45)), closes [#13](https://github.com/ngneat/hot-toast/issues/13)
+
 # 1.0.0 (2021-02-01)
 
 
