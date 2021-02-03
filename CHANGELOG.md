@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/ngneat/hot-toast/compare/v1.0.2...v1.0.3) (2021-02-03)
+
+
+### Bug Fixes
+
+* 🐛 schematics: create getWorkSpace function in utility ([0022596](https://github.com/ngneat/hot-toast/commit/00225963d98948e6b57808f0447e5f52fb5d95f9)), closes [#25](https://github.com/ngneat/hot-toast/issues/25)
+
 ## [1.0.2](https://github.com/ngneat/hot-toast/compare/v1.0.1...v1.0.2) (2021-02-03)
 
 
