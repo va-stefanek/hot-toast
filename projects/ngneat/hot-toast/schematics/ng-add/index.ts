@@ -1,13 +1,18 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { Rule, SchematicContext, Tree, SchematicsException, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { getWorkspace } from '@schematics/angular/utility/config';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { insertImport, isImported } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 
 import { Schema } from './schema';
-import { addModuleImportToRootModule, addPackageToPackageJson, getProjectFromWorkspace, getSourceFile } from './utils';
+import {
+  addModuleImportToRootModule,
+  addPackageToPackageJson,
+  getProjectFromWorkspace,
+  getSourceFile,
+  getWorkspace,
+} from './utils';
 import { targetBuildNotFoundError } from './utils/project-targets';
 import { hasNgModuleImport } from './utils/ng-module-imports';
 
@@ -19,7 +24,6 @@ const importModuleSet = [
   },
 ];
 
-// Just return the tree
 export function ngAdd(options: Schema): Rule {
   return (tree: Tree) => {
     const workspaceConfig = tree.read('/angular.json');
@@ -60,7 +64,7 @@ function installPackageJsonDependencies(): Rule {
 function injectImports(options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     if (!options.skipImport) {
-      const workspace = getWorkspace(host);
+      const workspace = getWorkspace(host) as any;
       const project = getProjectFromWorkspace(
         workspace,
         options.project ? options.project : Object.keys(workspace.projects)[0]
@@ -104,7 +108,7 @@ function injectImports(options: Schema): Rule {
 function addModuleToImports(options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     if (!options.skipImport) {
-      const workspace = getWorkspace(host);
+      const workspace = getWorkspace(host) as any;
       const project = getProjectFromWorkspace(
         workspace,
         options.project ? options.project : Object.keys(workspace.projects)[0]

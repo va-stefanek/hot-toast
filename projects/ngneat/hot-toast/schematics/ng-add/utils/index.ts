@@ -6,6 +6,7 @@ import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getFileContent } from '@schematics/angular/utility/test/index';
 import { getProjectMainFile } from './project-main-file';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { parseJson, JsonParseMode } from '@angular-devkit/core';
 import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { WorkspaceProject, WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
@@ -157,4 +158,20 @@ export function getSourceFile(host: Tree, path: string) {
   const content = buffer.toString();
 
   return ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true);
+}
+
+export function getWorkspacePath(host: Tree) {
+  const possibleFiles = ['/angular.json', '/.angular.json'];
+  const path = possibleFiles.filter((filePath) => host.exists(filePath))[0];
+  return path;
+}
+
+export function getWorkspace(host: Tree) {
+  const path = getWorkspacePath(host);
+  const configBuffer = host.read(path);
+  if (configBuffer === null) {
+    throw new SchematicsException(`Could not find (${path})`);
+  }
+  const content = configBuffer.toString();
+  return parseJson(content, JsonParseMode.Loose);
 }
