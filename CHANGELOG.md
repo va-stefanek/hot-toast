@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/ngneat/hot-toast/compare/v1.0.1...v1.0.2) (2021-02-03)
+
+
+### Bug Fixes
+
+* 🐛 prepend theme class with 'hot-toast-theme-' ([0e974c5](https://github.com/ngneat/hot-toast/commit/0e974c52d21cfd3067c8b43c9c3b08d949111b9d)), closes [#21](https://github.com/ngneat/hot-toast/issues/21)
+
 ## [1.0.1](https://github.com/ngneat/hot-toast/compare/v1.0.0...v1.0.1) (2021-02-02)
 
 
