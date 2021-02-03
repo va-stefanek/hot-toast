@@ -2,11 +2,13 @@ name: Make a Release and Deploy on GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   pull_request:
     types:
       - 'closed'
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   build:
