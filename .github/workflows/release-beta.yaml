@@ -5,8 +5,6 @@ on:
     branches:
       - development
   pull_request:
-    types:
-      - 'closed'
     branches:
       - development
 
@@ -21,15 +19,12 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: NPM Install, lint, test and build
-        run: |
-          npm ci
-          npm run lint
-          npm run build -- --prod
-          npm test
-          npm run build:lib
-
-      - name: Beta release using semantic-release
+      - name: NPM Install, lint, test, build and release
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build -- --prod
+      - run: npm test
+      - run: npm run build:lib
       - run: npx semantic-release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

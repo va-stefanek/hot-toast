@@ -5,8 +5,6 @@ on:
     branches:
       - master
   pull_request:
-    types:
-      - 'closed'
     branches:
       - master
 
@@ -21,19 +19,12 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: NPM Install and build
-        run: |
-          npm ci
-          npm run build -- --prod
-          npm run build:lib
-
-      - name: Beta release using semantic-release
+      - name: NPM Install, build and deploy
+      - run: npm ci
+      - run: npm run build -- --prod
+      - run: npm run build:lib
       - run: npx semantic-release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Deploy on GiHub Pages using angular-cli-ghpages
       - run: npm run deploy -- --no-silent --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
