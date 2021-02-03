@@ -18,12 +18,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build -- --prod
-      - run: npm test
-      - run: npm run build:lib
-      - run: npx semantic-release
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            GH_TOKEN: ${{ secrets.GH_TOKEN }}
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm ci
+          npm run lint
+          npm run build -- --prod
+          npm run test
+          npm run build:lib
+          npx semantic-release
+          npm run deploy -- --no-silent --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com
