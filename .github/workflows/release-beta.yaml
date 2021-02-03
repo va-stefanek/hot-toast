@@ -32,4 +32,3 @@ jobs:
           npm run test
           npm run build:lib
           npx semantic-release
-          npm run deploy -- --no-silent --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com
