@@ -38,6 +38,16 @@
         "research",
         "review"
       ]
+    },
+    {
+      "login": "timolins",
+      "name": "Timo Lins",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1440854?v=4",
+      "profile": "https://timo.sh/",
+      "contributions": [
+        "design",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7
