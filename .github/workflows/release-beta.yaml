@@ -1,12 +1,12 @@
-name: Make a Release and Deploy on GitHub Pages
+name: Test, Build and Publish a beta version
 
 on:
   push:
-    branches: [$default-branch]
+    branches: [development]
   pull_request:
     types:
-      - 'closed'
-    branches: [$default-branch]
+      - "closed"
+    branches: [development]
 
 jobs:
   build:
@@ -19,10 +19,12 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: NPM Install and build
+      - name: NPM Install, lint, test and build
         run: |
           npm ci
+          npm run lint
           npm run build -- --prod
+          npm test
           npm run build:lib
 
       - name: Beta release using semantic-release
@@ -30,8 +32,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Deploy on GiHub Pages using angular-cli-ghpages
-      - run: npm run deploy -- --no-silent --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}

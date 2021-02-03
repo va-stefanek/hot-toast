@@ -219,7 +219,7 @@ export interface HotToastRefProps {
   /** Observable for notifying the user that the toast has been closed. */
   afterClosed: Observable<HotToastClose>;
   /**Closes the toast */
-  close: (closeData?: { dismissedByAction?: boolean }) => void;
+  close: (closeData?: { dismissedByAction: boolean }) => void;
 }
 
 /** Event that is emitted when a snack bar is dismissed. */
