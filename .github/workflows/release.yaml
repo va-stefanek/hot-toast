@@ -18,8 +18,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-
-      - name: NPM Install, build and deploy
       - run: npm ci
       - run: npm run build -- --prod
       - run: npm run build:lib

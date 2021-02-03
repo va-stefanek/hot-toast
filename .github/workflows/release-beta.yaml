@@ -18,8 +18,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-
-      - name: NPM Install, lint, test, build and release
       - run: npm ci
       - run: npm run lint
       - run: npm run build -- --prod
