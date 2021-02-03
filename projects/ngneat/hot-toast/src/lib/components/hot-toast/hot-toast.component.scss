@@ -41,7 +41,7 @@
     transition-duration: 10ms !important;
   }
 
-  &.snackbar {
+  &.hot-toast-theme-snackbar {
     .hot-toast-bar-base {
       color: var(--hot-toast-snackbar-color, rgba(255, 255, 255));
       background: var(--hot-toast-snackbar-bg, #323232);

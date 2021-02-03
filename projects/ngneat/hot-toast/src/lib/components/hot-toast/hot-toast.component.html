@@ -1,4 +1,8 @@
-<div class="hot-toast-bar-base-container" [ngStyle]="containerPositionStyle" [ngClass]="toast.theme">
+<div
+  class="hot-toast-bar-base-container"
+  [ngStyle]="containerPositionStyle"
+  [ngClass]="'hot-toast-theme-' + toast.theme"
+>
   <div
     class="hot-toast-bar-base"
     #hotToastBarBase
