@@ -19,8 +19,7 @@
     [
       "@semantic-release/github",
       {
-        "assets": [{ "path": "dist/ngneat/hot-toast/**", "label": "dist-${nextRelease.version}" }],
-        "message": "chore(release): ${nextRelease.version} ${new Date().toLocaleString('en-IN', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })} [skip ci]\n\n${nextRelease.notes}"
+        "assets": [{ "path": "dist/ngneat/hot-toast/**", "label": "dist-${nextRelease.version}" }]
       }
     ],
     [
