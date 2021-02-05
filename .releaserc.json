@@ -14,13 +14,13 @@
       "@semantic-release/npm",
       {
         "pkgRoot": "./dist/ngneat/hot-toast",
-        "tarballDir": "/dist/ngneat/hot-toast"
+        "tarballDir": "dist"
       }
     ],
     [
       "@semantic-release/github",
       {
-        "assets": ["dist/ngneat/hot-toast/*.tgz"]
+        "assets": ["dist/*.tgz"]
       }
     ],
     "@semantic-release/git"
