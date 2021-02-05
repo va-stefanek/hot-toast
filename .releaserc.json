@@ -17,15 +17,16 @@
       }
     ],
     [
-      "@semantic-release/git",
+      "@semantic-release/github",
       {
-        "assets": ["CHANGELOG.md"]
+        "assets": [{ "path": "dist/ngneat/hot-toast/**", "label": "dist-${nextRelease.version}" }],
+        "message": "chore(release): ${nextRelease.version} ${new Date().toLocaleString('en-IN', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
     [
-      "@semantic-release/github",
+      "@semantic-release/git",
       {
-        "assets": "dist/ngneat"
+        "assets": ["CHANGELOG.md"]
       }
     ]
   ]
