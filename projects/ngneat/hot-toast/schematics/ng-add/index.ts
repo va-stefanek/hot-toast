@@ -41,7 +41,7 @@ export function ngAdd(options: Schema): Rule {
 
 function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const dependencies: { name: string; version: string }[] = [{ name: '@ngneat/overview', version: '^1.0.0-beta.7' }];
+    const dependencies: { name: string; version: string }[] = [{ name: '@ngneat/overview', version: '^1.0.0' }];
 
     dependencies.forEach((dependency) => {
       addPackageToPackageJson(host, dependency.name, `${dependency.version}`);
