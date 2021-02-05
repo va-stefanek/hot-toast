@@ -1,3 +1,17 @@
+## [1.0.4](https://github.com/ngneat/hot-toast/compare/v1.0.3...v1.0.4) (2021-02-05)
+
+
+### Bug Fixes
+
+* 🐛 assets for release through semantic-release/git ([57d270e](https://github.com/ngneat/hot-toast/commit/57d270ee3156dace1029c900314bacebbab0500e)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 debug semantic-release ([c6e6807](https://github.com/ngneat/hot-toast/commit/c6e680797dae5c2562b78b6417cb274727320b52))
+* 🐛 release asset tarball ([841eb6b](https://github.com/ngneat/hot-toast/commit/841eb6bf3f9d42c50c9f30dc7a286d1f7f221201)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 remove message ([9bfd746](https://github.com/ngneat/hot-toast/commit/9bfd746ca0436bd6b36d6db1de4f356bba934c0f)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 semantic-release config ([07f85bc](https://github.com/ngneat/hot-toast/commit/07f85bc37cd0bab9b7ea6c6fd472b402e8a6b2c4)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 semantic-release github asset fix ([be54f4b](https://github.com/ngneat/hot-toast/commit/be54f4b24bb97dd614be48642f9d5fc0d7f41951)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 semenatic-release path ([13749c5](https://github.com/ngneat/hot-toast/commit/13749c53fc5d46f4b602fe23a108831c4c06545d)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 update peer dep versions ([db2fc16](https://github.com/ngneat/hot-toast/commit/db2fc16ccdc850eab48558f098aee4361f8ad552)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+
 ## [1.0.4-beta.7](https://github.com/ngneat/hot-toast/compare/v1.0.4-beta.6...v1.0.4-beta.7) (2021-02-05)
 
 ## [1.0.4-beta.6](https://github.com/ngneat/hot-toast/compare/v1.0.4-beta.5...v1.0.4-beta.6) (2021-02-05)
