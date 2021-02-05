@@ -1,3 +1,10 @@
+## [1.0.4-beta.2](https://github.com/ngneat/hot-toast/compare/v1.0.4-beta.1...v1.0.4-beta.2) (2021-02-05)
+
+
+### Bug Fixes
+
+* 🐛 debug semantic-release ([c6e6807](https://github.com/ngneat/hot-toast/commit/c6e680797dae5c2562b78b6417cb274727320b52))
+
 ## [1.0.4-beta.1](https://github.com/ngneat/hot-toast/compare/v1.0.3...v1.0.4-beta.1) (2021-02-05)
 
 
