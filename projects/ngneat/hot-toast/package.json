@@ -11,9 +11,9 @@
     "postpublish": "cpx package.json ../../../../../projects/ngneat/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngneat/hot-toast/"
   },
   "peerDependencies": {
-    "@angular/common": "^11.0.5",
-    "@angular/core": "^11.0.5",
-    "@ngneat/overview": "^1.0.0-beta.7"
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@ngneat/overview": "^1.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
