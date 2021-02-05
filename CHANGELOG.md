@@ -1,3 +1,11 @@
+## [1.0.4-beta.6](https://github.com/ngneat/hot-toast/compare/v1.0.4-beta.5...v1.0.4-beta.6) (2021-02-05)
+
+
+### Bug Fixes
+
+* 🐛 release asset tarball ([841eb6b](https://github.com/ngneat/hot-toast/commit/841eb6bf3f9d42c50c9f30dc7a286d1f7f221201)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+* 🐛 semenatic-release path ([13749c5](https://github.com/ngneat/hot-toast/commit/13749c53fc5d46f4b602fe23a108831c4c06545d)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+
 ## [1.0.4-beta.5](https://github.com/ngneat/hot-toast/compare/v1.0.4-beta.4...v1.0.4-beta.5) (2021-02-05)
 
 
