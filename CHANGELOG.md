@@ -1,3 +1,10 @@
+## [1.0.4-beta.1](https://github.com/ngneat/hot-toast/compare/v1.0.3...v1.0.4-beta.1) (2021-02-05)
+
+
+### Bug Fixes
+
+* 🐛 update peer dep versions ([db2fc16](https://github.com/ngneat/hot-toast/commit/db2fc16ccdc850eab48558f098aee4361f8ad552)), closes [#28](https://github.com/ngneat/hot-toast/issues/28)
+
 ## [1.0.3](https://github.com/ngneat/hot-toast/compare/v1.0.2...v1.0.3) (2021-02-03)
 
 
