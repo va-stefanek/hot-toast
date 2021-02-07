@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/ngneat/hot-toast/compare/v1.0.4...v1.0.5) (2021-02-07)
+
+
+### Bug Fixes
+
+* 🐛 icon and close button alignment in cross browser ([20e8fb5](https://github.com/ngneat/hot-toast/commit/20e8fb591c283df1f59eacce96339ececab0de3e)), closes [#33](https://github.com/ngneat/hot-toast/issues/33)
+
 ## [1.0.4](https://github.com/ngneat/hot-toast/compare/v1.0.3...v1.0.4) (2021-02-05)
 
 
