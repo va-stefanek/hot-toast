@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/ngneat/hot-toast/compare/v1.0.5...v1.0.6) (2021-02-08)
+
+
+### Reverts
+
+* Revert "fix: 🐛 icon and close button alignment in cross browser" ([da3f637](https://github.com/ngneat/hot-toast/commit/da3f63714e894eebcddf2d4c88cedd9369cb73bd))
+
 ## [1.0.5](https://github.com/ngneat/hot-toast/compare/v1.0.4...v1.0.5) (2021-02-07)
 
 
