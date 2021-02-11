@@ -212,9 +212,6 @@ export class HotToastService implements HotToastServiceMethods {
    * @param id - ID of the toast
    */
   close(id: string) {
-    if (isPlatformServer(this.platformId)) {
-      return;
-    }
     this._componentRef.ref.instance.closeToast(id);
   }
 
@@ -253,9 +250,6 @@ export class HotToastService implements HotToastServiceMethods {
     options?: DefaultToastOptions,
     observableMessages?: ObservableMessages<T>
   ): CreateHotToastRef {
-    if (isPlatformServer(this.platformId)) {
-      return;
-    }
     const now = Date.now();
     const id = options?.id ?? now.toString();
 
