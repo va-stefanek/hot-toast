@@ -1,4 +1,5 @@
-import { Injectable, Optional } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -40,7 +41,11 @@ export class HotToastService implements HotToastServiceMethods {
   }
   private _defaultPersistConfig = new ToastPersistConfig();
 
-  constructor(private _viewService: ViewService, @Optional() config: ToastConfig) {
+  constructor(
+    private _viewService: ViewService,
+    @Inject(PLATFORM_ID) private platformId: string,
+    @Optional() config: ToastConfig
+  ) {
     if (config) {
       this._defaultConfig = {
         ...this._defaultConfig,
@@ -54,6 +59,9 @@ export class HotToastService implements HotToastServiceMethods {
    * Creates a container component and attaches it to document.body.
    */
   init() {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
     this._componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultConfig)
@@ -204,6 +212,9 @@ export class HotToastService implements HotToastServiceMethods {
    * @param id - ID of the toast
    */
   close(id: string) {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
     this._componentRef.ref.instance.closeToast(id);
   }
 
@@ -242,6 +253,9 @@ export class HotToastService implements HotToastServiceMethods {
     options?: DefaultToastOptions,
     observableMessages?: ObservableMessages<T>
   ): CreateHotToastRef {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
     const now = Date.now();
     const id = options?.id ?? now.toString();
 
