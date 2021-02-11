@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/ngneat/hot-toast/compare/v1.0.6...v1.0.7) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 block rendering for SSR ([6570e1b](https://github.com/ngneat/hot-toast/commit/6570e1b5496b335bfff89f60e37b49c18ccfe77b)), closes [#35](https://github.com/ngneat/hot-toast/issues/35)
+
 ## [1.0.6](https://github.com/ngneat/hot-toast/compare/v1.0.5...v1.0.6) (2021-02-08)
 
 
