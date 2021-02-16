@@ -1,8 +1,8 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { ApplicationRef, Inject, Injectable, Injector, Optional, PLATFORM_ID } from '@angular/core';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { first, switchMap, tap } from 'rxjs/operators';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
@@ -42,6 +42,7 @@ export class HotToastService implements HotToastServiceMethods {
   private _defaultPersistConfig = new ToastPersistConfig();
 
   constructor(
+    private injector: Injector,
     private _viewService: ViewService,
     @Inject(PLATFORM_ID) private platformId: string,
     @Optional() config: ToastConfig
@@ -63,9 +64,10 @@ export class HotToastService implements HotToastServiceMethods {
       return;
     }
 
-    requestAnimationFrame(() => {
-      this.createContainerComponent();
-    });
+    this.injector
+      .get(ApplicationRef)
+      .isStable.pipe(first((stable) => stable))
+      .subscribe(() => this.createContainerComponent());
   }
 
   /**
