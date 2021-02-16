@@ -19,6 +19,7 @@ import { HOT_TOAST_MARGIN } from '../../constants';
 @Component({
   selector: 'hot-toast-container',
   templateUrl: './hot-toast-container.component.html',
+  styleUrls: ['./hot-toast-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HotToastContainerComponent {

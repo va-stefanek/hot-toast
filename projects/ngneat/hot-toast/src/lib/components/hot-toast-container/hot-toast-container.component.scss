@@ -1,0 +1,21 @@
+.hot-toast-container {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.hot-toast-toast-wrapper {
+  position: relative;
+  height: 100%;
+  &:empty {
+    display: none;
+  }
+}

@@ -62,10 +62,10 @@ export class HotToastService implements HotToastServiceMethods {
     if (isPlatformServer(this.platformId)) {
       return;
     }
-    this._componentRef = this._viewService
-      .createComponent(HotToastContainerComponent)
-      .setInput('defaultConfig', this._defaultConfig)
-      .appendTo(document.body);
+
+    requestAnimationFrame(() => {
+      this.createContainerComponent();
+    });
   }
 
   /**
@@ -213,6 +213,13 @@ export class HotToastService implements HotToastServiceMethods {
    */
   close(id: string) {
     this._componentRef.ref.instance.closeToast(id);
+  }
+
+  private createContainerComponent() {
+    this._componentRef = this._viewService
+      .createComponent(HotToastContainerComponent)
+      .setInput('defaultConfig', this._defaultConfig)
+      .appendTo(document.body);
   }
 
   private createOrUpdateToast<T>(
