@@ -1,11 +1,3 @@
-## [1.0.9-beta.1](https://github.com/ngneat/hot-toast/compare/v1.0.8...v1.0.9-beta.1) (2021-02-16)
-
-
-### Bug Fixes
-
-* 🐛 use isStable method before creating toast container ([62ffcb2](https://github.com/ngneat/hot-toast/commit/62ffcb29ad2face430f422fb3ce0007fe7bebf50)), closes [#38](https://github.com/ngneat/hot-toast/issues/38)
-* 🐛 wait until application is bootstraped through requestAni ([a8d5757](https://github.com/ngneat/hot-toast/commit/a8d57573ebb9c45ba3f2c9ebda8765683d2d0b92)), closes [#38](https://github.com/ngneat/hot-toast/issues/38)
-
 ## [1.0.8](https://github.com/ngneat/hot-toast/compare/v1.0.7...v1.0.8) (2021-02-11)
 
 ## [1.0.7](https://github.com/ngneat/hot-toast/compare/v1.0.6...v1.0.7) (2021-02-11)
