@@ -1,3 +1,13 @@
+## [1.0.10](https://github.com/ngneat/hot-toast/compare/v1.0.9...v1.0.10) (2021-02-17)
+
+
+### Reverts
+
+* Revert "fix: 🐛 wait until application is bootstraped through requestAni" ([75385b7](https://github.com/ngneat/hot-toast/commit/75385b74ce77fed47b5dfd2be52a9b5d59e0abcd))
+* Revert "fix: 🐛 use isStable method before creating toast container" ([5d87f81](https://github.com/ngneat/hot-toast/commit/5d87f810fcdfc5950780ed245de63a3ca1c45937))
+* Revert "chore(release): 1.0.9-beta.1 [skip ci]" ([d0ddb4b](https://github.com/ngneat/hot-toast/commit/d0ddb4bbe688866eedd8551aff11c8aed5138e57))
+* Revert "chore(release): 1.0.9 [skip ci]" ([01e6a6c](https://github.com/ngneat/hot-toast/commit/01e6a6ca28ac88f6a75e852d062cdcf4b316e30b))
+
 ## [1.0.8](https://github.com/ngneat/hot-toast/compare/v1.0.7...v1.0.8) (2021-02-11)
 
 ## [1.0.7](https://github.com/ngneat/hot-toast/compare/v1.0.6...v1.0.7) (2021-02-11)
