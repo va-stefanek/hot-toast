@@ -16,5 +16,10 @@
       "@ngneat/hot-toast": ["projects/ngneat/hot-toast/src/public-api.ts"]
     },
     "resolveJsonModule": true
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": true,
+    "strictTemplates": true
   }
 }

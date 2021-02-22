@@ -29,7 +29,7 @@ export class ExampleComponent implements OnInit {
 
   closedEventData: HotToastClose = undefined;
 
-  snippetLanguages: { label: string; value: string }[] = [
+  snippetLanguages: { label: string; value: 'typescript' | 'html' }[] = [
     { label: 'TypeScript', value: 'typescript' },
     { label: 'HTML', value: 'html' },
   ];

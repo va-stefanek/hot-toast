@@ -28,10 +28,6 @@ import { WarningComponent } from './components/indicator/icons/warning/warning.c
   entryComponents: [HotToastContainerComponent],
 })
 export class HotToastModule {
-  constructor(service: HotToastService) {
-    service.init();
-  }
-
   static forRoot(config?: Partial<ToastConfig>): ModuleWithProviders<HotToastModule> {
     return {
       ngModule: HotToastModule,
