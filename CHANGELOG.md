@@ -1,3 +1,11 @@
+## [1.0.11](https://github.com/ngneat/hot-toast/compare/v1.0.10...v1.0.11) (2021-02-22)
+
+
+### Bug Fixes
+
+* **hot-toast:** iniatilize only when toast called first time ([da726d5](https://github.com/ngneat/hot-toast/commit/da726d56e761aebf885d3a1d49c2148040a11fa8)), closes [#38](https://github.com/ngneat/hot-toast/issues/38)
+* **hot-toast.service.ts:** make flag true on first call ([ca766a5](https://github.com/ngneat/hot-toast/commit/ca766a509b1e774c52f38c6cb3ca41a4992ad4c9)), closes [#38](https://github.com/ngneat/hot-toast/issues/38)
+
 ## [1.0.10](https://github.com/ngneat/hot-toast/compare/v1.0.9...v1.0.10) (2021-02-17)
 
 
