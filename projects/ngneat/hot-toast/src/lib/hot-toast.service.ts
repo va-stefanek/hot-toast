@@ -26,6 +26,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
+  private _isInitialized = false;
   private _componentRef: CompRef<HotToastContainerComponent>;
 
   private _defaultConfig = new ToastConfig();
@@ -52,20 +53,6 @@ export class HotToastService implements HotToastServiceMethods {
         ...config,
       };
     }
-  }
-
-  /**
-   * Used for internal purpose only.
-   * Creates a container component and attaches it to document.body.
-   */
-  init() {
-    if (isPlatformServer(this.platformId)) {
-      return;
-    }
-    this._componentRef = this._viewService
-      .createComponent(HotToastContainerComponent)
-      .setInput('defaultConfig', this._defaultConfig)
-      .appendTo(document.body);
   }
 
   /**
@@ -215,6 +202,20 @@ export class HotToastService implements HotToastServiceMethods {
     this._componentRef.ref.instance.closeToast(id);
   }
 
+  /**
+   * Used for internal purpose only.
+   * Creates a container component and attaches it to document.body.
+   */
+  private init() {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
+    this._componentRef = this._viewService
+      .createComponent(HotToastContainerComponent)
+      .setInput('defaultConfig', this._defaultConfig)
+      .appendTo(document.body);
+  }
+
   private createOrUpdateToast<T>(
     messages: ObservableMessages<T>,
     val: unknown,
@@ -250,6 +251,10 @@ export class HotToastService implements HotToastServiceMethods {
     options?: DefaultToastOptions,
     observableMessages?: ObservableMessages<T>
   ): CreateHotToastRef {
+    if (!this._isInitialized) {
+      this.init();
+    }
+
     const now = Date.now();
     const id = options?.id ?? now.toString();
 
