@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { REPO_URL } from './core/constants';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   readonly repoUrl = REPO_URL;
 
   constructor(private toast: HotToastService) {}
@@ -31,10 +31,6 @@ export class AppComponent implements OnInit {
         catchError((error) => of(error))
       )
       .subscribe();
-  }
-
-  ngOnInit() {
-    this.observe();
   }
 }
 

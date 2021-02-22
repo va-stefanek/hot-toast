@@ -252,6 +252,7 @@ export class HotToastService implements HotToastServiceMethods {
     observableMessages?: ObservableMessages<T>
   ): CreateHotToastRef {
     if (!this._isInitialized) {
+      this._isInitialized = true;
       this.init();
     }
 
