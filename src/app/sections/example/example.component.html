@@ -57,4 +57,7 @@
   Custom and <b>bold</b>&nbsp;
   <button (click)="toast.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
 </ng-template>
+<ng-template #templateContext let-toast="toast" let-data="data">
+  Custom and <b>bold</b> with data: <code class="bg-toast-200">{{ data | json }}</code>
+</ng-template>
 <div class="hidden" id="closed-event-data">{{ closedEventData | json }}</div>

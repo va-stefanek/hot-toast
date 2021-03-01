@@ -28,7 +28,7 @@
     </div>
 
     <div class="hot-toast-message">
-      <dynamic-content [content]="toast.message" [context]="{ $implicit: toastRef }"></dynamic-content>
+      <dynamic-content [content]="toast.message" [context]="context" [injector]="toast.injector"></dynamic-content>
     </div>
 
     <button

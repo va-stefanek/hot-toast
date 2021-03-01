@@ -93,6 +93,10 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
     return typeof this.toast.icon === 'string';
   }
 
+  get context() {
+    return this.toast.context ? { ...this.toast.context, toast: this.toastRef } : { $implicit: this.toastRef };
+  }
+
   close() {
     this.isManualClose = true;
     const top = this.toast.position.includes('top');

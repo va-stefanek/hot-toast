@@ -24,6 +24,7 @@ export class ExampleComponent implements OnInit {
   @ViewChild('success') successTemplate;
   @ViewChild('error') errorTemplate;
   @ViewChild('template') ngTemplate;
+  @ViewChild('templateContext') ngTemplateContext;
 
   examples: Example[] = [];
 
@@ -338,6 +339,27 @@ export class ExampleComponent implements OnInit {
         },
       },
       {
+        id: 'html',
+        title: 'HTML',
+        subtitle: 'You can directly give your HTML string',
+        emoji: '🔠',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  supportType = 'ground support';
+  toast.show(\`
+    I don't know why I am &lt;i&gt;tilted&lt;/i&gt;!
+    Maybe I need some &lt;u class="bg-toast-100"&gt;\${supportType}&lt;/u&gt;.
+  \`)`,
+        },
+        action: () => {
+          const supportType = 'ground support';
+          this.toast.show(
+            `I don't know why I am <i>tilted</i>! Maybe I need some <u class="bg-toast-100">${supportType}</u>.`
+          );
+        },
+      },
+      {
         id: 'template',
         title: 'Template',
         subtitle:
@@ -354,8 +376,34 @@ export class ExampleComponent implements OnInit {
   &lt;/ng-template&gt;`,
         },
         action: () => {
-          const ref = this.toast.show(this.ngTemplate, { autoClose: false });
-          ref.afterClosed.subscribe((e) => console.log(e));
+          this.toast.show(this.ngTemplate, { autoClose: false });
+        },
+      },
+      {
+        id: 'template-context',
+        title: 'Template with Context',
+        subtitle: 'You can also pass your <b>context</b> for template',
+        emoji: '🔩',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  toast.show(template, {
+    autoClose: false,
+    dismissible: true,
+    context: { data: { fact: '1+1 = 2' } },
+  });`,
+          html: `
+  &lt;ng-template #template let-toast="toast" let-data="data"&gt;
+   Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
+   with data: {{ data | json }}
+  &lt;/ng-template&gt;`,
+        },
+        action: () => {
+          this.toast.show(this.ngTemplateContext, {
+            autoClose: false,
+            dismissible: true,
+            context: { data: { fact: '1+1 = 2' } },
+          });
         },
       },
       {
