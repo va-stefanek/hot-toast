@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/ngneat/hot-toast/compare/v1.1.0...v1.1.1) (2021-03-02)
+
+
+### Bug Fixes
+
+* **animated-icon.component.scss:** remove min-width from emoji icon ([5acfdc7](https://github.com/ngneat/hot-toast/commit/5acfdc79f7f3c4b30348d34e9fe057c2393dd3e3)), closes [#52](https://github.com/ngneat/hot-toast/issues/52)
+
 # [1.1.0](https://github.com/ngneat/hot-toast/compare/v1.0.11...v1.1.0) (2021-03-02)
 
 
