@@ -36,9 +36,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   context: Record<string, any>;
 
   ngOnInit() {
-    this.context = this.toast.context
-      ? { ...this.toast.context, $implicit: this.toastRef }
-      : { $implicit: this.toastRef };
+    this.context = { ...this.toast.context, $implicit: this.toastRef };
   }
 
   ngAfterViewInit() {
