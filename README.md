@@ -164,6 +164,8 @@ Configuration used when opening an hot-toast.
 | className   | `string`                                                                                                                            | Extra CSS classes to be added to the hot toast container.                                                                                                      | Yes                         |
 | style       | `style object`                                                                                                                      | Extra styles to apply for hot-toast                                                                                                                            | Yes                         |
 | closeStyle  | `style object`                                                                                                                      | Extra styles to apply for close button                                                                                                                         | Yes                         |
+| context     | `Record<string, any>`                                                                                                               | Allows you to pass context for your template. Please note that `$implicit` is reserved for `toastRef`.                                                            | No                          |
+| injector    | `Injector`                                                                                                                          | Allows you to pass injector for your component                                                                                                                 | No                          |
 
 ---
 

@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -19,7 +20,7 @@ import { animate } from '../../utils';
   styleUrls: ['./hot-toast.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HotToastComponent implements AfterViewInit, OnDestroy {
+export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() toast: Toast;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
@@ -32,6 +33,11 @@ export class HotToastComponent implements AfterViewInit, OnDestroy {
   @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
 
   isManualClose = false;
+  context: Record<string, any>;
+
+  ngOnInit() {
+    this.context = { ...this.toast.context, $implicit: this.toastRef };
+  }
 
   ngAfterViewInit() {
     const nativeElement = this.toastBarBase.nativeElement;

@@ -1,3 +1,4 @@
+import { Injector } from '@angular/core';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
@@ -150,6 +151,24 @@ export interface Toast {
    * @type {ToastPersistConfig}
    */
   persist?: ToastPersistConfig;
+
+  /**
+   * Allows you to pass context for your template
+   *
+   * @since 1.1.0
+   * @type {Record<string, any>}
+   * @memberof Toast
+   */
+  context?: Record<string, any>;
+
+  /**
+   * Allows you to pass injector for your component
+   *
+   * @since 1.1.0
+   * @type {Injector}
+   * @memberof Toast
+   */
+  injector?: Injector;
 }
 
 export type ToastOptions = Partial<
@@ -169,6 +188,8 @@ export type ToastOptions = Partial<
     | 'position'
     | 'closeStyle'
     | 'persist'
+    | 'context'
+    | 'injector'
   >
 >;
 
