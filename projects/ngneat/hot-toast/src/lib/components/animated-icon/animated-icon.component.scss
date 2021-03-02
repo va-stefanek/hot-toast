@@ -11,7 +11,6 @@
 .hot-toast-animated-icon {
   position: relative;
   transform: scale(0);
-  min-width: 20px;
   animation: hotToastEnter 0.3s ease-in-out forwards;
 
   @media (prefers-reduced-motion: reduce) {
