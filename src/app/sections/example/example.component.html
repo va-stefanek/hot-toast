@@ -17,7 +17,7 @@
 <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
   <ng-container *ngFor="let example of examples">
     <div class="col-span-1">
-      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)">
+      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
         {{ example.title }}
       </app-emoji-button>
       <p class="mt-1 text-sm text-toast-800" *ngIf="example.subtitle" [innerHTML]="example.subtitle | html"></p>
@@ -53,11 +53,12 @@
 
 <ng-template #success><b>Settings saved!</b></ng-template>
 <ng-template #error><b>Could not save.</b></ng-template>
-<ng-template #template let-toast>
+<ng-template #template let-toastRef>
   Custom and <b>bold</b>&nbsp;
-  <button (click)="toast.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
+  <button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
 </ng-template>
-<ng-template #templateContext let-toast="toast" let-data="data">
-  Custom and <b>bold</b> with data: <code class="bg-toast-200">{{ data | json }}</code>
+<ng-template #templateContext let-toastRef let-data="data">
+  Custom and <b>bold</b> with data: <code class="bg-toast-200">{{ data | json }}</code
+  ><br /><button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
 </ng-template>
 <div class="hidden" id="closed-event-data">{{ closedEventData | json }}</div>

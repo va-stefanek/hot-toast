@@ -156,10 +156,10 @@ export interface Toast {
    * Allows you to pass context for your template
    *
    * @since 1.1.0
-   * @type {*}
+   * @type {Record<string, any>}
    * @memberof Toast
    */
-  context?: any;
+  context?: Record<string, any>;
 
   /**
    * Allows you to pass injector for your component

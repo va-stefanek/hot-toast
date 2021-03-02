@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class ExampleComponent implements OnInit {
 
   readonly exampleLink = 'https://github.com/ngneat/hot-toast/tree/master/src/app/sections/example';
 
-  constructor(private toast: HotToastService) {}
+  constructor(private toast: HotToastService, private parent: Injector) {}
 
   ngOnInit(): void {
     const examples: Example[] = [
@@ -83,6 +83,20 @@ export class ExampleComponent implements OnInit {
         },
       },
       {
+        id: 'loader',
+        title: 'Loader',
+        subtitle: 'Useful to show any in-progress state.',
+        emoji: '🔄',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+    toast.loading("I am on the 🛣 way...")`,
+        },
+        action: () => {
+          this.toast.loading('I am on the 🛣 way...');
+        },
+      },
+      {
         id: 'observe',
         title: 'Observe',
         subtitle: 'This is useful when you want to show the toast based on a stream, for example an http call.',
@@ -125,7 +139,7 @@ export class ExampleComponent implements OnInit {
       {
         id: 'multi',
         title: 'Multi Line',
-        subtitle: `An example which demonstrates that hot-toast can handle multi-lines, too. 😎 It's advisable that you also have <b><i><code>autoClose: false</code></i></b> in such cases.`,
+        subtitle: `An example which demonstrates that hot-toast can handle multi-lines, too. 😎 It's advisable that you also have <b><code>autoClose: false</code></b> in such cases.`,
         emoji: '↕️',
         activeSnippet: 'typescript',
         snippet: {
@@ -170,7 +184,7 @@ export class ExampleComponent implements OnInit {
       {
         id: 'snackbar',
         title: 'Snackbar (Dark)',
-        subtitle: `Same as toast, but with dark theme. It is advisable that you use <b><i><code>position: 'bottom-center'</code></i></b> with this.`,
+        subtitle: `Same as toast, but with dark theme. It is advisable that you use <b<code>position: 'bottom-center'</code></b> with this.`,
         emoji: '🌞',
         activeSnippet: 'typescript',
         snippet: {
@@ -215,7 +229,7 @@ export class ExampleComponent implements OnInit {
         id: 'events',
         title: 'Events',
         subtitle: 'Useful when you want to perform any action based on events.',
-        emoji: '🔁',
+        emoji: '🔂',
         activeSnippet: 'typescript',
         snippet: {
           typescript: `
@@ -369,9 +383,9 @@ export class ExampleComponent implements OnInit {
           typescript: `
   toast.show(template, { autoClose: false });`,
           html: `
-  &lt;ng-template #template let-toast&gt;
+  &lt;ng-template #template let-toastRef&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-   &lt;button (click)="toast.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
+   &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
         },
         action: () => {
@@ -380,9 +394,10 @@ export class ExampleComponent implements OnInit {
       },
       {
         id: 'template-context',
-        title: 'Template with Context',
-        subtitle: 'You can also pass your <b>context</b> for template',
-        emoji: '🔩',
+        title: 'Context',
+        subtitle:
+          'You can also pass your <b><code>context</code></b> for template. Please note that <b><code>$implicit</code></b> is reserved for <b><code>toastRef</code></b>',
+        emoji: '🎫',
         activeSnippet: 'typescript',
         snippet: {
           typescript: `
@@ -392,15 +407,15 @@ export class ExampleComponent implements OnInit {
     context: { data: { fact: '1+1 = 2' } },
   });`,
           html: `
-  &lt;ng-template #template let-toast="toast" let-data="data"&gt;
+  &lt;ng-template #template let-toastRef let-data="data"&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
    with data: {{ data | json }}
+   &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
         },
         action: () => {
           this.toast.show(this.ngTemplateContext, {
             autoClose: false,
-            dismissible: true,
             context: { data: { fact: '1+1 = 2' } },
           });
         },
@@ -408,7 +423,7 @@ export class ExampleComponent implements OnInit {
       {
         id: 'component',
         title: 'Component',
-        subtitle: '',
+        subtitle: 'Using components for messages are also supported!',
         emoji: '🆕',
         activeSnippet: 'typescript',
         snippet: {
@@ -425,6 +440,55 @@ export class ExampleComponent implements OnInit {
           this.toast.show(DummyComponent);
         },
       },
+      {
+        id: 'injector',
+        title: 'Injector',
+        subtitle: 'You can also give <b><code>injector</code></b> for your component.',
+        emoji: '💉',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  @Component({
+    selector: 'app-root',
+    template: '...',
+  })
+  export class AppComponent {
+    constructor(private parent: Injector) {}
+
+    injector = Injector.create({
+      providers: [
+        {
+          provide: 'MESSAGE',
+          useValue: 'I love Angular 🔥 Hot Toasts!',
+        },
+      ],
+      parent: this.parent
+    });
+
+    showToast() {
+      this.toast.show(InjectorComponent, { injector });
+    }
+  }
+
+  @Component({
+    selector: 'app-injector',
+    template: '{{ message }}',
+  })
+  export class InjectorComponent {}`,
+        },
+        action: () => {
+          const injector = Injector.create({
+            providers: [
+              {
+                provide: 'MESSAGE',
+                useValue: 'I love Angular 🔥 Hot Toasts!',
+              },
+            ],
+            parent: this.parent,
+          });
+          this.toast.show(InjectorComponent, { injector });
+        },
+      },
     ];
     Array.prototype.push.apply(this.examples, examples);
   }
@@ -439,3 +503,11 @@ export class ExampleComponent implements OnInit {
   template: 'Hi 👋 from the component!',
 })
 export class DummyComponent {}
+
+@Component({
+  selector: 'app-injector',
+  template: '{{ message }}',
+})
+export class InjectorComponent {
+  constructor(@Inject('MESSAGE') public message: string) {}
+}
