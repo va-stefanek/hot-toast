@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ngneat/hot-toast/compare/v1.0.11...v1.1.0) (2021-03-02)
+
+
+### Features
+
+* **hot-toast:** add support for context and injector ([05c5704](https://github.com/ngneat/hot-toast/commit/05c5704912f1a8f079d1f83efc9fca59279a1780)), closes [#49](https://github.com/ngneat/hot-toast/issues/49)
+
 ## [1.0.11](https://github.com/ngneat/hot-toast/compare/v1.0.10...v1.0.11) (2021-02-22)
 
 
