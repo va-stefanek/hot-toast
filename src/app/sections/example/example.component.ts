@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
+import { HotToastClose, HotToastRef, HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -474,7 +474,9 @@ export class ExampleComponent implements OnInit {
     selector: 'app-injector',
     template: '{{ message }}',
   })
-  export class InjectorComponent {}`,
+  export class InjectorComponent {
+    constructor(@Inject('MESSAGE') public message: string) {}
+  }`,
         },
         action: () => {
           const injector = Injector.create({
@@ -487,6 +489,49 @@ export class ExampleComponent implements OnInit {
             parent: this.parent,
           });
           this.toast.show(InjectorComponent, { injector });
+        },
+      },
+      {
+        id: 'data',
+        title: 'Data',
+        subtitle:
+          'Sometimes we need to pass data from the opening component to our toast component. In these cases, we can use the <b><code>data</b></code> property, and use it to pass any data we need:',
+        emoji: '💾',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  @Component({
+    selector: 'app-root',
+    template: '...',
+  })
+  export class AppComponent {
+    constructor(private toast: HotToastService) {}
+
+    showToast() {
+      this.toast.show(DataComponent, {
+        data: {
+          fact:
+            'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
+        },
+      });
+    }
+  }
+
+  @Component({
+    selector: 'app-data',
+    template: '{{ toastRef.data.fact }}',
+  })
+  export class DataComponent {
+    constructor(@Inject(HotToastRef) public toastRef: HotToastRef) {}
+  }`,
+        },
+        action: () => {
+          this.toast.show(DataComponent, {
+            data: {
+              fact:
+                'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
+            },
+          });
         },
       },
     ];
@@ -510,4 +555,11 @@ export class DummyComponent {}
 })
 export class InjectorComponent {
   constructor(@Inject('MESSAGE') public message: string) {}
+}
+@Component({
+  selector: 'app-data',
+  template: '{{ toastRef.data.fact }}',
+})
+export class DataComponent {
+  constructor(@Inject(HotToastRef) public toastRef: HotToastRef) {}
 }

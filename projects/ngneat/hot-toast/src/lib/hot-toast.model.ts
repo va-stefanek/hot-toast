@@ -55,7 +55,7 @@ export type ToastRole = 'status' | 'alert';
 
 export type ToastAriaLive = 'assertive' | 'off' | 'polite';
 
-export interface Toast {
+export interface Toast<Data = Record<string, any>> {
   type: ToastType;
 
   /**
@@ -169,6 +169,15 @@ export interface Toast {
    * @memberof Toast
    */
   injector?: Injector;
+
+  /**
+   * Allows you to pass data for your component/template
+   *
+   * @since 1.2.0
+   * @type {Data}
+   * @memberof Toast
+   */
+  data?: Data;
 }
 
 export type ToastOptions = Partial<
@@ -190,6 +199,7 @@ export type ToastOptions = Partial<
     | 'persist'
     | 'context'
     | 'injector'
+    | 'data'
   >
 >;
 

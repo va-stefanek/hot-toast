@@ -28,7 +28,11 @@
     </div>
 
     <div class="hot-toast-message">
-      <dynamic-content [content]="toast.message" [context]="context" [injector]="toast.injector"></dynamic-content>
+      <dynamic-content
+        [content]="toast.message"
+        [context]="context"
+        [injector]="toastComponentInjector"
+      ></dynamic-content>
     </div>
 
     <button

@@ -47,4 +47,8 @@ export class HotToastRef implements HotToastRefProps {
     this._onClosed.next({ dismissedByAction: closeData.dismissedByAction, id: this.toast.id });
     this._onClosed.complete();
   }
+
+  get data() {
+    return this.toast.data;
+  }
 }

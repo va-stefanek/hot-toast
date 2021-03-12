@@ -4,13 +4,16 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { isComponent } from '@ngneat/overview';
 import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION } from '../../constants';
+import { HotToastRef } from '../../hot-toast-ref';
 import { CreateHotToastRef, HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 
@@ -34,9 +37,23 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isManualClose = false;
   context: Record<string, any>;
+  toastComponentInjector: Injector;
+
+  constructor(private injector: Injector) {}
 
   ngOnInit() {
     this.context = { ...this.toast.context, $implicit: this.toastRef };
+    if (isComponent(this.toast.message)) {
+      this.toastComponentInjector = Injector.create({
+        providers: [
+          {
+            provide: HotToastRef,
+            useValue: this.toastRef,
+          },
+        ],
+        parent: this.toast.injector || this.injector,
+      });
+    }
   }
 
   ngAfterViewInit() {

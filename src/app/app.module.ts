@@ -5,7 +5,12 @@ import { HotToastModule } from '@ngneat/hot-toast';
 
 import { AppComponent, IconComponent, MessageComponent } from './app.component';
 import { FooterComponent } from './sections/footer/footer.component';
-import { ExampleComponent, DummyComponent, InjectorComponent } from './sections/example/example.component';
+import {
+  ExampleComponent,
+  DummyComponent,
+  InjectorComponent,
+  DataComponent,
+} from './sections/example/example.component';
 import { FeaturesComponent } from './sections/features/features.component';
 import { PositionComponent } from './sections/position/position.component';
 import { StepsComponent } from './sections/steps/steps.component';
@@ -25,6 +30,7 @@ import { ReverseOrderComponent } from './sections/reverse-order/reverse-order.co
     DummyComponent,
     ReverseOrderComponent,
     InjectorComponent,
+    DataComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, SharedModule, HotToastModule.forRoot()],
   providers: [],
