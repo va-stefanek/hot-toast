@@ -99,18 +99,35 @@ export class ExampleComponent implements OnInit {
       {
         id: 'observe',
         title: 'Observe',
-        subtitle: 'This is useful when you want to show the toast based on a stream, for example an http call.',
+        subtitle: `This is useful when you want to show the toast based on a stream, for example an http call.
+          <br>You can also access data of subscribe/error using functions.`,
         emoji: '⏳',
         activeSnippet: 'typescript',
         snippet: {
           typescript: `
-  saveSettings(settings).pipe(toast.observe(
-    {
-      loading: 'Saving...',
-      success: successTemplate,
-      error: errorTemplate,
-    }
-  )).subscribe();`,
+  // Use templates
+  saveSettings(settings).pipe(
+    toast.observe(
+      {
+        loading: 'Saving...',
+        success: successTemplate,
+        error: errorTemplate,
+      }
+    ),
+    catchError((error) => of(error))
+  ).subscribe();
+
+  // Use functions to access data
+  saveSettings(settings).pipe(
+    toast.observe(
+      {
+        loading: 'Saving...',
+        success: (s) => 'I got a response: ' + s,
+        error: (e) => 'Something did not work, reason: ' + e,
+      }
+    ),
+    catchError((error) => of(error))
+  ).subscribe();`,
           html: `
   &lt;ng-template #successTemplate&gt;
     &lt;b&gt;Settings saved!&lt;/b&gt;
@@ -495,7 +512,7 @@ export class ExampleComponent implements OnInit {
         id: 'data',
         title: 'Data',
         subtitle:
-          'Sometimes we need to pass data from the opening component to our toast component. In these cases, we can use the <b><code>data</b></code> property, and use it to pass any data we need:',
+          'Sometimes we need to pass data from the opening component to our toast component. In these cases, we can use the <b><code>data</b></code> property, and use it to pass any data we need.<br>And then we can access it inside our modal component or template, by using the <b><code>ref.data</b></code> property.',
         emoji: '💾',
         activeSnippet: 'typescript',
         snippet: {
@@ -508,7 +525,7 @@ export class ExampleComponent implements OnInit {
     constructor(private toast: HotToastService) {}
 
     showToast() {
-      this.toast.show(DataComponent, {
+      this.toast.show&lt;DataType&gt;(DataComponent, {
         data: {
           fact:
             'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
@@ -517,16 +534,22 @@ export class ExampleComponent implements OnInit {
     }
   }
 
+  interface DataType {
+    fact: string;
+  }
+
   @Component({
     selector: 'app-data',
     template: '{{ toastRef.data.fact }}',
   })
   export class DataComponent {
-    constructor(@Inject(HotToastRef) public toastRef: HotToastRef) {}
+    constructor(
+      @Inject(HotToastRef) public toastRef: HotToastRef&lt;DataType&gt;
+    ) {}
   }`,
         },
         action: () => {
-          this.toast.show(DataComponent, {
+          this.toast.show<DataType>(DataComponent, {
             data: {
               fact:
                 'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
@@ -556,10 +579,15 @@ export class DummyComponent {}
 export class InjectorComponent {
   constructor(@Inject('MESSAGE') public message: string) {}
 }
+
+interface DataType {
+  fact: string;
+}
+
 @Component({
   selector: 'app-data',
   template: '{{ toastRef.data.fact }}',
 })
 export class DataComponent {
-  constructor(@Inject(HotToastRef) public toastRef: HotToastRef) {}
+  constructor(@Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}
 }

@@ -24,10 +24,10 @@ import { animate } from '../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() toast: Toast;
+  @Input() toast: Toast<unknown>;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
-  @Input() toastRef: CreateHotToastRef;
+  @Input() toastRef: CreateHotToastRef<unknown>;
 
   @Output() height = new EventEmitter<number>();
   @Output() beforeClosed = new EventEmitter();

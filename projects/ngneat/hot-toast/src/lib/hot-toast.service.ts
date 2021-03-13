@@ -63,8 +63,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  show(message?: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message || this._defaultConfig.blank.content, 'blank', {
+  show<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.blank.content, 'blank', {
       ...this._defaultConfig,
       ...options,
     });
@@ -80,8 +80,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  error(message?: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message || this._defaultConfig.error.content, 'error', {
+  error<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.error.content, 'error', {
       ...this._defaultConfig,
       ...this._defaultConfig?.error,
       ...options,
@@ -98,8 +98,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  success(message?: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message || this._defaultConfig.success.content, 'success', {
+  success<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.success.content, 'success', {
       ...this._defaultConfig,
       ...this._defaultConfig?.success,
       ...options,
@@ -116,8 +116,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  loading(message?: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message || this._defaultConfig.loading.content, 'loading', {
+  loading<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.loading.content, 'loading', {
       ...this._defaultConfig,
       ...this._defaultConfig?.loading,
       ...options,
@@ -134,8 +134,8 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  warning(message?: Content, options?: ToastOptions): CreateHotToastRef {
-    const toast = this.createToast(message || this._defaultConfig.warning.content, 'warning', {
+  warning<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.warning.content, 'warning', {
       ...this._defaultConfig,
       ...this._defaultConfig?.warning,
       ...options,
@@ -153,23 +153,23 @@ export class HotToastService implements HotToastServiceMethods {
    * @returns
    * @memberof HotToastService
    */
-  observe<T>(messages: ObservableMessages<T>): (source: Observable<T>) => Observable<T> {
+  observe<T, DataType>(messages: ObservableMessages<T, DataType>): (source: Observable<T>) => Observable<T> {
     return (source) => {
-      let toastRef: CreateHotToastRef;
+      let toastRef: CreateHotToastRef<DataType | unknown>;
       let start = 0;
 
       const loadingContent = messages.loading || this._defaultConfig.loading?.content;
       const errorContent = messages.error || this._defaultConfig.error?.content;
 
       if (loadingContent) {
-        toastRef = this.createLoadingToast<T>(loadingContent);
+        toastRef = this.createLoadingToast<T, DataType>(loadingContent);
         start = Date.now();
       }
 
       return source.pipe(
         tap({
           next: (val) => {
-            toastRef = this.createOrUpdateToast(
+            toastRef = this.createOrUpdateToast<T, DataType | unknown>(
               messages,
               val,
               toastRef,
@@ -179,7 +179,7 @@ export class HotToastService implements HotToastServiceMethods {
           },
           ...(errorContent && {
             error: (e) => {
-              toastRef = this.createOrUpdateToast(
+              toastRef = this.createOrUpdateToast<T, DataType | unknown>(
                 messages,
                 e,
                 toastRef,
@@ -216,23 +216,23 @@ export class HotToastService implements HotToastServiceMethods {
       .appendTo(document.body);
   }
 
-  private createOrUpdateToast<T>(
-    messages: ObservableMessages<T>,
+  private createOrUpdateToast<T, DataType>(
+    messages: ObservableMessages<T, DataType>,
     val: unknown,
-    toastRef: CreateHotToastRef,
+    toastRef: CreateHotToastRef<DataType>,
     type: ToastType,
     diff: number
   ) {
     let content: Content | ValueOrFunction<Content, T> = null;
-    let options: ToastOptions = {};
-    ({ content, options } = this.getContentAndOptions<any>(
+    let options: ToastOptions<DataType | unknown> = {};
+    ({ content, options } = this.getContentAndOptions<any, DataType>(
       type,
       messages[type] || (this._defaultConfig[type] ? this._defaultConfig[type].content : '')
     ));
     content = resolveValueOrFunction(content, val);
     if (toastRef) {
       toastRef.updateMessage(content);
-      const updatedOptions: UpdateToastOptions = {
+      const updatedOptions: UpdateToastOptions<DataType> = {
         type,
         duration: diff + HOT_TOAST_DEFAULT_TIMEOUTS[type],
         ...options,
@@ -240,17 +240,17 @@ export class HotToastService implements HotToastServiceMethods {
       };
       toastRef.updateToast(updatedOptions);
     } else {
-      this.createToast(content, type, options);
+      this.createToast<DataType, T>(content, type, options);
     }
     return toastRef;
   }
 
-  private createToast<T>(
+  private createToast<DataType, T = unknown>(
     message: Content,
     type: ToastType,
     options?: DefaultToastOptions,
-    observableMessages?: ObservableMessages<T>
-  ): CreateHotToastRef {
+    observableMessages?: ObservableMessages<T, DataType>
+  ): CreateHotToastRef<DataType | unknown> {
     if (!this._isInitialized) {
       this._isInitialized = true;
       this.init();
@@ -263,7 +263,7 @@ export class HotToastService implements HotToastServiceMethods {
       !this.isDuplicate(id) &&
       (!options.persist?.enabled || (options.persist?.enabled && this.handleStorageValue(id, options)))
     ) {
-      const toast: Toast = {
+      const toast: Toast<DataType | unknown> = {
         ariaLive: options?.ariaLive ?? 'polite',
         createdAt: now,
         duration: options?.duration ?? HOT_TOAST_DEFAULT_TIMEOUTS[type],
@@ -276,7 +276,7 @@ export class HotToastService implements HotToastServiceMethods {
         ...options,
       };
 
-      return new HotToastRef(toast).appendTo(this._componentRef.ref.instance);
+      return new HotToastRef<DataType | unknown>(toast).appendTo(this._componentRef.ref.instance);
     }
   }
 
@@ -320,12 +320,12 @@ export class HotToastService implements HotToastServiceMethods {
     return count;
   }
 
-  private getContentAndOptions<T>(
+  private getContentAndOptions<T, DataType>(
     toastType: ToastType,
-    message: Content | ValueOrFunction<Content, T> | ObservableLoading | ObservableSuccessOrError<T>
-  ) {
+    message: Content | ValueOrFunction<Content, T> | ObservableLoading<DataType> | ObservableSuccessOrError<T, DataType>
+  ): { options: ToastOptions<DataType | unknown>; content: Content | ValueOrFunction<Content, T> } {
     let content: Content | ValueOrFunction<Content, T>;
-    let options: ToastOptions = {
+    let options: ToastOptions<DataType | unknown> = {
       ...this._defaultConfig,
       ...this._defaultConfig[toastType],
     };
@@ -334,19 +334,19 @@ export class HotToastService implements HotToastServiceMethods {
     if (typeof message === 'string' || isTemplateRef(message) || isComponent(message)) {
       content = message;
     } else {
-      let restOptions: ToastOptions;
-      ({ content, ...restOptions } = message as ObservableLoading | ObservableSuccessOrError<T>);
+      let restOptions: ToastOptions<DataType>;
+      ({ content, ...restOptions } = message as ObservableLoading<DataType> | ObservableSuccessOrError<T, DataType>);
       options = { ...options, ...restOptions };
     }
 
     return { content, options };
   }
 
-  private createLoadingToast<T>(messages: Content | ObservableLoading) {
+  private createLoadingToast<T, DataType>(messages: Content | ObservableLoading<DataType>) {
     let content: Content | ValueOrFunction<Content, T> = null;
-    let options: ToastOptions = {};
+    let options: ToastOptions<DataType | unknown> = {};
 
-    ({ content, options } = this.getContentAndOptions<any>('loading', messages));
+    ({ content, options } = this.getContentAndOptions<any, DataType>('loading', messages));
 
     return this.loading(content as Content, options);
   }

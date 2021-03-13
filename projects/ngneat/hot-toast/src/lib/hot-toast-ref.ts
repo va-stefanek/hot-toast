@@ -1,11 +1,11 @@
 import { Content } from '@ngneat/overview';
 import { Observable, race, Subject } from 'rxjs';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
-import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps } from './hot-toast.model';
+import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps, DefaultDataType } from './hot-toast.model';
 
-export class HotToastRef implements HotToastRefProps {
+export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps<DataType> {
   updateMessage: (message: Content) => void;
-  updateToast: (options: UpdateToastOptions) => void;
+  updateToast: (options: UpdateToastOptions<DataType>) => void;
   afterClosed: Observable<HotToastClose>;
 
   private _dispose: () => void;
@@ -16,7 +16,7 @@ export class HotToastRef implements HotToastRefProps {
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
 
-  constructor(private toast: Toast) {}
+  constructor(private toast: Toast<DataType>) {}
 
   getToast() {
     return this.toast;
