@@ -11,7 +11,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { isComponent } from '@ngneat/overview';
+import { isComponent, isTemplateRef } from '@ngneat/overview';
 import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION } from '../../constants';
 import { HotToastRef } from '../../hot-toast-ref';
 import { CreateHotToastRef, HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
@@ -42,7 +42,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private injector: Injector) {}
 
   ngOnInit() {
-    this.context = { ...this.toast.context, $implicit: this.toastRef };
+    if (isTemplateRef(this.toast.message)) {
+      this.context = { $implicit: this.toastRef };
+    }
     if (isComponent(this.toast.message)) {
       this.toastComponentInjector = Injector.create({
         providers: [

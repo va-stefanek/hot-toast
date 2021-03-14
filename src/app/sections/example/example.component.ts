@@ -410,10 +410,10 @@ export class ExampleComponent implements OnInit {
         },
       },
       {
-        id: 'template-context',
-        title: 'Context',
+        id: 'template-data',
+        title: 'Template Data',
         subtitle:
-          'You can also pass your <b><code>context</code></b> for template. Please note that <b><code>$implicit</code></b> is reserved for <b><code>toastRef</code></b>',
+          'You can also pass your <b><code>data</code></b> for template. Please note that <b><code>$implicit</code></b> is reserved for <b><code>toastRef</code></b>',
         emoji: '🎫',
         activeSnippet: 'typescript',
         snippet: {
@@ -421,19 +421,19 @@ export class ExampleComponent implements OnInit {
   toast.show(template, {
     autoClose: false,
     dismissible: true,
-    context: { data: { fact: '1+1 = 2' } },
+    data: { fact: '1+1 = 2' },
   });`,
           html: `
-  &lt;ng-template #template let-toastRef let-data="data"&gt;
+  &lt;ng-template #template let-toastRef&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-   with data: {{ data | json }}
+   with data: {{ toastRef.data | json }}
    &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
         },
         action: () => {
           this.toast.show(this.ngTemplateContext, {
             autoClose: false,
-            context: { data: { fact: '1+1 = 2' } },
+            data: { fact: '1+1 = 2' },
           });
         },
       },
@@ -509,10 +509,10 @@ export class ExampleComponent implements OnInit {
         },
       },
       {
-        id: 'data',
-        title: 'Data',
+        id: 'component-data',
+        title: 'Component Data',
         subtitle:
-          'Sometimes we need to pass data from the opening component to our toast component. In these cases, we can use the <b><code>data</b></code> property, and use it to pass any data we need.<br>And then we can access it inside our modal component or template, by using the <b><code>ref.data</b></code> property.',
+          'Sometimes we need to pass data from the opening component to our toast component. In these cases, we can use the <b><code>data</b></code> property, and use it to pass any data we need.<br>And then we can access it inside our modal component or template, by using the <b><code>toastRef.data</b></code> property.',
         emoji: '💾',
         activeSnippet: 'typescript',
         snippet: {

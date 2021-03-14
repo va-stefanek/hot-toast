@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngneat/hot-toast/src/lib/constants';
 
-describe('Test hot toasts - component', () => {
+describe('Test hot toasts - component with data', () => {
   it('should show and hide component toast', () => {
-    cy.get('#data').click();
+    cy.get('#component-data').click();
     cy.get('hot-toast').as('componentToast');
 
     cy.get('@componentToast').should(

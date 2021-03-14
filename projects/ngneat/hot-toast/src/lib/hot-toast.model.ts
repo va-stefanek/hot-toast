@@ -153,15 +153,6 @@ export interface Toast<DataType> {
   persist?: ToastPersistConfig;
 
   /**
-   * Allows you to pass context for your template
-   *
-   * @since 1.1.0
-   * @type {Record<string, any>}
-   * @memberof Toast
-   */
-  context?: Record<string, any>;
-
-  /**
    * Allows you to pass injector for your component
    *
    * @since 1.1.0
@@ -173,7 +164,7 @@ export interface Toast<DataType> {
   /**
    * Allows you to pass data for your component/template
    *
-   * @since 1.2.0
+   * @since 2.0.0
    * @type {DataType}
    * @memberof Toast
    */
@@ -197,7 +188,6 @@ export type ToastOptions<DataType> = Partial<
     | 'position'
     | 'closeStyle'
     | 'persist'
-    | 'context'
     | 'injector'
     | 'data'
   >
@@ -252,7 +242,7 @@ export interface HotToastRefProps<DataType> {
   /**Closes the toast */
   close: (closeData?: { dismissedByAction: boolean }) => void;
   /**
-   * @since 1.2.0
+   * @since 2.0.0
    */
   readonly data: DataType;
 }
