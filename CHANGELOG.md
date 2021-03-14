@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/ngneat/hot-toast/compare/v1.1.1...v2.0.0) (2021-03-14)
+
+
+### Features
+
+* pass type for data ([47c893e](https://github.com/ngneat/hot-toast/commit/47c893ee8b1a8380b9cd63ae201bde761e2bb0f4)), closes [#54](https://github.com/ngneat/hot-toast/issues/54)
+* remove context from options ([cab3261](https://github.com/ngneat/hot-toast/commit/cab3261160a8c8347c4d8195877ba6a30a070c7c)), closes [#54](https://github.com/ngneat/hot-toast/issues/54)
+* **hot-toast:** add an option to pass data with component ([8a51703](https://github.com/ngneat/hot-toast/commit/8a51703fc56340f5f1bfd46869b2cce94ad49eb8)), closes [#54](https://github.com/ngneat/hot-toast/issues/54)
+
+
+### BREAKING CHANGES
+
+* conext is removed from option
+
 ## [1.1.1](https://github.com/ngneat/hot-toast/compare/v1.1.0...v1.1.1) (2021-03-02)
 
 
