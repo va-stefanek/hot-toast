@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { HotToastClose, HotToastService } from '@ngneat/hot-toast';
+import { HotToastClose, HotToastRef, HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -99,18 +99,35 @@ export class ExampleComponent implements OnInit {
       {
         id: 'observe',
         title: 'Observe',
-        subtitle: 'This is useful when you want to show the toast based on a stream, for example an http call.',
+        subtitle: `This is useful when you want to show the toast based on a stream, for example an http call.
+          <br>You can also access data of subscribe/error using functions.`,
         emoji: '⏳',
         activeSnippet: 'typescript',
         snippet: {
           typescript: `
-  saveSettings(settings).pipe(toast.observe(
-    {
-      loading: 'Saving...',
-      success: successTemplate,
-      error: errorTemplate,
-    }
-  )).subscribe();`,
+  // Use templates
+  saveSettings(settings).pipe(
+    toast.observe(
+      {
+        loading: 'Saving...',
+        success: successTemplate,
+        error: errorTemplate,
+      }
+    ),
+    catchError((error) => of(error))
+  ).subscribe();
+
+  // Use functions to access data
+  saveSettings(settings).pipe(
+    toast.observe(
+      {
+        loading: 'Saving...',
+        success: (s) => 'I got a response: ' + s,
+        error: (e) => 'Something did not work, reason: ' + e,
+      }
+    ),
+    catchError((error) => of(error))
+  ).subscribe();`,
           html: `
   &lt;ng-template #successTemplate&gt;
     &lt;b&gt;Settings saved!&lt;/b&gt;
@@ -393,10 +410,10 @@ export class ExampleComponent implements OnInit {
         },
       },
       {
-        id: 'template-context',
-        title: 'Context',
+        id: 'template-data',
+        title: 'Template Data',
         subtitle:
-          'You can also pass your <b><code>context</code></b> for template. Please note that <b><code>$implicit</code></b> is reserved for <b><code>toastRef</code></b>',
+          'You can also pass your <b><code>data</code></b> for template. Please note that <b><code>$implicit</code></b> is reserved for <b><code>toastRef</code></b>',
         emoji: '🎫',
         activeSnippet: 'typescript',
         snippet: {
@@ -404,19 +421,19 @@ export class ExampleComponent implements OnInit {
   toast.show(template, {
     autoClose: false,
     dismissible: true,
-    context: { data: { fact: '1+1 = 2' } },
+    data: { fact: '1+1 = 2' },
   });`,
           html: `
-  &lt;ng-template #template let-toastRef let-data="data"&gt;
+  &lt;ng-template #template let-toastRef&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-   with data: {{ data | json }}
+   with data: {{ toastRef.data | json }}
    &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
         },
         action: () => {
           this.toast.show(this.ngTemplateContext, {
             autoClose: false,
-            context: { data: { fact: '1+1 = 2' } },
+            data: { fact: '1+1 = 2' },
           });
         },
       },
@@ -474,7 +491,9 @@ export class ExampleComponent implements OnInit {
     selector: 'app-injector',
     template: '{{ message }}',
   })
-  export class InjectorComponent {}`,
+  export class InjectorComponent {
+    constructor(@Inject('MESSAGE') public message: string) {}
+  }`,
         },
         action: () => {
           const injector = Injector.create({
@@ -487,6 +506,55 @@ export class ExampleComponent implements OnInit {
             parent: this.parent,
           });
           this.toast.show(InjectorComponent, { injector });
+        },
+      },
+      {
+        id: 'component-data',
+        title: 'Component Data',
+        subtitle:
+          'Sometimes we need to pass data from the opening component to our toast component. In these cases, we can use the <b><code>data</b></code> property, and use it to pass any data we need.<br>And then we can access it inside our modal component or template, by using the <b><code>toastRef.data</b></code> property.',
+        emoji: '💾',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  @Component({
+    selector: 'app-root',
+    template: '...',
+  })
+  export class AppComponent {
+    constructor(private toast: HotToastService) {}
+
+    showToast() {
+      this.toast.show&lt;DataType&gt;(DataComponent, {
+        data: {
+          fact:
+            'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
+        },
+      });
+    }
+  }
+
+  interface DataType {
+    fact: string;
+  }
+
+  @Component({
+    selector: 'app-data',
+    template: '{{ toastRef.data.fact }}',
+  })
+  export class DataComponent {
+    constructor(
+      @Inject(HotToastRef) public toastRef: HotToastRef&lt;DataType&gt;
+    ) {}
+  }`,
+        },
+        action: () => {
+          this.toast.show<DataType>(DataComponent, {
+            data: {
+              fact:
+                'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
+            },
+          });
         },
       },
     ];
@@ -510,4 +578,16 @@ export class DummyComponent {}
 })
 export class InjectorComponent {
   constructor(@Inject('MESSAGE') public message: string) {}
+}
+
+interface DataType {
+  fact: string;
+}
+
+@Component({
+  selector: 'app-data',
+  template: '{{ toastRef.data.fact }}',
+})
+export class DataComponent {
+  constructor(@Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}
 }

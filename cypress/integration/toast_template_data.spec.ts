@@ -2,9 +2,9 @@
 
 import { ENTER_ANIMATION_DURATION } from '../../projects/ngneat/hot-toast/src/lib/constants';
 
-describe('Test hot toasts - template with context', () => {
-  it('should show and hide toast with template with context', () => {
-    cy.get('#template-context').click();
+describe('Test hot toasts - template with data', () => {
+  it('should show and hide toast with template with data', () => {
+    cy.get('#template-data').click();
     cy.get('hot-toast').as('templateToast');
 
     cy.get('@templateToast').find('.hot-toast-message').children().as('children');

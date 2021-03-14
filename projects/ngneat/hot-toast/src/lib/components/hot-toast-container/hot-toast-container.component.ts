@@ -26,8 +26,8 @@ export class HotToastContainerComponent {
 
   @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
 
-  toasts: Toast[] = [];
-  toastRefs: CreateHotToastRef[] = [];
+  toasts: Toast<unknown>[] = [];
+  toastRefs: CreateHotToastRef<unknown>[] = [];
 
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
@@ -36,7 +36,7 @@ export class HotToastContainerComponent {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  trackById(index: number, toast: Toast) {
+  trackById(index: number, toast: Toast<unknown>) {
     return toast.id;
   }
 
@@ -52,12 +52,12 @@ export class HotToastContainerComponent {
     return offset;
   }
 
-  updateHeight(height: number, toast: Toast) {
+  updateHeight(height: number, toast: Toast<unknown>) {
     toast.height = height;
     this.cdr.detectChanges();
   }
 
-  addToast(ref: HotToastRef): AddToastRef {
+  addToast<DataType>(ref: HotToastRef): AddToastRef<DataType> {
     this.toastRefs.push(ref);
 
     const toast = ref.getToast();
@@ -74,7 +74,7 @@ export class HotToastContainerComponent {
         toast.message = message;
         this.cdr.detectChanges();
       },
-      updateToast: (options: UpdateToastOptions) => {
+      updateToast: (options: UpdateToastOptions<DataType>) => {
         this.updateToasts(toast, options);
         this.cdr.detectChanges();
       },
@@ -89,7 +89,7 @@ export class HotToastContainerComponent {
     }
   }
 
-  beforeClosed(toast: Toast) {
+  beforeClosed(toast: Toast<unknown>) {
     toast.visible = false;
   }
 
@@ -107,11 +107,11 @@ export class HotToastContainerComponent {
     return this.toasts.findIndex((t) => t.id === id) > -1;
   }
 
-  private getAfterClosed(toast: Toast) {
+  private getAfterClosed(toast: Toast<unknown>) {
     return this.onClosed$.pipe(filter((v) => v.id === toast.id));
   }
 
-  private updateToasts(toast: Toast, options?: UpdateToastOptions) {
+  private updateToasts(toast: Toast<unknown>, options?: UpdateToastOptions<unknown>) {
     this.toasts = this.toasts.map((t) => ({ ...t, ...(t.id === toast.id && { ...toast, ...options }) }));
   }
 }

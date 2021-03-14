@@ -24,11 +24,11 @@ export class ToastConfig implements DefaultToastOptions {
   theme: ToastTheme = 'toast';
 
   // key in ToastType
-  success: ToastOptions & { content?: Content } = { content: '' };
-  error: ToastOptions & { content?: Content } = { content: '' };
-  loading: ToastOptions & { content?: Content } = { content: '' };
-  blank: ToastOptions & { content?: Content } = { content: '' };
-  warning: ToastOptions & { content?: Content } = { content: '' };
+  success: ToastOptions<unknown> & { content?: Content } = { content: '' };
+  error: ToastOptions<unknown> & { content?: Content } = { content: '' };
+  loading: ToastOptions<unknown> & { content?: Content } = { content: '' };
+  blank: ToastOptions<unknown> & { content?: Content } = { content: '' };
+  warning: ToastOptions<unknown> & { content?: Content } = { content: '' };
 }
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning';
@@ -55,7 +55,7 @@ export type ToastRole = 'status' | 'alert';
 
 export type ToastAriaLive = 'assertive' | 'off' | 'polite';
 
-export interface Toast {
+export interface Toast<DataType> {
   type: ToastType;
 
   /**
@@ -137,7 +137,7 @@ export interface Toast {
   visible: boolean;
   height?: number;
 
-  observableMessages?: ObservableMessages<unknown>;
+  observableMessages?: ObservableMessages<unknown, DataType>;
 
   /**
    * Useful when you want to keep a persistance for toast based on ids, across sessions.
@@ -153,15 +153,6 @@ export interface Toast {
   persist?: ToastPersistConfig;
 
   /**
-   * Allows you to pass context for your template
-   *
-   * @since 1.1.0
-   * @type {Record<string, any>}
-   * @memberof Toast
-   */
-  context?: Record<string, any>;
-
-  /**
    * Allows you to pass injector for your component
    *
    * @since 1.1.0
@@ -169,11 +160,20 @@ export interface Toast {
    * @memberof Toast
    */
   injector?: Injector;
+
+  /**
+   * Allows you to pass data for your component/template
+   *
+   * @since 2.0.0
+   * @type {DataType}
+   * @memberof Toast
+   */
+  data?: DataType;
 }
 
-export type ToastOptions = Partial<
+export type ToastOptions<DataType> = Partial<
   Pick<
-    Toast,
+    Toast<DataType>,
     | 'id'
     | 'icon'
     | 'duration'
@@ -188,59 +188,63 @@ export type ToastOptions = Partial<
     | 'position'
     | 'closeStyle'
     | 'persist'
-    | 'context'
     | 'injector'
+    | 'data'
   >
 >;
 
-export type DefaultToastOptions = ToastOptions &
+export type DefaultToastOptions = ToastOptions<unknown> &
   {
-    [key in ToastType]?: ToastOptions & { content?: Content };
+    [key in ToastType]?: ToastOptions<unknown> & { content?: Content };
   };
 
-export type ObservableLoading = {
+export type ObservableLoading<DataType> = {
   content: Content;
-} & ToastOptions;
+} & ToastOptions<DataType>;
 
-export type ObservableSuccessOrError<T> = {
+export type ObservableSuccessOrError<T, DataType> = {
   content: ValueOrFunction<Content, T>;
-} & ToastOptions;
+} & ToastOptions<DataType>;
 
-export type ObservableMessages<T> = {
-  loading?: Content | ObservableLoading;
-  success: ValueOrFunction<Content, T> | ObservableSuccessOrError<T>;
-  error?: ValueOrFunction<Content, any> | ObservableSuccessOrError<any>;
+export type ObservableMessages<T, DataType> = {
+  loading?: Content | ObservableLoading<DataType>;
+  success: ValueOrFunction<Content, T> | ObservableSuccessOrError<T, DataType>;
+  error?: ValueOrFunction<Content, any> | ObservableSuccessOrError<any, DataType>;
 };
 
 export interface HotToastServiceMethods {
-  show(message?: Content, options?: ToastOptions): CreateHotToastRef;
-  error(message?: Content, options?: ToastOptions): CreateHotToastRef;
-  success(message?: Content, options?: ToastOptions): CreateHotToastRef;
-  loading(message?: Content, options?: ToastOptions): CreateHotToastRef;
-  warning(message?: Content, options?: ToastOptions): CreateHotToastRef;
-  observe<T>(messages: ObservableMessages<T>): (source: Observable<T>) => Observable<T>;
+  show<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
+  error<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
+  success<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
+  loading<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
+  warning<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
+  observe<T, DataType>(messages: ObservableMessages<T, DataType>): (source: Observable<T>) => Observable<T>;
   close(id: string): void;
 }
 
-export type UpdateToastOptions = Partial<
+export type UpdateToastOptions<DataType> = Partial<
   Pick<
-    Toast,
+    Toast<DataType>,
     'icon' | 'duration' | 'dismissible' | 'className' | 'style' | 'iconTheme' | 'type' | 'theme' | 'closeStyle'
   >
 >;
 
-export interface HotToastRefProps {
+export interface HotToastRefProps<DataType> {
   /** Returns all the toast options */
-  getToast: () => Toast;
+  getToast: () => Toast<DataType>;
   dispose: () => void;
   /**Updates only message */
   updateMessage: (message: Content) => void;
   /**Update updatable options of toast */
-  updateToast: (options: UpdateToastOptions) => void;
+  updateToast: (options: UpdateToastOptions<DataType>) => void;
   /** Observable for notifying the user that the toast has been closed. */
   afterClosed: Observable<HotToastClose>;
   /**Closes the toast */
   close: (closeData?: { dismissedByAction: boolean }) => void;
+  /**
+   * @since 2.0.0
+   */
+  readonly data: DataType;
 }
 
 /** Event that is emitted when a snack bar is dismissed. */
@@ -280,6 +284,11 @@ export class ToastPersistConfig {
   enabled = false;
 }
 
-export type AddToastRef = Omit<Omit<HotToastRefProps, 'close'>, 'getToast'>;
+export type AddToastRef<DataType> = Pick<
+  HotToastRefProps<DataType>,
+  'afterClosed' | 'dispose' | 'updateMessage' | 'updateToast'
+>;
 
-export type CreateHotToastRef = Omit<Omit<HotToastRefProps, 'appendTo'>, 'dispose'>;
+export type CreateHotToastRef<DataType> = Omit<Omit<HotToastRefProps<DataType>, 'appendTo'>, 'dispose'>;
+
+export type DefaultDataType = Record<string, any>;
