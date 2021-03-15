@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/ngneat/hot-toast/compare/v2.0.0...v2.0.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* **service:** add protection in close method ([c0772bf](https://github.com/ngneat/hot-toast/commit/c0772bf019b9b05ecc809087cd939d8b4264bc24))
+
 # [2.0.0](https://github.com/ngneat/hot-toast/compare/v1.1.1...v2.0.0) (2021-03-14)
 
 
