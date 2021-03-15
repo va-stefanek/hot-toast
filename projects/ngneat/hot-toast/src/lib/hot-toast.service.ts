@@ -199,7 +199,9 @@ export class HotToastService implements HotToastServiceMethods {
    * @param id - ID of the toast
    */
   close(id: string) {
-    this._componentRef.ref.instance.closeToast(id);
+    if (this._componentRef) {
+      this._componentRef.ref.instance.closeToast(id);
+    }
   }
 
   /**
