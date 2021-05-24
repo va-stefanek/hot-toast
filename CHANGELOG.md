@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/ngneat/hot-toast/compare/v2.0.1...v2.0.2) (2021-05-24)
+
+
+### Bug Fixes
+
+* 🐛 support angular 12 ([f1a08cb](https://github.com/ngneat/hot-toast/commit/f1a08cb9e74c863cf625350cdb47657fe67242d8))
+
 ## [2.0.1](https://github.com/ngneat/hot-toast/compare/v2.0.0...v2.0.1) (2021-03-15)
 
 
