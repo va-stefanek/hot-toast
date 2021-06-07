@@ -13,9 +13,9 @@ export class StepsComponent implements OnInit {
       code: `
   ng add @ngneat/hot-toast
   #or
-  npm install @ngneat/overview @ngneat/hot-toast
+  npm install @ngneat/overview@2.0.2 @ngneat/hot-toast
   #or
-  yarn add @ngneat/overview @ngneat/hot-toast`,
+  yarn add @ngneat/overview@2.0.2 @ngneat/hot-toast`,
       language: 'bash',
     },
     {

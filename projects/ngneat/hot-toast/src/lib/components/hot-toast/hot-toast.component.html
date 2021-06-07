@@ -18,7 +18,9 @@
           <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
         </ng-container>
         <ng-template #iconTemplateOrComponent>
-          <dynamic-content [content]="toast.icon"></dynamic-content>
+          <div>
+            <ng-container [dynamicView]="toast.icon"></ng-container>
+          </div>
         </ng-template>
       </ng-container>
 
@@ -28,11 +30,9 @@
     </div>
 
     <div class="hot-toast-message">
-      <dynamic-content
-        [content]="toast.message"
-        [context]="context"
-        [injector]="toastComponentInjector"
-      ></dynamic-content>
+      <div>
+        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
+      </div>
     </div>
 
     <button

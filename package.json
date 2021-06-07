@@ -15,7 +15,7 @@
     "e2e": "npm run ci:cy-run",
     "contributors:add": "all-contributors add",
     "hooks:pre-commit": "node hooks/pre-commit.js",
-    "commit": "git-cz",
+    "commit": "cz",
     "release:first": "npm run release -- --first-release",
     "deploy": "ng deploy --base-href=/hot-toast/",
     "copy": "cp -r README.md dist/ngneat/hot-toast",
@@ -45,7 +45,7 @@
     "@angular/platform-browser-dynamic": "~11.0.5",
     "@angular/router": "~11.0.5",
     "@ngneat/lib": "^1.0.6",
-    "@ngneat/overview": "^1.0.0-beta.7",
+    "@ngneat/overview": "^2.0.2",
     "@ngneat/tailwind": "^5.1.0",
     "@tailwindcss/typography": "^0.3.1",
     "classlist.js": "^1.1.20150312",
@@ -81,7 +81,7 @@
     "codelyzer": "^6.0.0",
     "cpx": "^1.5.0",
     "cross-env": "^7.0.3",
-    "cypress": "^6.3.0",
+    "cypress": "^7.4.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
@@ -89,13 +89,13 @@
     "eslint-plugin-prefer-arrow": "1.2.2",
     "git-cz": "^4.7.6",
     "husky": "^4.3.5",
-    "jasmine-core": "~3.6.0",
+    "jasmine-core": "~3.7.1",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-jasmine-html-reporter": "^1.6.0",
     "lint-staged": "^10.5.3",
     "ng-packagr": "^11.0.0",
     "postcss": "8.2.4",
@@ -108,11 +108,6 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "lint-staged": {
     "*.{js,json,css,scss,ts,html,component.html}": [
@@ -131,5 +126,10 @@
   },
   "publishConfig": {
     "access": "restricted"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

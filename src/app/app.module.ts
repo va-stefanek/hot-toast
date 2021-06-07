@@ -32,7 +32,7 @@ import { ReverseOrderComponent } from './sections/reverse-order/reverse-order.co
     InjectorComponent,
     DataComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, HotToastModule.forRoot()],
+  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, HotToastModule.forRoot({})],
   providers: [],
   bootstrap: [AppComponent],
 })
