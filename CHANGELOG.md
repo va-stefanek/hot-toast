@@ -1,3 +1,19 @@
+## [2.0.3-beta.1](https://github.com/ngneat/hot-toast/compare/v2.0.2...v2.0.3-beta.1) (2021-06-07)
+
+
+### Code Refactoring
+
+* 💡 update @ngneat/overview to 2.0.2 ([6aba56c](https://github.com/ngneat/hot-toast/commit/6aba56c4da948afe0a153ed31b0d96f4fe697d7f)), closes [#62](https://github.com/ngneat/hot-toast/issues/62)
+
+
+### BREAKING CHANGES
+
+* 🧨 1. Content inside `.hot-toast-message` were wrapped into
+`dynamic-content`, now they are wrapped into `div` > `dynamic-view`, 2.
+Use optional chaining while access `toastRef` in template. E.g.
+`toastRef?.data`, 3. Add `@Optional()` decorator in components'
+constructor while injecting tokens which are used by toast's injector
+
 ## [2.0.2](https://github.com/ngneat/hot-toast/compare/v2.0.1...v2.0.2) (2021-05-24)
 
 
