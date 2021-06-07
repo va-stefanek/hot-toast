@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Injector, OnInit, Optional, ViewChild } from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngneat/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -426,7 +426,7 @@ export class ExampleComponent implements OnInit {
           html: `
   &lt;ng-template #template let-toastRef&gt;
    Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-   with data: {{ toastRef.data | json }}
+   with data: {{ toastRef?.data | json }}
    &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
   &lt;/ng-template&gt;`,
         },
@@ -492,7 +492,7 @@ export class ExampleComponent implements OnInit {
     template: '{{ message }}',
   })
   export class InjectorComponent {
-    constructor(@Inject('MESSAGE') public message: string) {}
+    constructor(@Optional() @Inject('MESSAGE') public message: string) {}
   }`,
         },
         action: () => {
@@ -544,7 +544,7 @@ export class ExampleComponent implements OnInit {
   })
   export class DataComponent {
     constructor(
-      @Inject(HotToastRef) public toastRef: HotToastRef&lt;DataType&gt;
+      @Optional() @Inject(HotToastRef) public toastRef: HotToastRef&lt;DataType&gt;
     ) {}
   }`,
         },
@@ -577,7 +577,7 @@ export class DummyComponent {}
   template: '{{ message }}',
 })
 export class InjectorComponent {
-  constructor(@Inject('MESSAGE') public message: string) {}
+  constructor(@Optional() @Inject('MESSAGE') public message: string) {}
 }
 
 interface DataType {
@@ -589,5 +589,5 @@ interface DataType {
   template: '{{ toastRef.data.fact }}',
 })
 export class DataComponent {
-  constructor(@Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}
+  constructor(@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}
 }

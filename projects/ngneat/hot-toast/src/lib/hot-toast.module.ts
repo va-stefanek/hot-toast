@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { DynamicContentModule } from '@ngneat/overview';
+import { DynamicViewModule } from '@ngneat/overview';
 
 import { AnimatedIconComponent } from './components/animated-icon/animated-icon.component';
 import { HotToastComponent } from './components/hot-toast/hot-toast.component';
@@ -10,7 +10,6 @@ import { LoaderComponent } from './components/indicator/icons/loader/loader.comp
 import { IndicatorComponent } from './components/indicator/indicator.component';
 import { ToastConfig } from './hot-toast.model';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
-import { HotToastService } from './hot-toast.service';
 import { WarningComponent } from './components/indicator/icons/warning/warning.component';
 
 @NgModule({
@@ -24,7 +23,7 @@ import { WarningComponent } from './components/indicator/icons/warning/warning.c
     LoaderComponent,
     WarningComponent,
   ],
-  imports: [CommonModule, DynamicContentModule],
+  imports: [CommonModule, DynamicViewModule],
   entryComponents: [HotToastContainerComponent],
 })
 export class HotToastModule {

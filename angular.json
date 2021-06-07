@@ -151,5 +151,8 @@
       }
     }
   },
-  "defaultProject": "toast"
+  "defaultProject": "toast",
+  "cli": {
+    "analytics": "cfafb9a4-a754-4073-802e-5e46b10a348f"
+  }
 }

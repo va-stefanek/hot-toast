@@ -46,7 +46,7 @@ ng add @ngneat/hot-toast
 or with **npm**:
 
 ```bash
-npm install @ngneat/overview@1 @ngneat/hot-toast
+npm install @ngneat/overview@2.0.2 @ngneat/hot-toast
 ```
 
 When you install using **npm or yarn**, you will also need to import `HotToastModule` in your `app.module`. You can also set global toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:
@@ -180,6 +180,14 @@ Hot-toast messages are announced via an `aria-live` region. By default, the `pol
 Focus is not, and should not be, moved to the hot-toast element. Moving the focus would be disruptive to a user in the middle of a workflow. It is recommended that, for any action offered in the hot-toast, the application offers the user an alternative way to perform the action. Alternative interactions are typically keyboard shortcuts or menu options. When the action is performed in this way, the hot-toast should be dismissed.
 
 Hot-toasts that have an [action available](https://ngneat.github.io/hot-toast/#template) should be set `autoClose: false`, as to accommodate screen-reader users that want to navigate to the hot-toast element to activate the action.
+
+## Breaking Changes
+
+### 2.0.2 -> 3.0.0
+
+- Content inside `.hot-toast-message` were wrapped into `dynamic-content`, now they are wrapped into `div` > `dynamic-view`
+- Use optional chaining while access `toastRef` in template. E.g. `toastRef?.data`
+- Add `@Optional()` decorator in components' constructor while injecting tokens which are used by toast's injector
 
 ## Contributors ✨
 

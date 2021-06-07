@@ -60,8 +60,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const nativeElement = this.toastBarBase.nativeElement;
-    this.height.emit(nativeElement.offsetHeight);
-
+    setTimeout(() => {
+      this.height.emit(nativeElement.offsetHeight);
+    });
     nativeElement.addEventListener('animationstart', (ev: AnimationEvent) => {
       if (this.isExitAnimation(ev)) {
         this.beforeClosed.emit();

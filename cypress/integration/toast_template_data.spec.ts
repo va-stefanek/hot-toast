@@ -9,7 +9,9 @@ describe('Test hot toasts - template with data', () => {
 
     cy.get('@templateToast').find('.hot-toast-message').children().as('children');
     cy.get('@children').should('have.length', 1);
-    cy.get('@children').should('contain.text', '\n  Custom and bold with data: {\n  "fact": "1+1 = 2"\n}Dismiss\n');
+    cy.get('@children').contains('Custom and bold with data:');
+    cy.get('@children').contains('"fact": "1+1 = 2"');
+    cy.get('@children').contains('Dismiss');
     cy.get('@children').first().first().should('contain.text', 'bold').and('have.css', 'font-weight', '400');
     cy.get('@templateToast').find('.toast-dismiss').as('closeBtn').should('exist');
     cy.wait(ENTER_ANIMATION_DURATION);
