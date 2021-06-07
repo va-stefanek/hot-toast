@@ -183,7 +183,7 @@ Hot-toasts that have an [action available](https://ngneat.github.io/hot-toast/#t
 
 ## Breaking Changes
 
-### 2.0.2 -> 3.0.0
+### [2.0.2 -> 3.0.0](./CHANGELOG.md#3.0.0)
 
 - Content inside `.hot-toast-message` were wrapped into `dynamic-content`, now they are wrapped into `div` > `dynamic-view`
 - Use optional chaining while access `toastRef` in template. E.g. `toastRef?.data`
