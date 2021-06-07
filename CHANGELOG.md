@@ -1,3 +1,15 @@
+# [3.0.0-beta.1](https://github.com/ngneat/hot-toast/compare/v2.0.3-beta.1...v3.0.0-beta.1) (2021-06-07)
+
+
+### Bug Fixes
+
+* trigger major release ([9796b6a](https://github.com/ngneat/hot-toast/commit/9796b6aef7e31156db043d10d55461a1c8cc2495)), closes [#62](https://github.com/ngneat/hot-toast/issues/62)
+
+
+### BREAKING CHANGES
+
+* As it's updated to @ngneat/overview@2.0.2, there are some breaking changes.
+
 ## [2.0.3-beta.1](https://github.com/ngneat/hot-toast/compare/v2.0.2...v2.0.3-beta.1) (2021-06-07)
 
 
