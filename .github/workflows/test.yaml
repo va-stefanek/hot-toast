@@ -1,9 +1,8 @@
-name: Test and build
+name: Test, Build and Publish a beta version
 
 on:
   push:
     branches-ignore:
-      - development
       - master
 
 jobs:
@@ -17,10 +16,14 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: NPM Install, lint, test and build
+      - name: NPM install, lint, build, test and release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm ci
           npm run lint
           npm run build -- --prod
-          npm test
+          npm run test
           npm run build:lib
+          npx semantic-release --debug
