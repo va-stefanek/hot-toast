@@ -38,7 +38,9 @@ export class HotToastService implements HotToastServiceMethods {
       ...this._defaultConfig,
       ...config,
     };
-    this._componentRef.setInput('defaultConfig', this._defaultConfig);
+    if (this._componentRef) {
+      this._componentRef.setInput('defaultConfig', this._defaultConfig);
+    }
   }
   private _defaultPersistConfig = new ToastPersistConfig();
 
@@ -196,9 +198,10 @@ export class HotToastService implements HotToastServiceMethods {
   /**
    * Closes the hot-toast
    *
-   * @param id - ID of the toast
+   * @param [id] - ID of the toast
+   * @since 3.0.1 - If ID is not provided, all toasts will be closed
    */
-  close(id: string) {
+  close(id?: string) {
     if (this._componentRef) {
       this._componentRef.ref.instance.closeToast(id);
     }
