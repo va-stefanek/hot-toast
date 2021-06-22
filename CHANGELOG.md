@@ -1,3 +1,10 @@
+# [3.1.0-beta.1](https://github.com/ngneat/hot-toast/compare/v3.0.0...v3.1.0-beta.1) (2021-06-22)
+
+
+### Features
+
+* close all toasts if id is not provided ([b0b1c32](https://github.com/ngneat/hot-toast/commit/b0b1c3255d069979f2c999046f4ae1486e5874d7)), closes [#66](https://github.com/ngneat/hot-toast/issues/66)
+
 # [3.0.0](https://github.com/ngneat/hot-toast/compare/v2.0.2...v3.0.0) (2021-06-07)
 
 

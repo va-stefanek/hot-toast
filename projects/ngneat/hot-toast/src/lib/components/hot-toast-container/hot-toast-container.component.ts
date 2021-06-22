@@ -82,10 +82,14 @@ export class HotToastContainerComponent {
     };
   }
 
-  closeToast(id: string) {
-    const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
-    if (comp) {
-      comp.close();
+  closeToast(id?: string) {
+    if (id) {
+      const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
+      if (comp) {
+        comp.close();
+      }
+    } else {
+      this.hotToastComponentList.forEach((comp) => comp.close());
     }
   }
 

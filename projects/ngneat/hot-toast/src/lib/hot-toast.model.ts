@@ -219,7 +219,7 @@ export interface HotToastServiceMethods {
   loading<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
   warning<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
   observe<T, DataType>(messages: ObservableMessages<T, DataType>): (source: Observable<T>) => Observable<T>;
-  close(id: string): void;
+  close(id?: string): void;
 }
 
 export type UpdateToastOptions<DataType> = Partial<
