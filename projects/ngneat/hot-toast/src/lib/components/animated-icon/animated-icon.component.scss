@@ -9,13 +9,13 @@
 }
 
 .hot-toast-animated-icon {
-  position: relative;
-  transform: scale(0);
-  animation: hotToastEnter 0.3s ease-in-out forwards;
+  position: var(--hot-toast-animated-icon-position, relative);
+  transform: var(--hot-toast-animated-icon-transform, scale(0));
+  animation: var(--hot-toast-animated-icon-animation, hotToastEnter 0.3s ease-in-out forwards);
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: none;
-    opacity: 1;
-    transform: scale(1);
+    animation-duration: var(--hot-toast-animated-icon-reduced-motion-animation-duration, none);
+    opacity: var(--hot-toast-animated-icon-reduced-motion-opacity, 1);
+    transform: var(--hot-toast-animated-icon-reduced-motion-transform, scale(1));
   }
 }

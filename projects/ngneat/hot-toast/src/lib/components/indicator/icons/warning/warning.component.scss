@@ -28,39 +28,42 @@
 }
 
 .hot-toast-warning-icon {
-  position: relative;
-  display: block;
-  transform: scale(0);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--warn-primary, #ffab00);
-  opacity: 0;
-  animation: animate-warn-background 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  animation-delay: 100ms;
+  position: var(--hot-toast-warning-icon-position, relative);
+  display: var(--hot-toast-warning-icon-display, block);
+  transform: var(--hot-toast-warning-icon-transform, scale(0));
+  width: var(--hot-toast-warning-icon-width, 20px);
+  height: var(--hot-toast-warning-icon-height, 20px);
+  border-radius: var(--hot-toast-warning-icon-border-radius, 50%);
+  background-color: var(--hot-toast-warning-icon-background-color, var(--warn-primary, #ffab00));
+  opacity: var(--hot-toast-warning-icon-opacity, 0);
+  animation: var(
+    --hot-toast-warning-icon-animation,
+    animate-warn-background 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards
+  );
+  animation-delay: var(--hot-toast-warning-icon-animation-delay, 100ms);
 
   &::after,
   &::before {
-    content: '';
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    border-radius: 3px;
-    width: 2.5px;
-    background-color: var(--warn-secondary, #fff);
-    left: 8.5px;
+    content: var(--hot-toast-warning-icon-after-before-content, '');
+    display: var(--hot-toast-warning-icon-after-before-display, block);
+    box-sizing: var(--hot-toast-warning-icon-after-before-box-sizing, border-box);
+    position: var(--hot-toast-warning-icon-after-before-position, absolute);
+    border-radius: var(--hot-toast-warning-icon-after-before-border-radius, 3px);
+    width: var(--hot-toast-warning-icon-after-before-width, 2.5px);
+    background-color: var(--hot-toast-warning-icon-after-before-background-color, var(--warn-secondary, #fff));
+    left: var(--hot-toast-warning-icon-after-before-left, 8.5px);
   }
 
   &::after {
-    top: 4px;
-    height: 0;
-    opacity: 0;
-    animation: animate-warn-line 0.2s ease-out forwards;
-    animation-delay: 200ms;
+    top: var(--hot-toast-warning-icon-after-top, 4px);
+    height: var(--hot-toast-warning-icon-after-height, 0);
+    opacity: var(--hot-toast-warning-icon-after-opacity, 0);
+    animation: var(--hot-toast-warning-icon-after-animation, animate-warn-line 0.2s ease-out forwards);
+    animation-delay: var(--hot-toast-warning-icon-after-animation-delay, 200ms);
   }
 
   &::before {
-    height: 2px;
-    bottom: 4px;
+    height: var(--hot-toast-warning-icon-before-height, 2px);
+    bottom: var(--hot-toast-warning-icon-before-bottom, 4px);
   }
 }
