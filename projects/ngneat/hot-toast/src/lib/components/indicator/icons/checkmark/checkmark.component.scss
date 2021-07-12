@@ -30,37 +30,40 @@
 }
 
 .hot-toast-checkmark-icon {
-  width: 20px;
-  opacity: 0;
-  height: 20px;
-  border-radius: 10px;
-  background: var(--check-primary, #61d345);
-  position: relative;
-  transform: rotate(45deg);
+  width: var(--hot-toast-checkmark-icon-width, 20px);
+  opacity: var(--hot-toast-checkmark-icon-opacity, 0);
+  height: var(--hot-toast-checkmark-icon-height, 20px);
+  border-radius: var(--hot-toast-checkmark-icon-border-radius, 10px);
+  background-color: var(--hot-toast-checkmark-icon-background-color, var(--check-primary, #61d345));
+  position: var(--hot-toast-checkmark-icon-position, relative);
+  transform: var(--hot-toast-checkmark-icon-transform, rotate(45deg));
 
-  animation: hotToastCircleAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  animation-delay: 100ms;
+  animation: var(
+    --hot-toast-checkmark-icon-animation,
+    hotToastCircleAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards
+  );
+  animation-delay: var(--hot-toast-checkmark-icon-animation-delay, 100ms);
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: 0ms;
+    animation-duration: var(--hot-toast-checkmark-icon-reduced-motion-animation-duration, 0ms);
   }
 }
 .hot-toast-checkmark-icon::after {
-  content: '';
-  box-sizing: border-box;
-  animation: hotToastCheckmarkAnimation 0.2s ease-out forwards;
-  opacity: 0;
-  animation-delay: 200ms;
-  position: absolute;
-  border-right: 2px solid;
-  border-bottom: 2px solid;
-  border-color: var(--check-secondary, #fff);
-  bottom: 6px;
-  left: 6px;
-  height: 10px;
-  width: 6px;
+  content: var(--hot-toast-checkmark-icon-after-content, '');
+  box-sizing: var(--hot-toast-checkmark-icon-after-box-sizing, border-box);
+  animation: var(--hot-toast-checkmark-icon-after-animation, hotToastCheckmarkAnimation 0.2s ease-out forwards);
+  opacity: var(--hot-toast-checkmark-icon-after-opacity, 0);
+  animation-delay: var(--hot-toast-checkmark-icon-after-animation-delay, 200ms);
+  position: var(--hot-toast-checkmark-icon-after-position, absolute);
+  border-right: var(--hot-toast-checkmark-icon-after-border-right, 2px solid);
+  border-bottom: var(--hot-toast-checkmark-icon-after-border-bottom, 2px solid);
+  border-color: var(--hot-toast-checkmark-icon-after-border-color, var(--check-secondary, #fff));
+  bottom: var(--hot-toast-checkmark-icon-after-bottom, 6px);
+  left: var(--hot-toast-checkmark-icon-after-left, 6px);
+  height: var(--hot-toast-checkmark-icon-after-height, 10px);
+  width: var(--hot-toast-checkmark-icon-after-width, 6px);
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: 0ms;
+    animation-duration: var(--hot-toast-checkmark-icon-after-reduced-motion-animation-duration, 0ms);
   }
 }

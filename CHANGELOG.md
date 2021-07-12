@@ -1,3 +1,10 @@
+# [3.2.0-beta.1](https://github.com/ngneat/hot-toast/compare/v3.1.0...v3.2.0-beta.1) (2021-07-12)
+
+
+### Features
+
+* add custom properties / variables for all css styles for easy overriding ([4acae09](https://github.com/ngneat/hot-toast/commit/4acae094d828c3f31e6d6f7ab544e1eb79aaaa3e))
+
 # [3.1.0](https://github.com/ngneat/hot-toast/compare/v3.0.0...v3.1.0) (2021-06-22)
 
 

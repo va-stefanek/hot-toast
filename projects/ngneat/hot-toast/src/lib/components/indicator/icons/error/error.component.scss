@@ -35,47 +35,50 @@
 }
 
 .hot-toast-error-icon {
-  width: 20px;
-  opacity: 0;
-  height: 20px;
-  border-radius: 10px;
-  background: var(--error-primary, #ff4b4b);
-  position: relative;
-  transform: rotate(45deg);
+  width: var(--hot-toast-error-icon-width, 20px);
+  opacity: var(--hot-toast-error-icon-opacity, 0);
+  height: var(--hot-toast-error-icon-height, 20px);
+  border-radius: var(--hot-toast-error-icon-border-radius, 10px);
+  background: var(--hot-toast-error-icon-background, var(--error-primary, #ff4b4b));
+  position: var(--hot-toast-error-icon-position, relative);
+  transform: var(--hot-toast-error-icon-transform, rotate(45deg));
 
-  animation: hotToastErrorCircleAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  animation-delay: 100ms;
+  animation: var(
+    --hot-toast-error-icon-animation,
+    hotToastErrorCircleAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards
+  );
+  animation-delay: var(--hot-toast-error-icon-animation-delay, 100ms);
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: 0ms;
+    animation-duration: var(--hot-toast-error-icon-reduced-motion-animation-duration, 0ms);
   }
 }
 
 .hot-toast-error-icon::after,
 .hot-toast-error-icon::before {
-  content: '';
-  animation: hotToastFirstLineAnimation 0.15s ease-out forwards;
-  animation-delay: 150ms;
-  position: absolute;
-  border-radius: 3px;
-  opacity: 0;
-  background: var(--error-secondary, #fff);
-  bottom: 9px;
-  left: 4px;
-  height: 2px;
-  width: 12px;
+  content: var(--hot-toast-error-icon-after-before-content, '');
+  animation: var(--hot-toast-error-icon-after-before-animation, hotToastFirstLineAnimation 0.15s ease-out forwards);
+  animation-delay: var(--hot-toast-error-icon-after-before-animation-delay, 150ms);
+  position: var(--hot-toast-error-icon-after-before-position, absolute);
+  border-radius: var(--hot-toast-error-icon-after-before-border-radius, 3px);
+  opacity: var(--hot-toast-error-icon-after-before-opacity, 0);
+  background: var(--hot-toast-error-icon-after-before-background, var(--error-secondary, #fff));
+  bottom: var(--hot-toast-error-icon-after-before-bottom, 9px);
+  left: var(--hot-toast-error-icon-after-before-left, 4px);
+  height: var(--hot-toast-error-icon-after-before-height, 2px);
+  width: var(--hot-toast-error-icon-after-before-width, 12px);
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: 0ms;
+    animation-duration: var(--hot-toast-error-icon-after-before-reduced-motion-animation-duration, 0ms);
   }
 }
 
 .hot-toast-error-icon::before {
-  animation: hotToastSecondLineAnimation 0.15s ease-out forwards;
-  animation-delay: 180ms;
-  transform: rotate(90deg);
+  animation: var(--hot-toast-error-icon-before-animation, hotToastSecondLineAnimation 0.15s ease-out forwards);
+  animation-delay: var(--hot-toast-error-icon-before-animation-delay, 180ms);
+  transform: var(--hot-toast-error-icon-before-transform, rotate(90deg));
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: 0ms;
+    animation-duration: var(--hot-toast-error-icon-before-reduced-motion-animation-duration, 0ms);
   }
 }

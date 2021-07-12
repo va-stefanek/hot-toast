@@ -8,17 +8,17 @@
 }
 
 .hot-toast-loader-icon {
-  padding-top: 2px;
-  width: 18px;
-  height: 18px;
-  box-sizing: border-box;
-  border: 2px solid;
-  border-radius: 100%;
-  border-color: #e0e0e0;
-  border-right-color: #616161;
-  animation: hotToastRotate 1s linear infinite;
+  padding-top: var(--hot-toast-loader-icon-padding-top, 2px);
+  width: var(--hot-toast-loader-icon-width, 18px);
+  height: var(--hot-toast-loader-icon-height, 18px);
+  box-sizing: var(--hot-toast-loader-icon-box-sizing, border-box);
+  border: var(--hot-toast-loader-icon-border, 2px solid);
+  border-radius: var(--hot-toast-loader-icon-border-radius, 100%);
+  border-color: var(--hot-toast-loader-icon-border-color, #e0e0e0);
+  border-right-color: var(--hot-toast-loader-icon-border-right-color, #616161);
+  animation: var(--hot-toast-loader-icon-animation, hotToastRotate 1s linear infinite);
 
   @media (prefers-reduced-motion: reduce) {
-    animation-duration: 5s;
+    animation-duration: var(--hot-toast-loader-icon-reduced-motion-animation-duration, 5s);
   }
 }
