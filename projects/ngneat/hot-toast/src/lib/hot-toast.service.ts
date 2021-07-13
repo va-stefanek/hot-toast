@@ -147,6 +147,25 @@ export class HotToastService implements HotToastServiceMethods {
   }
 
   /**
+   * Opens up an hot-toast with pre-configurations for info state
+   *
+   * @param message The message to show in the hot-toast.
+   * @param [options] Additional configuration options for the hot-toast.
+   * @returns
+   * @memberof HotToastService
+   * @since 3.3.0
+   */
+  info<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.warning.content, 'info', {
+      ...this._defaultConfig,
+      ...this._defaultConfig?.warning,
+      ...options,
+    });
+
+    return toast;
+  }
+
+  /**
    *
    *  Opens up an hot-toast with pre-configurations for loading initially and then changes state based on messages
    *

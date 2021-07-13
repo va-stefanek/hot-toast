@@ -41,6 +41,20 @@ export class ExampleComponent implements OnInit {
   ngOnInit(): void {
     const examples: Example[] = [
       {
+        id: 'info',
+        title: 'Info',
+        subtitle: 'Open it when you want to show any information!',
+        emoji: 'ℹ️',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  toast.info("I must be super-useful!")`,
+        },
+        action: () => {
+          this.toast.info(`I must be super-useful!`);
+        },
+      },
+      {
         id: 'success',
         title: 'Success',
         subtitle: 'Opens up an hot-toast with pre-configurations for success state.',

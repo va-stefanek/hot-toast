@@ -31,7 +31,7 @@ export class ToastConfig implements DefaultToastOptions {
   warning: ToastOptions<unknown> & { content?: Content } = { content: '' };
 }
 
-export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning';
+export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning' | 'info';
 export type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
 export type IconTheme = {

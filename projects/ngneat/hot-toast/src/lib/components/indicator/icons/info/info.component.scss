@@ -1,0 +1,69 @@
+@keyframes animate-info-background {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes animate-info-line {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+
+  40% {
+    height: 4.8px;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    height: 8px;
+  }
+}
+
+.hot-toast-info-icon {
+  position: var(--hot-toast-info-icon-position, relative);
+  display: var(--hot-toast-info-icon-display, block);
+  transform: var(--hot-toast-info-icon-transform, scale(0));
+  width: var(--hot-toast-info-icon-width, 20px);
+  height: var(--hot-toast-info-icon-height, 20px);
+  border-radius: var(--hot-toast-info-icon-border-radius, 50%);
+  background-color: var(--hot-toast-info-icon-background-color, var(--info-primary, #0d6efd));
+  opacity: var(--hot-toast-info-icon-opacity, 0);
+  animation: var(
+    --hot-toast-info-icon-animation,
+    animate-info-background 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards
+  );
+  animation-delay: var(--hot-toast-info-icon-animation-delay, 100ms);
+
+  &::after,
+  &::before {
+    content: var(--hot-toast-info-icon-after-before-content, '');
+    display: var(--hot-toast-info-icon-after-before-display, block);
+    box-sizing: var(--hot-toast-info-icon-after-before-box-sizing, border-box);
+    position: var(--hot-toast-info-icon-after-before-position, absolute);
+    border-radius: var(--hot-toast-info-icon-after-before-border-radius, 3px);
+    width: var(--hot-toast-info-icon-after-before-width, 2.5px);
+    background-color: var(--hot-toast-info-icon-after-before-background-color, var(--info-secondary, #fff));
+    left: var(--hot-toast-info-icon-after-before-left, 8.5px);
+  }
+
+  &::after {
+    top: var(--hot-toast-info-icon-after-bottom, 8px);
+    height: var(--hot-toast-info-icon-after-height, 0);
+    opacity: var(--hot-toast-info-icon-after-opacity, 0);
+    animation: var(--hot-toast-info-icon-after-animation, animate-info-line 0.2s ease-out forwards);
+    animation-delay: var(--hot-toast-info-icon-after-animation-delay, 200ms);
+  }
+
+  &::before {
+    height: var(--hot-toast-info-icon-before-height, 2px);
+    top: var(--hot-toast-info-icon-before-top, 4px);
+  }
+}

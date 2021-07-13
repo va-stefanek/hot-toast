@@ -8,6 +8,7 @@ export const HOT_TOAST_DEFAULT_TIMEOUTS: {
   success: 4000,
   loading: 30000,
   warning: 4000,
+  info: 4000,
 };
 
 export const EXIT_ANIMATION_DURATION = 800;

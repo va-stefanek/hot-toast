@@ -11,6 +11,7 @@ import { IndicatorComponent } from './components/indicator/indicator.component';
 import { ToastConfig } from './hot-toast.model';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { WarningComponent } from './components/indicator/icons/warning/warning.component';
+import { InfoComponent } from './components/indicator/icons/info/info.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { WarningComponent } from './components/indicator/icons/warning/warning.c
     ErrorComponent,
     LoaderComponent,
     WarningComponent,
+    InfoComponent,
   ],
   imports: [CommonModule, DynamicViewModule],
   entryComponents: [HotToastContainerComponent],

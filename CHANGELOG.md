@@ -1,3 +1,10 @@
+# [3.3.0-beta.1](https://github.com/ngneat/hot-toast/compare/v3.2.0...v3.3.0-beta.1) (2021-07-13)
+
+
+### Features
+
+* add info state ([1723ca7](https://github.com/ngneat/hot-toast/commit/1723ca7d475aaff906ba49bfddead47e8afefbbb))
+
 # [3.2.0](https://github.com/ngneat/hot-toast/compare/v3.1.0...v3.2.0) (2021-07-12)
 
 
