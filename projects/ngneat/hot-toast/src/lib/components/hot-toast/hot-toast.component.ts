@@ -147,15 +147,8 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setToastAttributes(toastAttributes: Record<string, string>) {
-    const attrPrefix = 'hot-toast-';
-    for (const attributesKey in toastAttributes) {
-      if (toastAttributes.hasOwnProperty(attributesKey)) {
-        this.renderer.setAttribute(
-          this.toastBarBase.nativeElement,
-          `${attrPrefix}${attributesKey}`,
-          toastAttributes[attributesKey]
-        );
-      }
+    for (const [key, value] of Object.entries(toastAttributes)) {
+      this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
     }
   }
 }
