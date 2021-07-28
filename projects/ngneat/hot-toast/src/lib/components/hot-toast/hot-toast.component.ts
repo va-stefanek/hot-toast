@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { isComponent, isTemplateRef } from '@ngneat/overview';
@@ -39,7 +40,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   context: Record<string, any>;
   toastComponentInjector: Injector;
 
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector, private renderer: Renderer2) {}
 
   ngOnInit() {
     if (isTemplateRef(this.toast.message)) {
@@ -73,6 +74,11 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
         this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id });
       }
     });
+
+    const toastAttributes = this.toast.attributes;
+    if (toastAttributes) {
+      this.setToastAttributes(toastAttributes);
+    }
   }
 
   get containerPositionStyle() {
@@ -138,5 +144,13 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private isExitAnimation(ev: AnimationEvent) {
     return ev.animationName.includes('hotToastExitAnimation');
+  }
+
+  private setToastAttributes(toastAttributes: Record<string, string>) {
+    for (const attributesKey in toastAttributes) {
+      if (toastAttributes.hasOwnProperty(attributesKey)) {
+        this.renderer.setAttribute(this.toastBarBase.nativeElement, attributesKey, toastAttributes[attributesKey]);
+      }
+    }
   }
 }

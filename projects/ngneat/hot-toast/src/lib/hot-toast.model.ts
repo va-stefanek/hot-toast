@@ -113,6 +113,9 @@ export interface Toast<DataType> {
   /**Extra CSS classes to be added to the hot toast container. */
   className?: string;
 
+  /**Extra attribute to be added to the hot toast container. */
+  attributes?: Record<string, string>;
+
   /**Use this to change icon color */
   iconTheme?: IconTheme;
 
@@ -190,6 +193,7 @@ export type ToastOptions<DataType> = Partial<
     | 'persist'
     | 'injector'
     | 'data'
+    | 'attributes'
   >
 >;
 
