@@ -22,6 +22,7 @@ export class ToastConfig implements DefaultToastOptions {
   iconTheme: IconTheme;
   style: any;
   theme: ToastTheme = 'toast';
+  attributes: Record<string, string> = {};
 
   // key in ToastType
   success: ToastOptions<unknown> & { content?: Content } = { content: '' };

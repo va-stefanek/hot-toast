@@ -75,10 +75,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
-    const toastAttributes = this.toast.attributes;
-    if (toastAttributes) {
-      this.setToastAttributes(toastAttributes);
-    }
+    this.setToastAttributes();
   }
 
   get containerPositionStyle() {
@@ -146,7 +143,8 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
     return ev.animationName.includes('hotToastExitAnimation');
   }
 
-  private setToastAttributes(toastAttributes: Record<string, string>) {
+  private setToastAttributes() {
+    const toastAttributes: Record<string, string> = this.toast.attributes;
     for (const [key, value] of Object.entries(toastAttributes)) {
       this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
     }
