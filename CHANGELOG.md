@@ -1,3 +1,14 @@
+# [3.4.0](https://github.com/ngneat/hot-toast/compare/v3.3.0...v3.4.0) (2021-08-07)
+
+
+### Features
+
+* add support for dynamic attributes ([b30036d](https://github.com/ngneat/hot-toast/commit/b30036d1d8e77643dcdfb1793852fa7420e3a41e))
+* add support for dynamic attributes ([f73e37b](https://github.com/ngneat/hot-toast/commit/f73e37b8da35ab71cc2af29cbb5e2cca42d48bb4))
+* add support for dynamic attributes ([0f12ba0](https://github.com/ngneat/hot-toast/commit/0f12ba06b13840c6362949095ce52b123876effe))
+* add support for dynamic attributes ([3e67c39](https://github.com/ngneat/hot-toast/commit/3e67c39c0e5b91b7b023628025a3c73c87f19768))
+* add support for dynamic attributes ([c8b130a](https://github.com/ngneat/hot-toast/commit/c8b130a39ed693f790cfc276558a5d099025a843))
+
 # [3.3.0](https://github.com/ngneat/hot-toast/compare/v3.2.0...v3.3.0) (2021-07-13)
 
 
