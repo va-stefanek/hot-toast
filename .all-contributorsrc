@@ -58,6 +58,15 @@
         "maintenance",
         "platform"
       ]
+    },
+    {
+      "login": "ritox842",
+      "name": "Gili Yaniv",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7280441?v=4",
+      "profile": "https://github.com/ritox842",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
