@@ -105,6 +105,8 @@
     "semantic-release": "^17.3.7",
     "standard-version": "^9.0.0",
     "start-server-and-test": "^1.11.7",
+    "stylelint": "^13.13.1",
+    "stylelint-config-sass-guidelines": "^8.0.0",
     "tailwindcss": "2.0.2",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",

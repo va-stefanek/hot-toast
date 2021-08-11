@@ -1,53 +1,52 @@
 @keyframes hotToastErrorCircleAnimation {
   from {
-    transform: scale(0) rotate(45deg);
     opacity: 0;
+    transform: scale(0) rotate(45deg);
   }
 
   to {
-    transform: scale(1) rotate(45deg);
     opacity: 1;
+    transform: scale(1) rotate(45deg);
   }
 }
 
 @keyframes hotToastFirstLineAnimation {
   from {
-    transform: scale(0);
     opacity: 0;
+    transform: scale(0);
   }
 
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
 @keyframes hotToastSecondLineAnimation {
   from {
-    transform: scale(0) rotate(90deg);
     opacity: 0;
+    transform: scale(0) rotate(90deg);
   }
 
   to {
-    transform: scale(1) rotate(90deg);
     opacity: 1;
+    transform: scale(1) rotate(90deg);
   }
 }
 
 .hot-toast-error-icon {
-  width: var(--hot-toast-error-icon-width, 20px);
-  opacity: var(--hot-toast-error-icon-opacity, 0);
-  height: var(--hot-toast-error-icon-height, 20px);
-  border-radius: var(--hot-toast-error-icon-border-radius, 10px);
-  background: var(--hot-toast-error-icon-background, var(--error-primary, #ff4b4b));
-  position: var(--hot-toast-error-icon-position, relative);
-  transform: var(--hot-toast-error-icon-transform, rotate(45deg));
-
   animation: var(
     --hot-toast-error-icon-animation,
     hotToastErrorCircleAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards
   );
   animation-delay: var(--hot-toast-error-icon-animation-delay, 100ms);
+  background: var(--hot-toast-error-icon-background, var(--error-primary, #ff4b4b));
+  border-radius: var(--hot-toast-error-icon-border-radius, 10px);
+  height: var(--hot-toast-error-icon-height, 20px);
+  opacity: var(--hot-toast-error-icon-opacity, 0);
+  position: var(--hot-toast-error-icon-position, relative);
+  transform: var(--hot-toast-error-icon-transform, rotate(45deg));
+  width: var(--hot-toast-error-icon-width, 20px);
 
   @media (prefers-reduced-motion: reduce) {
     animation-duration: var(--hot-toast-error-icon-reduced-motion-animation-duration, 0ms);
@@ -56,16 +55,16 @@
 
 .hot-toast-error-icon::after,
 .hot-toast-error-icon::before {
-  content: var(--hot-toast-error-icon-after-before-content, '');
   animation: var(--hot-toast-error-icon-after-before-animation, hotToastFirstLineAnimation 0.15s ease-out forwards);
   animation-delay: var(--hot-toast-error-icon-after-before-animation-delay, 150ms);
-  position: var(--hot-toast-error-icon-after-before-position, absolute);
-  border-radius: var(--hot-toast-error-icon-after-before-border-radius, 3px);
-  opacity: var(--hot-toast-error-icon-after-before-opacity, 0);
   background: var(--hot-toast-error-icon-after-before-background, var(--error-secondary, #fff));
+  border-radius: var(--hot-toast-error-icon-after-before-border-radius, 3px);
   bottom: var(--hot-toast-error-icon-after-before-bottom, 9px);
-  left: var(--hot-toast-error-icon-after-before-left, 4px);
+  content: var(--hot-toast-error-icon-after-before-content, '');
   height: var(--hot-toast-error-icon-after-before-height, 2px);
+  left: var(--hot-toast-error-icon-after-before-left, 4px);
+  opacity: var(--hot-toast-error-icon-after-before-opacity, 0);
+  position: var(--hot-toast-error-icon-after-before-position, absolute);
   width: var(--hot-toast-error-icon-after-before-width, 12px);
 
   @media (prefers-reduced-motion: reduce) {
