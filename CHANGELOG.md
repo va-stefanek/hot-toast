@@ -1,3 +1,12 @@
+## [3.4.1](https://github.com/ngneat/hot-toast/compare/v3.4.0...v3.4.1) (2021-08-11)
+
+
+### Bug Fixes
+
+* border styles for checkmark and loader ([ebb9eaf](https://github.com/ngneat/hot-toast/commit/ebb9eafef315e8f6642ec355f8418ccedaa64517)), closes [#81](https://github.com/ngneat/hot-toast/issues/81)
+* remove default colors from inline styles ([a6ae74e](https://github.com/ngneat/hot-toast/commit/a6ae74e34c189bc8759b9430b86e84eebde0e76e)), closes [#81](https://github.com/ngneat/hot-toast/issues/81)
+* style property orders, use only border width ([2cd56ce](https://github.com/ngneat/hot-toast/commit/2cd56ce4c5ff1e64010a70e5168a6a5288b28cd8))
+
 # [3.4.0](https://github.com/ngneat/hot-toast/compare/v3.3.0...v3.4.0) (2021-08-07)
 
 
