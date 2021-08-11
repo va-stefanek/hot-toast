@@ -9,6 +9,27 @@
 * add support for dynamic attributes ([3e67c39](https://github.com/ngneat/hot-toast/commit/3e67c39c0e5b91b7b023628025a3c73c87f19768))
 * add support for dynamic attributes ([c8b130a](https://github.com/ngneat/hot-toast/commit/c8b130a39ed693f790cfc276558a5d099025a843))
 
+## [3.3.1-beta.3](https://github.com/ngneat/hot-toast/compare/v3.3.1-beta.2...v3.3.1-beta.3) (2021-08-11)
+
+
+### Bug Fixes
+
+* border styles for checkmark and loader ([7767338](https://github.com/ngneat/hot-toast/commit/77673388c670d10f5b9471e1449700e6750e60b8)), closes [#81](https://github.com/ngneat/hot-toast/issues/81)
+
+## [3.3.1-beta.2](https://github.com/ngneat/hot-toast/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2021-08-11)
+
+
+### Bug Fixes
+
+* style property orders, use only border width ([fe27e35](https://github.com/ngneat/hot-toast/commit/fe27e35676a117d807ba40e2c1dae3581a84eb66))
+
+## [3.3.1-beta.1](https://github.com/ngneat/hot-toast/compare/v3.3.0...v3.3.1-beta.1) (2021-08-05)
+
+
+### Bug Fixes
+
+* remove default colors from inline styles ([d4bc931](https://github.com/ngneat/hot-toast/commit/d4bc931db41a513e77858cfa9bdd8462fa69000d)), closes [#81](https://github.com/ngneat/hot-toast/issues/81)
+
 # [3.3.0](https://github.com/ngneat/hot-toast/compare/v3.2.0...v3.3.0) (2021-07-13)
 
 
