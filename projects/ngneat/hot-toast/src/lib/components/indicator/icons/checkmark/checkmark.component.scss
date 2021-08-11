@@ -51,8 +51,10 @@
 .hot-toast-checkmark-icon::after {
   animation: var(--hot-toast-checkmark-icon-after-animation, hotToastCheckmarkAnimation 0.2s ease-out forwards);
   animation-delay: var(--hot-toast-checkmark-icon-after-animation-delay, 200ms);
+  border-bottom-style: solid;
   border-bottom-width: var(--hot-toast-checkmark-icon-after-border-bottom, 2px);
   border-color: var(--hot-toast-checkmark-icon-after-border-color, var(--check-secondary, #fff));
+  border-right-style: solid;
   border-right-width: var(--hot-toast-checkmark-icon-after-border-right, 2px);
   bottom: var(--hot-toast-checkmark-icon-after-bottom, 6px);
   box-sizing: var(--hot-toast-checkmark-icon-after-box-sizing, border-box);
