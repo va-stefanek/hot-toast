@@ -9,6 +9,13 @@
 * add support for dynamic attributes ([3e67c39](https://github.com/ngneat/hot-toast/commit/3e67c39c0e5b91b7b023628025a3c73c87f19768))
 * add support for dynamic attributes ([c8b130a](https://github.com/ngneat/hot-toast/commit/c8b130a39ed693f790cfc276558a5d099025a843))
 
+## [3.3.1-beta.3](https://github.com/ngneat/hot-toast/compare/v3.3.1-beta.2...v3.3.1-beta.3) (2021-08-11)
+
+
+### Bug Fixes
+
+* border styles for checkmark and loader ([7767338](https://github.com/ngneat/hot-toast/commit/77673388c670d10f5b9471e1449700e6750e60b8)), closes [#81](https://github.com/ngneat/hot-toast/issues/81)
+
 ## [3.3.1-beta.2](https://github.com/ngneat/hot-toast/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2021-08-11)
 
 
