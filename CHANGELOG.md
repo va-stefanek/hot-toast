@@ -9,6 +9,13 @@
 * add support for dynamic attributes ([3e67c39](https://github.com/ngneat/hot-toast/commit/3e67c39c0e5b91b7b023628025a3c73c87f19768))
 * add support for dynamic attributes ([c8b130a](https://github.com/ngneat/hot-toast/commit/c8b130a39ed693f790cfc276558a5d099025a843))
 
+## [3.3.1-beta.2](https://github.com/ngneat/hot-toast/compare/v3.3.1-beta.1...v3.3.1-beta.2) (2021-08-11)
+
+
+### Bug Fixes
+
+* style property orders, use only border width ([fe27e35](https://github.com/ngneat/hot-toast/commit/fe27e35676a117d807ba40e2c1dae3581a84eb66))
+
 ## [3.3.1-beta.1](https://github.com/ngneat/hot-toast/compare/v3.3.0...v3.3.1-beta.1) (2021-08-05)
 
 
