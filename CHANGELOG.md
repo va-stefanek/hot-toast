@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/ngneat/hot-toast/compare/v3.4.1...v3.4.2) (2021-10-25)
+
+
+### Performance Improvements
+
+* reduce change detection cycles and allow the `hot-toast` to be GCd ([debffe7](https://github.com/ngneat/hot-toast/commit/debffe73e66b3d7027faaf35b2229b072ce5a266))
+
 ## [3.4.1](https://github.com/ngneat/hot-toast/compare/v3.4.0...v3.4.1) (2021-08-11)
 
 
