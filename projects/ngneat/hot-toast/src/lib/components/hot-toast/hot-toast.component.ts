@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Injector,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -40,7 +41,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   context: Record<string, any>;
   toastComponentInjector: Injector;
 
-  constructor(private injector: Injector, private renderer: Renderer2) {}
+  private unlisteners: VoidFunction[] = [];
+
+  constructor(private injector: Injector, private renderer: Renderer2, private ngZone: NgZone) {}
 
   ngOnInit() {
     if (isTemplateRef(this.toast.message)) {
@@ -61,18 +64,30 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const nativeElement = this.toastBarBase.nativeElement;
-    setTimeout(() => {
+    // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
+    // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
+    requestAnimationFrame(() => {
       this.height.emit(nativeElement.offsetHeight);
     });
-    nativeElement.addEventListener('animationstart', (ev: AnimationEvent) => {
-      if (this.isExitAnimation(ev)) {
-        this.beforeClosed.emit();
-      }
-    });
-    nativeElement.addEventListener('animationend', (ev: AnimationEvent) => {
-      if (this.isExitAnimation(ev)) {
-        this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id });
-      }
+
+    // Caretaker note: `animationstart` and `animationend` events are event tasks that trigger change detection.
+    // We'd want to trigger the change detection only if it's an exit animation.
+    this.ngZone.runOutsideAngular(() => {
+      this.unlisteners.push(
+        // Caretaker note: we have to remove these event listeners at the end (even if the element is removed from DOM).
+        // zone.js stores its `ZoneTask`s within the `nativeElement[Zone.__symbol__('animationstart') + 'false']` property
+        // with callback that capture `this`.
+        this.renderer.listen(nativeElement, 'animationstart', (event: AnimationEvent) => {
+          if (this.isExitAnimation(event)) {
+            this.ngZone.run(() => this.beforeClosed.emit());
+          }
+        }),
+        this.renderer.listen(nativeElement, 'animationend', (event: AnimationEvent) => {
+          if (this.isExitAnimation(event)) {
+            this.ngZone.run(() => this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id }));
+          }
+        })
+      );
     });
 
     this.setToastAttributes();
@@ -137,6 +152,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.close();
+    while (this.unlisteners.length) {
+      this.unlisteners.pop()();
+    }
   }
 
   private isExitAnimation(ev: AnimationEvent) {
