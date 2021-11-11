@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
@@ -182,35 +182,36 @@ export class HotToastService implements HotToastServiceMethods {
       const loadingContent = messages.loading || this._defaultConfig.loading?.content;
       const errorContent = messages.error || this._defaultConfig.error?.content;
 
-      if (loadingContent) {
-        toastRef = this.createLoadingToast<T, DataType>(loadingContent);
-        start = Date.now();
-      }
-
-      return source.pipe(
-        tap({
-          next: (val) => {
-            toastRef = this.createOrUpdateToast<T, DataType | unknown>(
-              messages,
-              val,
-              toastRef,
-              'success',
-              start === 0 ? start : Date.now() - start
-            );
-          },
-          ...(errorContent && {
-            error: (e) => {
+      return defer(() => {
+        if (loadingContent) {
+          toastRef = this.createLoadingToast<T, DataType>(loadingContent);
+          start = Date.now();
+        }
+        return source.pipe(
+          tap({
+            next: (val) => {
               toastRef = this.createOrUpdateToast<T, DataType | unknown>(
                 messages,
-                e,
+                val,
                 toastRef,
-                'error',
+                'success',
                 start === 0 ? start : Date.now() - start
               );
             },
-          }),
-        })
-      );
+            ...(errorContent && {
+              error: (e) => {
+                toastRef = this.createOrUpdateToast<T, DataType | unknown>(
+                  messages,
+                  e,
+                  toastRef,
+                  'error',
+                  start === 0 ? start : Date.now() - start
+                );
+              },
+            }),
+          })
+        );
+      });
     };
   }
 
