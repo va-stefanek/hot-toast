@@ -1,3 +1,10 @@
+## [3.4.3](https://github.com/ngneat/hot-toast/compare/v3.4.2...v3.4.3) (2021-11-11)
+
+
+### Bug Fixes
+
+* **hot-toast.service:** show loader only when subscribed ([a759cbf](https://github.com/ngneat/hot-toast/commit/a759cbfb53060706f9fcf74a845903eb1736bab9)), closes [#91](https://github.com/ngneat/hot-toast/issues/91)
+
 ## [3.4.3-beta.1](https://github.com/ngneat/hot-toast/compare/v3.4.2...v3.4.3-beta.1) (2021-11-11)
 
 
