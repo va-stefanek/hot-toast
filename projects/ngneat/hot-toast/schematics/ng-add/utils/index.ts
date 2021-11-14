@@ -6,7 +6,7 @@ import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getFileContent } from '@schematics/angular/utility/test/index';
 import { getProjectMainFile } from './project-main-file';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { parseJson, JsonParseMode } from '@angular-devkit/core';
+import { parse } from 'jsonc-parser';
 import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { WorkspaceProject, WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
@@ -173,5 +173,5 @@ export function getWorkspace(host: Tree) {
     throw new SchematicsException(`Could not find (${path})`);
   }
   const content = configBuffer.toString();
-  return parseJson(content, JsonParseMode.Loose);
+  return parse(content);
 }
