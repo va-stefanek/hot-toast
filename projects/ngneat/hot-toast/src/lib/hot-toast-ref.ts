@@ -1,6 +1,8 @@
 import { Content } from '@ngneat/overview';
 import { Observable, race, Subject } from 'rxjs';
-import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
+
+// This should be a `type` import since it causes `ng-packagr` compilation to fail because of a cyclic dependency.
+import type { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps, DefaultDataType } from './hot-toast.model';
 
 export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps<DataType> {

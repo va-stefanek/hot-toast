@@ -1,6 +1,23 @@
 import { Tree } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
 
+const getNgModuleMetadata = (sf: ts.SourceFile): ts.ObjectLiteralExpression | null => {
+  let ngModuleMetadata: ts.ObjectLiteralExpression | null = null;
+
+  const visit = (node: ts.Node) => {
+    if (ts.isDecorator(node) && ts.isCallExpression(node.expression) && isNgModuleCallExpression(node.expression)) {
+      ngModuleMetadata = node.expression.arguments[0] as ts.ObjectLiteralExpression;
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  ts.forEachChild(sf, visit);
+
+  return ngModuleMetadata;
+};
+
 /**
  * Whether the Angular module in the given path imports the specifed module class name.
  */
@@ -11,27 +28,14 @@ export const hasNgModuleImport = (tree: Tree, modulePath: string, className: str
     throw new Error(`Could not read Angular module file: ${modulePath}`);
   }
 
-  const parsedFile = ts.createSourceFile(modulePath, moduleFileContent.toString(), ts.ScriptTarget.Latest, true);
-  let ngModuleMetadata: ts.ObjectLiteralExpression | null = null;
+  const sf = ts.createSourceFile(modulePath, moduleFileContent.toString(), ts.ScriptTarget.Latest, true);
+  const ngModuleMetadata = getNgModuleMetadata(sf);
 
-  const findModuleDecorator = (node: ts.Node) => {
-    if (ts.isDecorator(node) && ts.isCallExpression(node.expression) && isNgModuleCallExpression(node.expression)) {
-      ngModuleMetadata = node.expression.arguments[0] as ts.ObjectLiteralExpression;
-
-      return;
-    }
-
-    ts.forEachChild(node, findModuleDecorator);
-  };
-
-  ts.forEachChild(parsedFile, findModuleDecorator);
-
-  if (!ngModuleMetadata) {
+  if (ngModuleMetadata === null) {
     throw new Error(`Could not find NgModule declaration inside: "${modulePath}"`);
   }
 
-  /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-  for (const property of ngModuleMetadata!.properties) {
+  for (const property of ngModuleMetadata.properties) {
     if (
       !ts.isPropertyAssignment(property) ||
       property.name.getText() !== 'imports' ||
@@ -40,8 +44,11 @@ export const hasNgModuleImport = (tree: Tree, modulePath: string, className: str
       continue;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    if (property.initializer.elements.some((element: ts.Identifier) => element.getText().includes(className))) {
+    if (
+      property.initializer.elements.some((element: ts.Expression, _index: number, _array: readonly ts.Expression[]) =>
+        element.getText().includes(className)
+      )
+    ) {
       return true;
     }
   }

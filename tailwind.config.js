@@ -1,7 +1,9 @@
-module.exports = (isProd) => ({
+const { guessProductionMode } = require('@ngneat/tailwind');
+
+module.exports = {
   prefix: '',
   purge: {
-    enabled: isProd,
+    enabled: guessProductionMode(),
     content: ['./src/**/*.{html,ts}'],
   },
   darkMode: false, // or 'media' or 'class'
@@ -126,4 +128,4 @@ module.exports = (isProd) => ({
     },
   },
   plugins: [require('@tailwindcss/typography')],
-});
+};

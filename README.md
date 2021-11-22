@@ -21,6 +21,35 @@
  <img src="./assets/demo.gif?raw=true">
 </p>
 
+## Compatibility with Angular Versions
+
+<table>
+  <thead>
+    <tr>
+      <th>@ngneat/hot-toast</th>
+      <th>Angular</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        3.x
+      </td>
+      <td>
+        >= 9.1.13 < 13
+      </td>
+    </tr>
+    <tr>
+      <td>
+        4.x
+      </td>
+      <td>
+        >= 13
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ## Features
 
 - 🔥 **Hot by default**
@@ -79,15 +108,15 @@ export class AppComponent {
   }
 
   update() {
-    saveSettings.pipe(
-      this.toast.observe(
-        {
+    saveSettings
+      .pipe(
+        this.toast.observe({
           loading: 'Saving...',
           success: 'Settings saved!',
           error: 'Could not save.',
-        }
+        })
       )
-    ).subscribe();
+      .subscribe();
   }
 }
 ```
@@ -124,11 +153,13 @@ You can also set global [`ToastConfig`](#toastconfig) options while importing:
 import { HotToastModule } from '@ngneat/hot-toast';
 
 @NgModule({
-  imports: [HotToastModule.forRoot({
-    reverseOrder: true,
-    dismissible: true,
-    autoClose: false
-  })],
+  imports: [
+    HotToastModule.forRoot({
+      reverseOrder: true,
+      dismissible: true,
+      autoClose: false,
+    }),
+  ],
 })
 class AppModule {}
 ```
@@ -151,23 +182,23 @@ Configuration used when opening an hot-toast.
 
 | Name        | Type                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                               | Available in global config? |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| id          | `string`                                                                                                                                                                                                      | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id. <br>*[Example](https://ngneat.github.io/hot-toast/#only-one-at-a-time)*                                                                                                    | No                          |
+| id          | `string`                                                                                                                                                                                                      | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id. <br>_[Example](https://ngneat.github.io/hot-toast/#only-one-at-a-time)_                                                                                                    | No                          |
 | duration    | `number`                                                                                                                                                                                                      | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>_Default: `3000, error = 4000, loading = 30000`_                                                                                                            | Yes                         |
 | autoClose   | `boolean`                                                                                                                                                                                                     | Auto close hot-toast after duration<br>_Default: `true`_                                                                                                                                                                                                                  | Yes                         |
-| position    | [`ToastPosition`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastPosition)              | The position to place the hot-toast.<br>_Default: `top-center`_<br>*[Example](https://ngneat.github.io/hot-toast/#positions)*                                                                                                                                             | Yes                         |
-| dismissible | `boolean`                                                                                                                                                                                                     | Show close button in hot-toast<br>_Default: `false`_<br>*[Example](https://ngneat.github.io/hot-toast/#dismissible)*                                                                                                                                                      | Yes                         |
+| position    | [`ToastPosition`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastPosition)              | The position to place the hot-toast.<br>_Default: `top-center`_<br>_[Example](https://ngneat.github.io/hot-toast/#positions)_                                                                                                                                             | Yes                         |
+| dismissible | `boolean`                                                                                                                                                                                                     | Show close button in hot-toast<br>_Default: `false`_<br>_[Example](https://ngneat.github.io/hot-toast/#dismissible)_                                                                                                                                                      | Yes                         |
 | role        | [`ToastRole`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastRole)                      | Role of the live region.<br>_Default: `status`_                                                                                                                                                                                                                           | Yes                         |
 | ariaLive    | [`ToastAriaLive`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastAriaLive)              | aria-live value for the live region.<br>_Default: `polite`_                                                                                                                                                                                                               | Yes                         |
-| theme       | [`ToastTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastTheme)                    | Visual appearance of hot-toast<br>_Default: `toast`_<br>*[Example](https://ngneat.github.io/hot-toast/#snackbar)*                                                                                                                                                         | Yes                         |
-| persist     | [`{ToastPersistConfig}`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20class%20ToastPersistConfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.<br>*[Example](https://ngneat.github.io/hot-toast/#persistent)*                                                                                                                        | No                          |
-| icon        | [`Content`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/overview/blob/main/projects/ngneat/overview/src/lib/views/types.ts&q=export%20type%20Content)                                  | Icon to show in the hot-toast<br>*[Example](https://ngneat.github.io/hot-toast/#emoji)*                                                                                                                                                                                   | Yes                         |
-| iconTheme   | [`IconTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20IconTheme)                      | Use this to change icon color<br>*[Example](https://ngneat.github.io/hot-toast/#themed)*                                                                                                                                                                                  | Yes                         |
+| theme       | [`ToastTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastTheme)                    | Visual appearance of hot-toast<br>_Default: `toast`_<br>_[Example](https://ngneat.github.io/hot-toast/#snackbar)_                                                                                                                                                         | Yes                         |
+| persist     | [`{ToastPersistConfig}`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20class%20ToastPersistConfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.<br>_[Example](https://ngneat.github.io/hot-toast/#persistent)_                                                                                                                        | No                          |
+| icon        | [`Content`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/overview/blob/main/projects/ngneat/overview/src/lib/views/types.ts&q=export%20type%20Content)                                  | Icon to show in the hot-toast<br>_[Example](https://ngneat.github.io/hot-toast/#emoji)_                                                                                                                                                                                   | Yes                         |
+| iconTheme   | [`IconTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20IconTheme)                      | Use this to change icon color<br>_[Example](https://ngneat.github.io/hot-toast/#themed)_                                                                                                                                                                                  | Yes                         |
 | className   | `string`                                                                                                                                                                                                      | Extra CSS classes to be added to the hot toast container.                                                                                                                                                                                                                 | Yes                         |
 | attributes  | [`Record<string, string>`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype)                                                                                                    | Extra attributes to be added to the hot toast container. Can be used for e2e tests.                                                                                                                                                                                       | Yes                         |
-| style       | `style object`                                                                                                                                                                                                | Extra styles to apply for hot-toast.<br>*[Example](https://ngneat.github.io/hot-toast/#themed)*                                                                                                                                                                           | Yes                         |
+| style       | `style object`                                                                                                                                                                                                | Extra styles to apply for hot-toast.<br>_[Example](https://ngneat.github.io/hot-toast/#themed)_                                                                                                                                                                           | Yes                         |
 | closeStyle  | `style object`                                                                                                                                                                                                | Extra styles to apply for close button                                                                                                                                                                                                                                    | Yes                         |
-| data        | [`DataType`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20interface%20Toast%3CDataType%3E)        | Allows you to pass data for your template and component. You can access the data using `toastRef.data`.<br>*Examples: [Template with Data](https://ngneat.github.io/hot-toast/#template-data), [Component with Data](https://ngneat.github.io/hot-toast/#component-data)* | No                          |
-| injector    | `Injector`                                                                                                                                                                                                    | Allows you to pass injector for your component.<br>*[Example](https://ngneat.github.io/hot-toast/#injector)*                                                                                                                                                              | No                          |
+| data        | [`DataType`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngneat/hot-toast/blob/master/projects/ngneat/hot-toast/src/lib/hot-toast.model.ts&q=export%20interface%20Toast%3CDataType%3E)        | Allows you to pass data for your template and component. You can access the data using `toastRef.data`.<br>_Examples: [Template with Data](https://ngneat.github.io/hot-toast/#template-data), [Component with Data](https://ngneat.github.io/hot-toast/#component-data)_ | No                          |
+| injector    | `Injector`                                                                                                                                                                                                    | Allows you to pass injector for your component.<br>_[Example](https://ngneat.github.io/hot-toast/#injector)_                                                                                                                                                              | No                          |
 
 ---
 
