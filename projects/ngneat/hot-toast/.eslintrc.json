@@ -5,7 +5,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["projects/ngneat/hot-toast/tsconfig.lib.json", "projects/ngneat/hot-toast/tsconfig.spec.json"],
+        "project": ["projects/ngneat/hot-toast/tsconfig.lib.json"],
         "createDefaultProgram": true
       },
       "rules": {
