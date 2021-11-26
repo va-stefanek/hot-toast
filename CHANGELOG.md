@@ -1,3 +1,17 @@
+# [4.0.0](https://github.com/ngneat/hot-toast/compare/v3.4.3...v4.0.0) (2021-11-26)
+
+
+### Features
+
+* upgrade to Angular 13 and switch to modern APF ([71bbbda](https://github.com/ngneat/hot-toast/commit/71bbbda7d14d490bdab6d4eb54f22cab314799d0))
+
+
+### BREAKING CHANGES
+
+* The `@ngneat/hot-toast` is shipped with `.mjs` files,
+following the APF (Angular Package Format) spec starting from Angular 13.
+`.mjs` files are compatible only with Angular 13 version and higher.
+
 # [4.0.0-beta.1](https://github.com/ngneat/hot-toast/compare/v3.4.3...v4.0.0-beta.1) (2021-11-22)
 
 
