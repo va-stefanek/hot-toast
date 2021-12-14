@@ -75,7 +75,11 @@ ng add @ngneat/hot-toast
 or with **npm**:
 
 ```bash
-npm install @ngneat/overview@2.0.2 @ngneat/hot-toast
+# For Angular version >= 9.1.13 < 13
+npm install @ngneat/overview@2.0.2 @ngneat/hot-toast@3
+
+# For Angular version >=13
+npm install @ngneat/overview@3.0.0 @ngneat/hot-toast@4
 ```
 
 When you install using **npm or yarn**, you will also need to import `HotToastModule` in your `app.module`. You can also set global toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:

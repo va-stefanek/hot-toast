@@ -1,3 +1,10 @@
+## [4.0.1-beta.1](https://github.com/ngneat/hot-toast/compare/v4.0.0...v4.0.1-beta.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* **projects/ngneat/hot-toast/schematics/ng-add/index.ts:** update version of @ngneat/hot-toast ([70b52f8](https://github.com/ngneat/hot-toast/commit/70b52f811563b4a5aae9c363d9298101d2b2de4c)), closes [#95](https://github.com/ngneat/hot-toast/issues/95)
+
 # [4.0.0](https://github.com/ngneat/hot-toast/compare/v3.4.3...v4.0.0) (2021-11-26)
 
 
