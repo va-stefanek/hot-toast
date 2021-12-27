@@ -198,10 +198,9 @@ export type ToastOptions<DataType> = Partial<
   >
 >;
 
-export type DefaultToastOptions = ToastOptions<unknown> &
-  {
-    [key in ToastType]?: ToastOptions<unknown> & { content?: Content };
-  };
+export type DefaultToastOptions = ToastOptions<unknown> & {
+  [key in ToastType]?: ToastOptions<unknown> & { content?: Content };
+};
 
 export type ObservableLoading<DataType> = {
   content: Content;
@@ -213,7 +212,7 @@ export type ObservableSuccessOrError<T, DataType> = {
 
 export type ObservableMessages<T, DataType> = {
   loading?: Content | ObservableLoading<DataType>;
-  success: ValueOrFunction<Content, T> | ObservableSuccessOrError<T, DataType>;
+  success?: ValueOrFunction<Content, T> | ObservableSuccessOrError<T, DataType>;
   error?: ValueOrFunction<Content, any> | ObservableSuccessOrError<any, DataType>;
 };
 

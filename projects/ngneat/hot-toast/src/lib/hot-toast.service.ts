@@ -179,8 +179,9 @@ export class HotToastService implements HotToastServiceMethods {
       let toastRef: CreateHotToastRef<DataType | unknown>;
       let start = 0;
 
-      const loadingContent = messages.loading || this._defaultConfig.loading?.content;
-      const errorContent = messages.error || this._defaultConfig.error?.content;
+      const loadingContent = messages.loading ?? this._defaultConfig.loading?.content;
+      const successContent = messages.success ?? this._defaultConfig.success?.content;
+      const errorContent = messages.error ?? this._defaultConfig.error?.content;
 
       return defer(() => {
         if (loadingContent) {
@@ -189,15 +190,17 @@ export class HotToastService implements HotToastServiceMethods {
         }
         return source.pipe(
           tap({
-            next: (val) => {
-              toastRef = this.createOrUpdateToast<T, DataType | unknown>(
-                messages,
-                val,
-                toastRef,
-                'success',
-                start === 0 ? start : Date.now() - start
-              );
-            },
+            ...(successContent && {
+              next: (val) => {
+                toastRef = this.createOrUpdateToast<T, DataType | unknown>(
+                  messages,
+                  val,
+                  toastRef,
+                  'success',
+                  start === 0 ? start : Date.now() - start
+                );
+              },
+            }),
             ...(errorContent && {
               error: (e) => {
                 toastRef = this.createOrUpdateToast<T, DataType | unknown>(
