@@ -1,3 +1,10 @@
+# [4.1.0-beta.1](https://github.com/ngneat/hot-toast/compare/v4.0.1...v4.1.0-beta.1) (2021-12-27)
+
+
+### Features
+
+* **hot-toast.service:** make success and loading content optional in observe ([6cc6735](https://github.com/ngneat/hot-toast/commit/6cc673591571c731303326f7142c5943b2847787)), closes [#96](https://github.com/ngneat/hot-toast/issues/96)
+
 ## [4.0.1](https://github.com/ngneat/hot-toast/compare/v4.0.0...v4.0.1) (2021-12-14)
 
 
