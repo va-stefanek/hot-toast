@@ -11,22 +11,6 @@ export class ReverseOrderComponent {
     this.reversOrder = this.toast.defaultConfig.reverseOrder;
   }
 
-  toggleOrder() {
-    this.reversOrder = !this.reversOrder;
-
-    this.toast.defaultConfig = { ...this.toast.defaultConfig, reverseOrder: this.reversOrder };
-
-    this.showToasts();
-  }
-
-  private showToasts() {
-    ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'].forEach((num, i) => {
-      setTimeout(() => {
-        this.toast.show('Notification ' + (i + 1), { icon: num });
-      }, i * 250);
-    });
-  }
-
   get snippet() {
     return `
   import { HotToastModule } from '@ngneat/hot-toast';
@@ -60,5 +44,21 @@ export class ReverseOrderComponent {
       };
     }
   }`;
+  }
+
+  toggleOrder() {
+    this.reversOrder = !this.reversOrder;
+
+    this.toast.defaultConfig = { ...this.toast.defaultConfig, reverseOrder: this.reversOrder };
+
+    this.showToasts();
+  }
+
+  private showToasts() {
+    ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'].forEach((num, i) => {
+      setTimeout(() => {
+        this.toast.show('Notification ' + (i + 1), { icon: num });
+      }, i * 250);
+    });
   }
 }

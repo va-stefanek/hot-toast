@@ -12,6 +12,7 @@ import {
   Output,
   Renderer2,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { isComponent, isTemplateRef } from '@ngneat/overview';
 import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION } from '../../constants';
@@ -24,6 +25,7 @@ import { animate } from '../../utils';
   templateUrl: 'hot-toast.component.html',
   styleUrls: ['./hot-toast.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() toast: Toast<unknown>;
@@ -44,6 +46,50 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   private unlisteners: VoidFunction[] = [];
 
   constructor(private injector: Injector, private renderer: Renderer2, private ngZone: NgZone) {}
+
+  get containerPositionStyle() {
+    const top = this.toast.position.includes('top');
+    const verticalStyle = top ? { top: 0 } : { bottom: 0 };
+
+    const horizontalStyle = this.toast.position.includes('left')
+      ? {
+          left: 0,
+        }
+      : this.toast.position.includes('right')
+      ? {
+          right: 0,
+        }
+      : {
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+        };
+    return {
+      transform: `translateY(${this.offset * (top ? 1 : -1)}px)`,
+      ...verticalStyle,
+      ...horizontalStyle,
+    };
+  }
+
+  get toastBarBaseStyles() {
+    const top = this.toast.position.includes('top');
+
+    const enterAnimation = `hotToastEnterAnimation${
+      top ? 'Negative' : 'Positive'
+    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+
+    const exitAnimation = `hotToastExitAnimation${
+      top ? 'Negative' : 'Positive'
+    } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1) ${this.toast.duration}ms`;
+
+    const animation = this.toast.autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
+
+    return { ...this.toast.style, animation };
+  }
+
+  get isIconString() {
+    return typeof this.toast.icon === 'string';
+  }
 
   ngOnInit() {
     if (isTemplateRef(this.toast.message)) {
@@ -91,50 +137,6 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.setToastAttributes();
-  }
-
-  get containerPositionStyle() {
-    const top = this.toast.position.includes('top');
-    const verticalStyle = top ? { top: 0 } : { bottom: 0 };
-
-    const horizontalStyle = this.toast.position.includes('left')
-      ? {
-          left: 0,
-        }
-      : this.toast.position.includes('right')
-      ? {
-          right: 0,
-        }
-      : {
-          left: 0,
-          right: 0,
-          justifyContent: 'center',
-        };
-    return {
-      transform: `translateY(${this.offset * (top ? 1 : -1)}px)`,
-      ...verticalStyle,
-      ...horizontalStyle,
-    };
-  }
-
-  get toastBarBaseStyles() {
-    const top = this.toast.position.includes('top');
-
-    const enterAnimation = `hotToastEnterAnimation${
-      top ? 'Negative' : 'Positive'
-    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
-
-    const exitAnimation = `hotToastExitAnimation${
-      top ? 'Negative' : 'Positive'
-    } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1) ${this.toast.duration}ms`;
-
-    const animation = this.toast.autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
-
-    return { ...this.toast.style, animation };
-  }
-
-  get isIconString() {
-    return typeof this.toast.icon === 'string';
   }
 
   close() {

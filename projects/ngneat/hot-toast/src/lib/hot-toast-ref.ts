@@ -11,14 +11,19 @@ export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps
   afterClosed: Observable<HotToastClose>;
 
   private _dispose: () => void;
-  set dispose(value: () => void) {
-    this._dispose = value;
-  }
 
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
 
   constructor(private toast: Toast<DataType>) {}
+
+  get data() {
+    return this.toast.data;
+  }
+
+  set dispose(value: () => void) {
+    this._dispose = value;
+  }
 
   getToast() {
     return this.toast;
@@ -48,9 +53,5 @@ export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps
     this._dispose();
     this._onClosed.next({ dismissedByAction: closeData.dismissedByAction, id: this.toast.id });
     this._onClosed.complete();
-  }
-
-  get data() {
-    return this.toast.data;
   }
 }
