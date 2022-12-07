@@ -15,6 +15,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { isComponent, isTemplateRef } from '@ngneat/overview';
+
 import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION } from '../../constants';
 import { HotToastRef } from '../../hot-toast-ref';
 import { CreateHotToastRef, HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
@@ -25,7 +26,6 @@ import { animate } from '../../utils';
   templateUrl: 'hot-toast.component.html',
   styleUrls: ['./hot-toast.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() toast: Toast<unknown>;
