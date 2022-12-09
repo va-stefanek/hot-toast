@@ -24,7 +24,6 @@ import { animate } from '../../utils';
 @Component({
   selector: 'hot-toast',
   templateUrl: 'hot-toast.component.html',
-  styleUrls: ['./hot-toast.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {

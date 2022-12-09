@@ -12,6 +12,7 @@ import {
   getProjectFromWorkspace,
   getSourceFile,
   getWorkspace,
+  addStyleToTarget,
 } from './utils';
 import { targetBuildNotFoundError } from './utils/project-targets';
 import { hasNgModuleImport } from './utils/ng-module-imports';
@@ -24,6 +25,8 @@ const importModuleSet = [
   },
 ];
 
+const stylesPath = `./node_modules/@ngneat/hot-toast/src/styles.scss`;
+
 export function ngAdd(options: Schema): Rule {
   return (tree: Tree) => {
     const workspaceConfig = tree.read('/angular.json');
@@ -35,6 +38,8 @@ export function ngAdd(options: Schema): Rule {
       installPackageJsonDependencies(),
       injectImports(options),
       addModuleToImports(options),
+      insertCSSDependency(options, 'build'),
+      insertCSSDependency(options, 'test'),
     ]);
   };
 }
@@ -135,6 +140,25 @@ function addModuleToImports(options: Schema): Rule {
         }
       });
     }
+
+    return host;
+  };
+}
+
+function insertCSSDependency(options: Schema, targetName: string): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    const workspace = getWorkspace(host) as any;
+    const project = getProjectFromWorkspace(
+      workspace,
+      options.project ? options.project : Object.keys(workspace.projects)[0]
+    );
+
+    if (!project || project.projectType !== 'application') {
+      throw new SchematicsException(`A client project type of "application" is required.`);
+    }
+
+    addStyleToTarget(project, targetName, host, stylesPath, workspace);
+    context.logger.log('info', '✅ Styles Imported "' + '" in angular.json');
 
     return host;
   };

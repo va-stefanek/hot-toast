@@ -94,3 +94,51 @@
   align-self: var(--hot-toast-icon-align-self, flex-start);
   padding-top: var(--hot-toast-icon-padding-top, 0.25em);
 }
+
+@keyframes hotToastEnterAnimationNegative {
+  0% {
+    opacity: 0.5;
+    transform: translate3d(0, -80px, 0) scale(0.6);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hotToastEnterAnimationPositive {
+  0% {
+    opacity: 0.5;
+    transform: translate3d(0, 80px, 0) scale(0.6);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hotToastExitAnimationPositive {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, -1px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 130px, -1px) scale(0.5);
+  }
+}
+
+@keyframes hotToastExitAnimationNegative {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, -1px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -130px, -1px) scale(0.5);
+  }
+}
