@@ -12,7 +12,6 @@ import {
   Output,
   Renderer2,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { isComponent, isTemplateRef } from '@ngneat/overview';
 

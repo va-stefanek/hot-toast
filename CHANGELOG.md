@@ -1,9 +1,3 @@
-# [4.2.0-beta.1](https://github.com/ngneat/hot-toast/compare/v4.1.1...v4.2.0-beta.1) (2022-12-05)
-
-### Features
-
-- upgrade to Angular 15 ([9f6ee7f](https://github.com/ngneat/hot-toast/pull/116/commits/9f6ee7f707d8a3e5201e297d49e0bdf2a91af77c))
-
 # [4.1.0](https://github.com/ngneat/hot-toast/compare/v4.0.1...v4.1.0) (2021-12-27)
 
 ### Features

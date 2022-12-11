@@ -1,8 +1,8 @@
-@use 'animated-icon';
-@use 'checkmark';
-@use 'error';
-@use 'hot-toast';
-@use 'indicator';
-@use 'info';
-@use 'loader';
-@use 'warning';
+@forward 'animated-icon';
+@forward 'checkmark';
+@forward 'error';
+@forward 'hot-toast';
+@forward 'indicator';
+@forward 'info';
+@forward 'loader';
+@forward 'warning';
