@@ -16,6 +16,7 @@ import {
 } from './utils';
 import { targetBuildNotFoundError } from './utils/project-targets';
 import { hasNgModuleImport } from './utils/ng-module-imports';
+import { getProjectStyleFile } from './utils/project-style-file';
 
 const importModuleSet = [
   {
@@ -25,7 +26,7 @@ const importModuleSet = [
   },
 ];
 
-const stylesPath = `./node_modules/@ngneat/hot-toast/src/styles.scss`;
+const stylesPath = `node_modules/@ngneat/hot-toast/src/styles.scss`;
 
 export function ngAdd(options: Schema): Rule {
   return (tree: Tree) => {
@@ -38,8 +39,7 @@ export function ngAdd(options: Schema): Rule {
       installPackageJsonDependencies(),
       injectImports(options),
       addModuleToImports(options),
-      insertCSSDependency(options, 'build'),
-      insertCSSDependency(options, 'test'),
+      addHotToastAppStyles(options),
     ]);
   };
 }
@@ -145,6 +145,54 @@ function addModuleToImports(options: Schema): Rule {
   };
 }
 
+/**
+ * Adds custom Material styles to the project style file. The custom CSS sets up the Roboto font
+ * and reset the default browser body margin.
+ */
+function addHotToastAppStyles(options: Schema) {
+  return async (host: Tree, context: SchematicContext) => {
+    const workspace = await getWorkspace(host);
+    const project = getProjectFromWorkspace(
+      workspace,
+      options.project ? options.project : Object.keys(workspace.projects)[0]
+    );
+    const styleFilePath = getProjectStyleFile(project);
+    const logger = context.logger;
+
+    if (!styleFilePath) {
+      logger.error(`Could not find the default style file for this project.`);
+      logger.info(`Consider manually adding the hot-toast styles to your Application.`);
+      return;
+    }
+
+    const buffer = host.read(styleFilePath);
+
+    if (!buffer) {
+      logger.error(`Could not read the default style file within the project ` + `(${styleFilePath})`);
+      logger.info(`Please consider manually setting up the hot-toast styles.`);
+      return;
+    }
+
+    /** If the file is css then add the styles to the Angular.json else add it to the styles.scss */
+    if (styleFilePath.includes('.css')) {
+      return insertCSSDependency(options, 'build');
+    }
+
+    const htmlContent = buffer.toString();
+    const insertion = `@use '${stylesPath}'\n`;
+
+    if (htmlContent.includes(insertion)) {
+      return;
+    }
+
+    const recorder = host.beginUpdate(styleFilePath);
+
+    recorder.insertLeft(0, insertion);
+    host.commitUpdate(recorder);
+    context.logger.log('info', '✅ Styles Added to "' + styleFilePath);
+  };
+}
+
 function insertCSSDependency(options: Schema, targetName: string): Rule {
   return (host: Tree, context: SchematicContext) => {
     const workspace = getWorkspace(host) as any;
@@ -158,7 +206,7 @@ function insertCSSDependency(options: Schema, targetName: string): Rule {
     }
 
     addStyleToTarget(project, targetName, host, stylesPath, workspace);
-    context.logger.log('info', '✅ Styles Imported "' + '" in angular.json');
+    context.logger.log('info', '✅ Styles Imported in angular.json');
 
     return host;
   };
