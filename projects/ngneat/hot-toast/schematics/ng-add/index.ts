@@ -26,7 +26,7 @@ const importModuleSet = [
   },
 ];
 
-const stylesPath = `node_modules/@ngneat/hot-toast/src/styles.scss`;
+const stylesPath = `node_modules/@ngneat/hot-toast/src/`;
 
 export function ngAdd(options: Schema): Rule {
   return (tree: Tree) => {
@@ -179,7 +179,7 @@ function addHotToastAppStyles(options: Schema) {
     }
 
     const htmlContent = buffer.toString();
-    const insertion = `@use '${stylesPath}'\n`;
+    const insertion = `@use '${stylesPath}/styles.scss'\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -205,7 +205,9 @@ function insertCSSDependency(options: Schema, targetName: string): Rule {
       throw new SchematicsException(`A client project type of "application" is required.`);
     }
 
-    addStyleToTarget(project, targetName, host, stylesPath, workspace);
+    const cssfile = `${stylesPath}/styles.css`;
+
+    addStyleToTarget(project, targetName, host, cssfile, workspace);
     context.logger.log('info', '✅ Styles Imported in angular.json');
 
     return host;
