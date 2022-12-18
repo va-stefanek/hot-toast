@@ -26,7 +26,7 @@ const importModuleSet = [
   },
 ];
 
-const stylesPath = `node_modules/@ngneat/hot-toast/src`;
+const stylesPath = `node_modules/@ngneat/hot-toast/src/styles`;
 
 export function ngAdd(options: Schema): Rule {
   return (tree: Tree) => {
