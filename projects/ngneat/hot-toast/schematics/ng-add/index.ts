@@ -146,8 +146,7 @@ function addModuleToImports(options: Schema): Rule {
 }
 
 /**
- * Adds custom Material styles to the project style file. The custom CSS sets up the Roboto font
- * and reset the default browser body margin.
+ * Adds custom styles to the project style file.
  */
 function addHotToastAppStyles(options: Schema) {
   return async (host: Tree, context: SchematicContext) => {
