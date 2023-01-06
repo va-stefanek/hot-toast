@@ -22,7 +22,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm ci
-          npm run build -- --prod
+          npm run build
           npm run build:lib
           npx semantic-release
           npm run deploy -- --no-silent --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com
