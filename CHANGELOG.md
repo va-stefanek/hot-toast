@@ -1,3 +1,33 @@
+# [5.0.0-beta.1](https://github.com/ngneat/hot-toast/compare/v4.1.0...v5.0.0-beta.1) (2023-01-06)
+
+
+### Code Refactoring
+
+* add global styles ([d7680c2](https://github.com/ngneat/hot-toast/commit/d7680c21508bb18d4236661051d8a43e20646370))
+
+
+### Features
+
+* **styles.scss:** change styles to global ([b71d161](https://github.com/ngneat/hot-toast/commit/b71d1616f9813a6e1dfeab17b768285f894cc8fc))
+* update to Angular 15 ([c756773](https://github.com/ngneat/hot-toast/commit/c75677382e6a591065c0245d24c01edf0c118a7e))
+
+
+### BREAKING CHANGES
+
+* **styles.scss:** consumer of the library needs to import the styles, schematics updated to reflect
+this.
+
+113
+* styles needs to be imported for the library to work properly.
+
+113
+* Updating dependencies to Angular 15, Husky 8 and Cypress 11 to fix bug related to
+Angular 15 that prevents the toast from being dismissed
+* Updating dependencies to Angular 15, Husky 8 and Cypress 11 to fix bug related to
+Angular 15 that prevents the toast from being dismissed
+
+113
+
 # [4.1.0](https://github.com/ngneat/hot-toast/compare/v4.0.1...v4.1.0) (2021-12-27)
 
 ### Features
