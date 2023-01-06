@@ -113,16 +113,6 @@ export class PositionComponent implements OnInit {
 
   constructor(private toast: HotToastService) {}
 
-  ngOnInit(): void {}
-
-  setSnippet(pos: Position) {
-    if (pos.snippet) {
-      this.snippet = pos.snippet;
-    }
-    this.position = pos.title;
-    pos.action();
-  }
-
   get globalSnippet() {
     return `
   import { HotToastModule } from '@ngneat/hot-toast';
@@ -138,5 +128,15 @@ export class PositionComponent implements OnInit {
   })
 
   export class AppModule {}`;
+  }
+
+  ngOnInit(): void {}
+
+  setSnippet(pos: Position) {
+    if (pos.snippet) {
+      this.snippet = pos.snippet;
+    }
+    this.position = pos.title;
+    pos.action();
   }
 }

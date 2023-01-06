@@ -24,8 +24,9 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
+            "styles": ["src/styles.scss", "node_modules/prismjs/themes/prism-okaidia.min.css"],
+            "scripts": [],
+            "allowedCommonJsDependencies": ["prismjs"]
           },
           "configurations": {
             "production": {
@@ -119,8 +120,15 @@
       }
     }
   },
-  "defaultProject": "toast",
   "cli": {
     "analytics": "cfafb9a4-a754-4073-802e-5e46b10a348f"
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }

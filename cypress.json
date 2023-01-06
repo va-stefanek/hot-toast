@@ -1,7 +1,0 @@
-{
-  "$schema": "https://raw.githubusercontent.com/cypress-io/cypress/develop/cli/schema/cypress.schema.json",
-  "baseUrl": "http://localhost:4200",
-  "ignoreTestFiles": "**/examples/*.spec.js",
-  "video": false,
-  "supportFile": "./cypress/support/index.ts"
-}

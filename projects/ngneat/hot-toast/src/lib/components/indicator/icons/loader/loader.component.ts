@@ -4,7 +4,6 @@ import { IconTheme } from '../../../../hot-toast.model';
 @Component({
   selector: 'hot-toast-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent {

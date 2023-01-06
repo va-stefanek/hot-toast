@@ -4,7 +4,7 @@ import { EXIT_ANIMATION_DURATION } from '../../projects/ngneat/hot-toast/src/lib
 describe('Test hot toasts - events', () => {
   it('should show and hide toast and generate close event', () => {
     cy.get('#events').click();
-    cy.get('hot-toast').as('eventsToast');
+    cy.get('.hot-toast-bar-base').as('eventsToast');
     cy.get('#closed-event-data').as('closedEventData');
 
     cy.get('@eventsToast').should('contain', 'Events');

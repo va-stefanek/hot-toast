@@ -4,7 +4,8 @@
   "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
   "schematics": "./schematics/collection.json",
   "scripts": {
-    "build": "tsc -p tsconfig.schematics.json",
+    "build": "tsc -p tsconfig.schematics.json && npm run build:sass",
+    "build:sass": "sass ./src/styles/styles.scss ../../../dist/ngneat/hot-toast/src/styles/styles.css",
     "copy:schemas": "cpx schematics/ng-add ../../../dist/ngneat/hot-toast/",
     "copy:collection": "cpx schematics/collection.json ../../../dist/ngneat/hot-toast/schematics/",
     "postbuild": "npm run copy:schemas && npm run copy:collection",
