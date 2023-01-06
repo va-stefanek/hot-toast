@@ -26,7 +26,6 @@ import { InfoComponent } from './components/indicator/icons/info/info.component'
     InfoComponent,
   ],
   imports: [CommonModule, DynamicViewModule],
-  entryComponents: [HotToastContainerComponent],
 })
 export class HotToastModule {
   static forRoot(config?: Partial<ToastConfig>): ModuleWithProviders<HotToastModule> {

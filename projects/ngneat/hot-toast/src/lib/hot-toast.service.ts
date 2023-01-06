@@ -30,18 +30,6 @@ export class HotToastService implements HotToastServiceMethods {
   private _componentRef: CompRef<HotToastContainerComponent>;
 
   private _defaultConfig = new ToastConfig();
-  get defaultConfig() {
-    return this._defaultConfig;
-  }
-  set defaultConfig(config: ToastConfig) {
-    this._defaultConfig = {
-      ...this._defaultConfig,
-      ...config,
-    };
-    if (this._componentRef) {
-      this._componentRef.setInput('defaultConfig', this._defaultConfig);
-    }
-  }
   private _defaultPersistConfig = new ToastPersistConfig();
 
   constructor(
@@ -54,6 +42,19 @@ export class HotToastService implements HotToastServiceMethods {
         ...this._defaultConfig,
         ...config,
       };
+    }
+  }
+
+  get defaultConfig() {
+    return this._defaultConfig;
+  }
+  set defaultConfig(config: ToastConfig) {
+    this._defaultConfig = {
+      ...this._defaultConfig,
+      ...config,
+    };
+    if (this._componentRef) {
+      this._componentRef.setInput('defaultConfig', this._defaultConfig);
     }
   }
 

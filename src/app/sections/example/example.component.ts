@@ -565,8 +565,7 @@ export class ExampleComponent implements OnInit {
         action: () => {
           this.toast.show<DataType>(DataComponent, {
             data: {
-              fact:
-                'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
+              fact: 'Toast is a form of 🍞 bread that has been browned by toasting, that is, exposure to radiant 🔥 heat.',
             },
           });
         },
