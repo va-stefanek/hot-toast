@@ -104,6 +104,24 @@ import { HotToastModule } from '@ngneat/hot-toast';
 class AppModule {}
 ```
 
+## For Angular version >= 15
+
+For this verion you will also need to import the styles from the library like this
+
+if you use **SCSS** add this line to your main **styles.scss**:
+
+```scss
+@use 'node_modules/@ngneat/hot-toast/src/styles/styles.scss';
+```
+
+or if you use **CSS** add this to your styles inside your **angular.json**:
+
+```json
+"styles": [
+     "node_modules/@ngneat/hot-toast/src/styles/styles.css",
+],
+```
+
 ## Basic Usage
 
 ```typescript
