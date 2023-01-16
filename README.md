@@ -237,6 +237,24 @@ Hot-toasts that have an [action available](https://ngneat.github.io/hot-toast/#t
 - Use optional chaining while access `toastRef` in template. E.g. `toastRef?.data`
 - Add `@Optional()` decorator in components' constructor while injecting tokens which are used by toast's injector
 
+### [4.1.0 -> 5.0.0](./CHANGELOG.md#500-2023-01-06)
+
+For this version you will also need to import the styles from the library like this if you're not using NgAdd
+
+if you use **SCSS** add this line to your main **styles.scss**:
+
+```scss
+@use 'node_modules/@ngneat/hot-toast/src/styles/styles.scss';
+```
+
+or if you use **CSS** add this to your styles inside your **angular.json**:
+
+```json
+"styles": [
+     "node_modules/@ngneat/hot-toast/src/styles/styles.css",
+],
+```
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
