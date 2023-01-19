@@ -25,6 +25,7 @@ export class ToastConfig implements DefaultToastOptions {
   attributes: Record<string, string> = {};
 
   // key in ToastType
+  info: ToastOptions<unknown> & { content?: Content } = { content: '' };
   success: ToastOptions<unknown> & { content?: Content } = { content: '' };
   error: ToastOptions<unknown> & { content?: Content } = { content: '' };
   loading: ToastOptions<unknown> & { content?: Content } = { content: '' };

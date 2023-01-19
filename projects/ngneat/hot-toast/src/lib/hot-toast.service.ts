@@ -157,9 +157,9 @@ export class HotToastService implements HotToastServiceMethods {
    * @since 3.3.0
    */
   info<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultConfig.warning.content, 'info', {
+    const toast = this.createToast<DataType>(message || this._defaultConfig.info.content, 'info', {
       ...this._defaultConfig,
-      ...this._defaultConfig?.warning,
+      ...this._defaultConfig?.info,
       ...options,
     });
 
