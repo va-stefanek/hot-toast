@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/ngneat/hot-toast/compare/v5.0.0...v5.0.1) (2023-01-21)
+
+
+### Bug Fixes
+
+* Added info config to ToastOptions ([d8e427f](https://github.com/ngneat/hot-toast/commit/d8e427f02014ab08a4ea4297c1dc8d2cd91df7fe))
+
 # [5.0.0](https://github.com/ngneat/hot-toast/compare/v4.1.0...v5.0.0) (2023-01-06)
 
 
