@@ -72,9 +72,14 @@ export class HotToastContainerComponent {
       },
       updateMessage: (message: Content) => {
         toast.message = message;
-        const comp = this.hotToastComponentList.find((item) => item.toast.id === toast.id);
-        toast.height = comp.toastBarBaseHeight;
+        this.updateToasts(toast);
         this.cdr.detectChanges();
+        requestAnimationFrame(() => {
+          const comp = this.hotToastComponentList.find((item) => item.toast.id === toast.id);
+          toast.height = comp.toastBarBaseHeight;
+          this.updateToasts(toast);
+          this.cdr.detectChanges();
+        });
       },
       updateToast: (options: UpdateToastOptions<DataType>) => {
         this.updateToasts(toast, options);
