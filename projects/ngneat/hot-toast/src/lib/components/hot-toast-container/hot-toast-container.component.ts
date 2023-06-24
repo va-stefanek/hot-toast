@@ -72,6 +72,7 @@ export class HotToastContainerComponent {
       },
       updateMessage: (message: Content) => {
         toast.message = message;
+        this.updateToasts(toast);
         this.cdr.detectChanges();
       },
       updateToast: (options: UpdateToastOptions<DataType>) => {
