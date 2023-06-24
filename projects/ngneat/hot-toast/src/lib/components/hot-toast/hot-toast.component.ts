@@ -7,10 +7,12 @@ import {
   Injector,
   Input,
   NgZone,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
   Renderer2,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { isComponent, isTemplateRef } from '@ngneat/overview';
@@ -25,7 +27,7 @@ import { animate } from '../../utils';
   templateUrl: 'hot-toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() toast: Toast<unknown>;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
@@ -44,6 +46,10 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
   private unlisteners: VoidFunction[] = [];
 
   constructor(private injector: Injector, private renderer: Renderer2, private ngZone: NgZone) {}
+
+  get toastBarBaseHeight() {
+    return this.toastBarBase.nativeElement.offsetHeight;
+  }
 
   get containerPositionStyle() {
     const top = this.toast.position.includes('top');
@@ -87,6 +93,14 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get isIconString() {
     return typeof this.toast.icon === 'string';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.toast && !changes.toast.firstChange && changes.toast.currentValue?.message) {
+      requestAnimationFrame(() => {
+        this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
+      });
+    }
   }
 
   ngOnInit() {
