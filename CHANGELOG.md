@@ -1,3 +1,12 @@
+## [5.0.2](https://github.com/ngneat/hot-toast/compare/v5.0.1...v5.0.2) (2023-06-24)
+
+
+### Bug Fixes
+
+* **hot-toast-container:** update height after updating message through reference ([a552f3c](https://github.com/ngneat/hot-toast/commit/a552f3c9eab49886c7d0e2a325e5e0774e636582)), closes [#127](https://github.com/ngneat/hot-toast/issues/127)
+* update height through hot-toast component using ngOnChanges ([3828d26](https://github.com/ngneat/hot-toast/commit/3828d26c3b27281b61fe84ff0a7654e9760b93df)), closes [#127](https://github.com/ngneat/hot-toast/issues/127)
+* update height with message ([8e3935b](https://github.com/ngneat/hot-toast/commit/8e3935ba4b8eb6d80d8d77a58f82ff77988a57d7)), closes [#127](https://github.com/ngneat/hot-toast/issues/127)
+
 ## [5.0.2-beta.1](https://github.com/ngneat/hot-toast/compare/v5.0.1...v5.0.2-beta.1) (2023-06-24)
 
 
