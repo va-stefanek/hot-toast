@@ -45,6 +45,10 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private injector: Injector, private renderer: Renderer2, private ngZone: NgZone) {}
 
+  get toastBarBaseHeight() {
+    return this.toastBarBase.nativeElement.offsetHeight;
+  }
+
   get containerPositionStyle() {
     const top = this.toast.position.includes('top');
     const verticalStyle = top ? { top: 0 } : { bottom: 0 };

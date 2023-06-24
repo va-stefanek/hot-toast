@@ -72,6 +72,8 @@ export class HotToastContainerComponent {
       },
       updateMessage: (message: Content) => {
         toast.message = message;
+        const comp = this.hotToastComponentList.find((item) => item.toast.id === toast.id);
+        toast.height = comp.toastBarBaseHeight;
         this.cdr.detectChanges();
       },
       updateToast: (options: UpdateToastOptions<DataType>) => {
