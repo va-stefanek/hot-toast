@@ -318,7 +318,7 @@ export class ExampleComponent implements OnInit {
       },
       {
         id: 'toast-ref',
-        title: 'Toast ref',
+        title: 'Toast ref - Close Manually',
         subtitle: 'Perform actions like close, update message and options, etc. through your code.',
         emoji: '🕵️',
         activeSnippet: 'typescript',
@@ -335,8 +335,36 @@ export class ExampleComponent implements OnInit {
         action: () => {
           const ref = this.toast.show('I will be closed using ref.', { autoClose: false, icon: '🕵️' });
           setTimeout(() => {
-            ref.updateMessage('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.')
-            // ref.close();
+            ref.close();
+          }, 3000);
+        },
+      },
+      {
+        id: 'toast-ref-msg',
+        title: 'Toast ref - Update Message',
+        subtitle: 'Perform actions like close, update message and options, etc. through your code.',
+        emoji: '🕵️',
+        activeSnippet: 'typescript',
+        snippet: {
+          typescript: `
+  const ref = toast.show(
+    'My message will be changed in 3 seconds.',
+    { autoClose: false, icon: '⏲️', dismissible: true }
+  );
+  setTimeout(() => {
+    ref.updateMessage('Lorem Ipsum is simply dummy text ...');
+  }, 3000);`,
+        },
+        action: () => {
+          const ref = this.toast.show('My message will be changed in 3 seconds.', {
+            autoClose: false,
+            icon: '⏲️',
+            dismissible: true,
+          });
+          setTimeout(() => {
+            ref.updateMessage(
+              `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+            );
           }, 3000);
         },
       },
