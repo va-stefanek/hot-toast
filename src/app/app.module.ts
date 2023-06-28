@@ -16,6 +16,19 @@ import { PositionComponent } from './sections/position/position.component';
 import { StepsComponent } from './sections/steps/steps.component';
 import { SharedModule } from './shared/shared.module';
 import { ReverseOrderComponent } from './sections/reverse-order/reverse-order.component';
+import {RouterModule, Routes} from '@angular/router';
+
+const routes: Routes = [
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./sections/for-feature/for-feature.module').then(m => m.ForFeatureModule)
+      }
+    ]
+  }
+];
 
 @NgModule({
   declarations: [
@@ -32,7 +45,7 @@ import { ReverseOrderComponent } from './sections/reverse-order/reverse-order.co
     InjectorComponent,
     DataComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, HotToastModule.forRoot({})],
+  imports: [BrowserModule, BrowserAnimationsModule, SharedModule, HotToastModule.forRoot({}), RouterModule.forRoot(routes)],
   providers: [],
   bootstrap: [AppComponent],
 })

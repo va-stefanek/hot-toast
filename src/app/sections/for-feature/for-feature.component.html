@@ -1,0 +1,33 @@
+<div class="my-14" id="positions">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#forFeature"> 🔗 </a></small>
+    forFeature
+  </h2>
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+    <div class="sm:col-span-1 md:col-span-1">
+      <app-emoji-button data-cy="for-feature-show-toast-button" [btnId]="'showToastForFeature'" (btnClick)="showToastForFeature()">
+        Open Feature Toast
+      </app-emoji-button>
+      <p class="mt-1 text-sm text-toast-800">
+        <b><code>ForFeature</code></b> let us define custom config for our feature (mostly lazy loaded) in separation to one defined in AppModule.
+      </p>
+    </div>
+
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="snippet" containerClass="p-2"></app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

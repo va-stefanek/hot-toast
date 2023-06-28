@@ -12,6 +12,7 @@ import { ToastConfig } from './hot-toast.model';
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
 import { WarningComponent } from './components/indicator/icons/warning/warning.component';
 import { InfoComponent } from './components/indicator/icons/info/info.component';
+import { HotToastService } from './hot-toast.service';
 
 @NgModule({
   declarations: [
@@ -28,10 +29,18 @@ import { InfoComponent } from './components/indicator/icons/info/info.component'
   imports: [CommonModule, DynamicViewModule],
 })
 export class HotToastModule {
-  static forRoot(config?: Partial<ToastConfig>): ModuleWithProviders<HotToastModule> {
+  static forRoot(
+    config?: Partial<ToastConfig>
+  ): ModuleWithProviders<HotToastModule> {
     return {
       ngModule: HotToastModule,
-      providers: [{ provide: ToastConfig, useValue: config }],
+      providers: [{ provide: ToastConfig, useValue: config }, HotToastService],
     };
+  }
+
+  static forFeature(
+    config?: Partial<ToastConfig>
+  ): ModuleWithProviders<HotToastModule> {
+    return HotToastModule.forRoot(config);
   }
 }

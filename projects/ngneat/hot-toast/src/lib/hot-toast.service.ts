@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import {Inject, Injectable, Optional, PLATFORM_ID} from '@angular/core';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { defer, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -24,7 +24,7 @@ import {
   ValueOrFunction,
 } from './hot-toast.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class HotToastService implements HotToastServiceMethods {
   private _isInitialized = false;
   private _componentRef: CompRef<HotToastContainerComponent>;

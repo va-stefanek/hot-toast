@@ -104,6 +104,19 @@ import { HotToastModule } from '@ngneat/hot-toast';
 class AppModule {}
 ```
 
+There is also possibility to import `HotToastModule` for child module.  You can also set toast options ([`Partial<ToastConfig>`](#toastconfig)) here which will apply only in scope of that module and it's children:
+
+```typescript
+import { HotToastModule } from '@ngneat/hot-toast';
+
+@NgModule({
+  imports: [HotToastModule.forChild({
+    // config
+  })],
+})
+class LazyLoadedModule {}
+```
+
 ## Basic Usage
 
 ```typescript
